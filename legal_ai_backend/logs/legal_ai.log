@@ -1,8 +1,0 @@
-2026-03-05 16:21:56 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-05 16:21:57 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3)
-2026-03-05 16:21:57 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-05 16:23:37 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-05 16:23:41 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-05 16:23:42 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.2:3b)
-2026-03-05 16:23:42 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-05 16:24:07 | INFO     | main:lifespan:39 - 🛑 Application shutdown
