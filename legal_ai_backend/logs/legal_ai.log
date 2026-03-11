@@ -1154,3 +1154,5 @@ ai_response
 2026-03-12 03:27:58 | INFO     | api.routes.documents:analysis_stream:118 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] risk ✅
 2026-03-12 03:28:14 | INFO     | api.routes.documents:analysis_stream:134 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] fairness ✅
 2026-03-12 03:28:14 | INFO     | api.routes.documents:analysis_stream:159 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] safety ✅
+2026-03-12 03:29:30 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:29:30 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
