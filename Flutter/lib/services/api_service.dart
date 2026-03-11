@@ -193,8 +193,7 @@ class ApiService {
 
   // ─── Feature A: Contract Safety Comparison ─────────────────────────────────
 
-  Future<ContractComparison> compareContracts(
-      String docIdA, String docIdB) async {
+  Future<ContractComparison> compareContracts(String docIdA, String docIdB) async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.compareContracts}');
     final response = await _client
         .post(uri, headers: _headers,
@@ -232,6 +231,67 @@ class ApiService {
             body: jsonEncode({'document_id_v1': docIdV1, 'document_id_v2': docIdV2}))
         .timeout(ApiConfig.featureTimeout);
     if (response.statusCode == 200) return VersionDiff.fromJson(jsonDecode(response.body));
+    throw ApiException(response.statusCode, _parseError(response.body));
+  }
+
+  // ─── Group Discussion ───────────────────────────────────────────────────────
+
+  /// Create a new group discussion room for [documentId].
+  Future<Map<String, dynamic>> createGroupRoom({
+    required String documentId,
+    required String documentName,
+  }) async {
+    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.groupChatCreate}');
+    final response = await _client
+        .post(uri, headers: _headers,
+            body: jsonEncode({
+              'document_id': documentId,
+              'document_name': documentName,
+            }))
+        .timeout(ApiConfig.connectTimeout);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    throw ApiException(response.statusCode, _parseError(response.body));
+  }
+
+  /// Join an existing room by [roomCode].
+  Future<Map<String, dynamic>> joinGroupRoom({required String roomCode}) async {
+    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.groupChatJoin}');
+    final response = await _client
+        .post(uri, headers: _headers,
+            body: jsonEncode({'room_code': roomCode}))
+        .timeout(ApiConfig.connectTimeout);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    throw ApiException(response.statusCode, _parseError(response.body));
+  }
+
+  /// Fetch room info (online count, members, etc.).
+  Future<Map<String, dynamic>> getGroupRoom(String roomCode) async {
+    final uri = Uri.parse(
+        '${ApiConfig.baseUrl}${ApiConfig.groupChatRoom(roomCode)}');
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.connectTimeout);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    throw ApiException(response.statusCode, _parseError(response.body));
+  }
+
+  /// Fetch persisted message history for a room.
+  Future<List<Map<String, dynamic>>> getGroupRoomHistory(String roomCode) async {
+    final uri = Uri.parse(
+        '${ApiConfig.baseUrl}${ApiConfig.groupChatHistory(roomCode)}');
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return (data['messages'] as List).cast<Map<String, dynamic>>();
+    }
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 

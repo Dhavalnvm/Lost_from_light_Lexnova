@@ -1,11 +1,19 @@
 class ApiConfig {
-  static const String baseUrl = 'https://a7b8-106-192-123-53.ngrok-free.app/api/v1';
+  static const String baseUrl =
+      'https://a7b8-106-192-123-53.ngrok-free.app/api/v1';
+
+  /// WebSocket base URL — derived from baseUrl at runtime.
+  /// Strips /api/v1 and swaps https→wss (or http→ws).
+  static String get wsBase => baseUrl
+      .replaceFirst('/api/v1', '')
+      .replaceFirst('https://', 'wss://')
+      .replaceFirst('http://', 'ws://');
 
   // ── Auth ───────────────────────────────────────────────────────────────────
-  static const String register        = '/auth/register';
-  static const String login           = '/auth/login';
-  static const String me              = '/auth/me';
-  static const String myDocuments     = '/auth/my-documents';
+  static const String register    = '/auth/register';
+  static const String login       = '/auth/login';
+  static const String me          = '/auth/me';
+  static const String myDocuments = '/auth/my-documents';
 
   // ── Document Analysis ──────────────────────────────────────────────────────
   static const String uploadDocument   = '/upload-document';
@@ -23,11 +31,29 @@ class ApiConfig {
   static const String translateResponse  = '/translate-response';
   static const String documentTypes      = '/document-types';
 
-  // ── New Features ───────────────────────────────────────────────────────────
+  // ── Features ───────────────────────────────────────────────────────────────
   static const String compareContracts = '/compare-contracts';
   static const String clauseRewrites   = '/clause-rewrites';
   static const String smartChecklist   = '/smart-checklist';
   static const String versionDiff      = '/version-diff';
+
+  // ── Group Discussion ───────────────────────────────────────────────────────
+  static const String groupChatCreate = '/group-chat/create';
+  static const String groupChatJoin   = '/group-chat/join';
+
+  static String groupChatRoom(String code) =>
+      '/group-chat/${code.toUpperCase()}';
+
+  static String groupChatHistory(String code) =>
+      '/group-chat/${code.toUpperCase()}/history';
+
+  /// WebSocket URL for group discussion.
+  /// user_id and display_name are sent as query params
+  /// (browsers/apps cannot set headers on WebSocket connections).
+  static String groupChatWs(String code, String userId, String displayName) =>
+      '$wsBase/api/v1/group-chat/ws/${code.toUpperCase()}'
+      '?user_id=${Uri.encodeComponent(userId)}'
+      '&display_name=${Uri.encodeComponent(displayName)}';
 
   // ── Timeouts ───────────────────────────────────────────────────────────────
   static const Duration connectTimeout = Duration(seconds: 30);

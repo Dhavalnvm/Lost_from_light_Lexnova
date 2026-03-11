@@ -15,6 +15,9 @@ dependencies:
   http: ^1.2.0
   dio: ^5.4.3
 
+  # WebSocket  ← required for Group Discussion
+  web_socket_channel: ^2.4.0
+
   # File handling
   file_picker: ^8.0.3
   path_provider: ^2.1.3
@@ -40,14 +43,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-#  assets:
-#    - assets/images/
-#    - assets/animations/
-#  fonts:
-#    - family: Cormorant
-#      fonts:
-#        - asset: assets/fonts/Cormorant-Regular.ttf
-#        - asset: assets/fonts/Cormorant-SemiBold.ttf
-#          weight: 600
-#        - asset: assets/fonts/Cormorant-Bold.ttf
-#          weight: 700

@@ -10,6 +10,7 @@ import '../../services/api_service.dart';
 import '../../widgets/common/common_widgets.dart';
 import 'analysis_tabs.dart';
 import 'document_chat_sheet.dart';
+import '../group_discussion/group_discussion_screen.dart';  // ← Group Discussion
 
 class DocumentAnalyzerScreen extends StatefulWidget {
   const DocumentAnalyzerScreen({super.key});
@@ -33,10 +34,7 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
   String _analysisMode = 'student';
   String? _error;
 
-  // Which step is currently running
   String _currentStep = '';
-
-  // Track which steps are done for the progress indicator
   final Set<String> _completedSteps = {};
 
   Future<void> _pickFile() async {
@@ -79,9 +77,8 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
         _completedSteps.add('upload');
       });
 
-      // ── Step 2: Stream analysis via SSE ──────────────────────────────────────
-      await for (final event
-      in _api.analyzeStream(upload.documentId, _analysisMode)) {
+      // ── Step 2: Stream analysis via SSE ────────────────────────────────────
+      await for (final event in _api.analyzeStream(upload.documentId, _analysisMode)) {
         final eventName = event['event'] as String;
         final data = event['data'] as Map<String, dynamic>;
         _handleSseEvent(eventName, jsonEncode(data));
@@ -106,35 +103,28 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
           case 'status':
             _currentStep = json['message'] ?? '';
             break;
-
           case 'summary':
             _summary = DocumentSummary.fromJson(json);
             _completedSteps.add('summary');
             break;
-
           case 'risk':
             _riskAnalysis = RiskAnalysis.fromJson(json);
             _completedSteps.add('risk');
             break;
-
           case 'fairness':
             _clauseFairness = ClauseFairness.fromJson(json);
             _completedSteps.add('fairness');
             break;
-
           case 'safety':
             _safetyScore = SafetyScore.fromJson(json);
             _completedSteps.add('safety');
             break;
-
           case 'error':
-          // Partial failure — show inline, keep going
             final step = json['step'] ?? 'unknown';
             final msg = json['message'] ?? 'Unknown error';
             debugPrint('⚠️ Step "$step" failed: $msg');
             _completedSteps.add('${step}_error');
             break;
-
           case 'done':
             _isAnalyzing = false;
             _currentStep = '';
@@ -159,6 +149,19 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
     );
   }
 
+  void _openGroupDiscussion() {
+    if (_uploadResponse == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => GroupDiscussionLobby(
+          documentId: _uploadResponse!.documentId,
+          documentName: _uploadResponse!.filename,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,19 +170,17 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
         slivers: [
           _buildAppBar(),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 120),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 const SizedBox(height: 8),
                 _buildUploadSection(),
                 if (_error != null) _buildError(),
                 if (_isUploading || _isAnalyzing) _buildLoadingState(),
-                // Show safety hero as soon as safety score arrives
                 if (_safetyScore != null) ...[
                   const SizedBox(height: 24),
                   _buildSafetyHero(),
                 ],
-                // Show tabs as soon as ANY analysis data arrives
                 if (_summary != null ||
                     _riskAnalysis != null ||
                     _clauseFairness != null) ...[
@@ -196,19 +197,59 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
           ),
         ],
       ),
+      // ── Two action buttons once analysis is complete ────────────────────────
       floatingActionButton: _safetyScore != null
-          ? FloatingActionButton.extended(
-        onPressed: _openChat,
-        backgroundColor: AppColors.gold,
-        foregroundColor: AppColors.background,
-        icon: const Icon(Icons.chat_bubble_rounded, size: 20),
-        label: Text(
-          'Chat with Doc',
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
-        ),
-        elevation: 8,
-      ).animate().slideY(begin: 2, end: 0, delay: 300.ms, duration: 500.ms)
+          ? _buildActionFabs()
           : null,
+    );
+  }
+
+  /// Two stacked FABs: Chat with Doc (primary) + Group Discussion (secondary)
+  Widget _buildActionFabs() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        // Secondary: Group Discussion
+        FloatingActionButton.extended(
+          heroTag: 'group_discussion_fab',
+          onPressed: _openGroupDiscussion,
+          backgroundColor: AppColors.surface,
+          foregroundColor: AppColors.gold,
+          elevation: 6,
+          icon: const Icon(Icons.groups_rounded, size: 20),
+          label: Text(
+            'Group Discussion',
+            style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+            side: const BorderSide(color: AppColors.gold, width: 1),
+          ),
+        )
+            .animate()
+            .slideY(begin: 2, end: 0, delay: 200.ms, duration: 400.ms)
+            .fadeIn(delay: 200.ms),
+
+        const SizedBox(height: 10),
+
+        // Primary: Chat with Doc
+        FloatingActionButton.extended(
+          heroTag: 'chat_doc_fab',
+          onPressed: _openChat,
+          backgroundColor: AppColors.gold,
+          foregroundColor: AppColors.background,
+          elevation: 8,
+          icon: const Icon(Icons.chat_bubble_rounded, size: 20),
+          label: Text(
+            'Chat with Doc',
+            style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+          ),
+        )
+            .animate()
+            .slideY(begin: 2, end: 0, delay: 300.ms, duration: 500.ms)
+            .fadeIn(delay: 300.ms),
+      ],
     );
   }
 
@@ -230,10 +271,7 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
             Text(
               'Upload · Analyze · Understand',
               style: GoogleFonts.dmSans(
-                fontSize: 11,
-                color: AppColors.textMuted,
-                letterSpacing: 1,
-              ),
+                  fontSize: 11, color: AppColors.textMuted, letterSpacing: 1),
             ),
           ],
         ),
@@ -255,13 +293,12 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                 duration: const Duration(milliseconds: 200),
                 margin: const EdgeInsets.only(right: 8),
                 padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.goldGlow : AppColors.surface,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color:
-                    isSelected ? AppColors.gold : AppColors.cardBorder,
+                    color: isSelected ? AppColors.gold : AppColors.cardBorder,
                     width: 1,
                   ),
                 ),
@@ -270,8 +307,7 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color:
-                    isSelected ? AppColors.gold : AppColors.textMuted,
+                    color: isSelected ? AppColors.gold : AppColors.textMuted,
                   ),
                 ),
               ),
@@ -291,8 +327,7 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
             decoration: BoxDecoration(
               gradient: _selectedFile != null
                   ? const LinearGradient(
-                colors: [Color(0xFF1A1F0E), Color(0xFF121810)],
-              )
+                      colors: [Color(0xFF1A1F0E), Color(0xFF121810)])
                   : AppColors.cardGradient,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
@@ -304,85 +339,85 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
             ),
             child: _selectedFile == null
                 ? Column(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.goldGlow,
-                    border: Border.all(
-                        color: AppColors.goldDark, width: 1),
-                  ),
-                  child: const Icon(Icons.upload_file_rounded,
-                      color: AppColors.gold, size: 28),
-                ),
-                const SizedBox(height: 16),
-                Text('Drop your document here',
-                    style: Theme.of(context).textTheme.titleLarge),
-                const SizedBox(height: 6),
-                Text('PDF • DOCX • Images (OCR)',
-                    style: Theme.of(context).textTheme.bodyMedium),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: AppColors.goldDark, width: 1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Browse Files',
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.gold,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            )
-                : Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: AppColors.safeGreen.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.check_circle_rounded,
-                      color: AppColors.safeGreen, size: 26),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        _selectedFile!.path
-                            .split('/')
-                            .last
-                            .split('\\')
-                            .last,
-                        style:
-                        Theme.of(context).textTheme.titleMedium,
-                        overflow: TextOverflow.ellipsis,
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.goldGlow,
+                          border: Border.all(
+                              color: AppColors.goldDark, width: 1),
+                        ),
+                        child: const Icon(Icons.upload_file_rounded,
+                            color: AppColors.gold, size: 28),
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'Ready to analyze  ·  Tap to change',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 11),
+                      const SizedBox(height: 16),
+                      Text('Drop your document here',
+                          style: Theme.of(context).textTheme.titleLarge),
+                      const SizedBox(height: 6),
+                      Text('PDF • DOCX • Images (OCR)',
+                          style: Theme.of(context).textTheme.bodyMedium),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.goldDark, width: 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Browse Files',
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.gold,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: AppColors.safeGreen.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.check_circle_rounded,
+                            color: AppColors.safeGreen, size: 26),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _selectedFile!.path
+                                  .split('/')
+                                  .last
+                                  .split('\\')
+                                  .last,
+                              style:
+                                  Theme.of(context).textTheme.titleMedium,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              'Ready to analyze  ·  Tap to change',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontSize: 11),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
 
@@ -403,7 +438,6 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
   }
 
   Widget _buildLoadingState() {
-    // Steps in order with labels
     final steps = [
       ('upload', 'Upload & Parse'),
       ('summary', 'Summary'),
@@ -416,7 +450,6 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: Column(
         children: [
-          // Animated icon
           Container(
             width: 72,
             height: 72,
@@ -439,7 +472,6 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
 
           const SizedBox(height: 20),
 
-          // Current step label
           if (_currentStep.isNotEmpty)
             Text(
               _currentStep,
@@ -449,7 +481,6 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
 
           const SizedBox(height: 20),
 
-          // Step progress pills
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -481,7 +512,7 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                   border:
-                  Border.all(color: color.withOpacity(0.4), width: 1),
+                      Border.all(color: color.withOpacity(0.4), width: 1),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -491,10 +522,9 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                     Text(
                       label,
                       style: TextStyle(
-                        color: color,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+                          color: color,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -547,10 +577,9 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                     Text(
                       verdict,
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: bgColor,
-                      ),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: bgColor),
                     ),
                     const SizedBox(height: 12),
                     Container(
@@ -565,10 +594,9 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
                       child: Text(
                         '${score.riskLevel} Risk',
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: bgColor,
-                        ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: bgColor),
                       ),
                     ),
                   ],
@@ -581,20 +609,20 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
             const GoldDivider(),
             const SizedBox(height: 16),
             ...score.recommendations.map((rec) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(rec,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(height: 1.5)),
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(rec,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(height: 1.5)),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
           ],
         ],
       ),
@@ -614,8 +642,8 @@ class _DocumentAnalyzerScreenState extends State<DocumentAnalyzerScreen> {
             Expanded(
               child: Text(
                 _error ?? 'Something went wrong',
-                style:
-                const TextStyle(color: AppColors.dangerRed, fontSize: 13),
+                style: const TextStyle(
+                    color: AppColors.dangerRed, fontSize: 13),
               ),
             ),
           ],
