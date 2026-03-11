@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2026-03-05 16:21:56 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
 2026-03-05 16:21:57 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3)
 2026-03-05 16:21:57 | INFO     | main:lifespan:35 - ✅ Application startup complete
@@ -6,166 +7,13 @@
 2026-03-05 16:23:42 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.2:3b)
 2026-03-05 16:23:42 | INFO     | main:lifespan:35 - ✅ Application startup complete
 2026-03-05 16:24:07 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:20:14 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:20:14 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.2:3b)
-2026-03-10 14:20:14 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:21:54 | INFO     | main:log_requests:85 - → GET /
-2026-03-10 14:21:54 | INFO     | main:log_requests:88 - ← GET / [200] 0.01s
-2026-03-10 14:27:52 | INFO     | main:log_requests:85 - → POST /api/v1/legal-chat
-2026-03-10 14:27:53 | ERROR    | api.routes.chatbot:legal_chat:32 - Legal chat error: Client error '404 Not Found' for url 'http://localhost:11434/api/chat'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-03-10 14:27:53 | INFO     | main:log_requests:88 - ← POST /api/v1/legal-chat [500] 0.62s
-2026-03-10 14:28:26 | INFO     | main:log_requests:85 - → POST /api/v1/legal-chat
-2026-03-10 14:28:26 | ERROR    | api.routes.chatbot:legal_chat:32 - Legal chat error: Client error '404 Not Found' for url 'http://localhost:11434/api/chat'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
-2026-03-10 14:28:26 | INFO     | main:log_requests:88 - ← POST /api/v1/legal-chat [500] 0.54s
-2026-03-10 14:29:59 | INFO     | main:log_requests:85 - → POST /legal-chat
-2026-03-10 14:29:59 | INFO     | main:log_requests:88 - ← POST /legal-chat [404] 0.00s
-2026-03-10 14:31:06 | INFO     | main:log_requests:85 - → POST /upload-document
-2026-03-10 14:31:06 | INFO     | main:log_requests:88 - ← POST /upload-document [404] 0.00s
-2026-03-10 14:34:25 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:34:28 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:34:28 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:34:28 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:34:48 | INFO     | main:log_requests:85 - → POST /api/v1/legal-chat
-2026-03-10 14:34:58 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response generated, lang=English
-2026-03-10 14:34:58 | INFO     | main:log_requests:88 - ← POST /api/v1/legal-chat [200] 9.56s
-2026-03-10 14:35:37 | INFO     | main:log_requests:85 - → POST /api/v1/legal-chat
-2026-03-10 14:35:48 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response generated, lang=English
-2026-03-10 14:35:48 | INFO     | main:log_requests:88 - ← POST /api/v1/legal-chat [200] 10.80s
-2026-03-10 14:36:55 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:36:56 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\8ac9e197-ac63-4b47-aac4-b8e0fe85b0e3.pdf
-2026-03-10 14:36:56 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\8ac9e197-ac63-4b47-aac4-b8e0fe85b0e3.pdf (type: .pdf)
-2026-03-10 14:36:57 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:36:57 | ERROR    | api.routes.documents:upload_document:42 - Upload error: asyncio.run() cannot be called from a running event loop
-2026-03-10 14:36:57 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [500] 2.28s
-2026-03-10 14:40:49 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:40:52 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:40:52 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:40:52 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:41:02 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:41:03 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\289a8f5e-3e95-424d-8378-d30128b359c0.pdf
-2026-03-10 14:41:03 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\289a8f5e-3e95-424d-8378-d30128b359c0.pdf (type: .pdf)
-2026-03-10 14:41:03 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:41:34 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 14:41:34 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 289a8f5e-3e95-424d-8378-d30128b359c0
-2026-03-10 14:41:34 | INFO     | services.document_service:upload_and_process:100 - Document processed: 289a8f5e-3e95-424d-8378-d30128b359c0, pages=10, chunks=22
-2026-03-10 14:41:34 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 32.84s
-2026-03-10 14:41:35 | INFO     | main:log_requests:85 - → GET /api/v1/document-summary/289a8f5e-3e95-424d-8378-d30128b359c0
-2026-03-10 14:41:35 | INFO     | main:log_requests:85 - → GET /api/v1/safety-score/289a8f5e-3e95-424d-8378-d30128b359c0
-2026-03-10 14:41:36 | INFO     | main:log_requests:85 - → GET /api/v1/clause-fairness/289a8f5e-3e95-424d-8378-d30128b359c0
-2026-03-10 14:41:36 | INFO     | main:log_requests:85 - → GET /api/v1/risk-analysis/289a8f5e-3e95-424d-8378-d30128b359c0
-2026-03-10 14:42:45 | INFO     | main:log_requests:88 - ← GET /api/v1/clause-fairness/289a8f5e-3e95-424d-8378-d30128b359c0 [200] 69.50s
-2026-03-10 14:43:36 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:43:36 | ERROR    | api.routes.documents:get_safety_score:161 - Safety score error for 289a8f5e-3e95-424d-8378-d30128b359c0: LLM request timed out. Try again or use a shorter document.
-2026-03-10 14:43:36 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:43:36 | ERROR    | api.routes.documents:get_risk_analysis:96 - Risk analysis error for 289a8f5e-3e95-424d-8378-d30128b359c0: LLM request timed out. Try again or use a shorter document.
-2026-03-10 14:43:36 | INFO     | main:log_requests:88 - ← GET /api/v1/safety-score/289a8f5e-3e95-424d-8378-d30128b359c0 [500] 120.93s
-2026-03-10 14:43:36 | INFO     | main:log_requests:88 - ← GET /api/v1/risk-analysis/289a8f5e-3e95-424d-8378-d30128b359c0 [500] 120.49s
-2026-03-10 14:44:22 | INFO     | main:log_requests:88 - ← GET /api/v1/document-summary/289a8f5e-3e95-424d-8378-d30128b359c0 [200] 166.99s
-2026-03-10 14:44:53 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:44:56 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:44:56 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:44:56 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:45:07 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:45:08 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\63236697-7f01-4858-9969-e222eec34109.pdf
-2026-03-10 14:45:08 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\63236697-7f01-4858-9969-e222eec34109.pdf (type: .pdf)
-2026-03-10 14:45:09 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:45:16 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 14:45:16 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 63236697-7f01-4858-9969-e222eec34109
-2026-03-10 14:45:16 | INFO     | services.document_service:upload_and_process:100 - Document processed: 63236697-7f01-4858-9969-e222eec34109, pages=10, chunks=22
-2026-03-10 14:45:16 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 8.39s
-2026-03-10 14:45:16 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:45:18 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:45:19 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:45:19 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:45:32 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:45:33 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\947366d8-369d-43ac-bcaa-6f58948dc5c9.pdf
-2026-03-10 14:45:33 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\947366d8-369d-43ac-bcaa-6f58948dc5c9.pdf (type: .pdf)
-2026-03-10 14:45:34 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:45:36 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 14:45:36 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 947366d8-369d-43ac-bcaa-6f58948dc5c9
-2026-03-10 14:45:36 | INFO     | services.document_service:upload_and_process:100 - Document processed: 947366d8-369d-43ac-bcaa-6f58948dc5c9, pages=10, chunks=22
-2026-03-10 14:45:36 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 3.66s
-2026-03-10 14:45:36 | INFO     | main:log_requests:85 - → GET /api/v1/risk-analysis/947366d8-369d-43ac-bcaa-6f58948dc5c9
-2026-03-10 14:45:37 | INFO     | main:log_requests:85 - → GET /api/v1/clause-fairness/947366d8-369d-43ac-bcaa-6f58948dc5c9
-2026-03-10 14:45:37 | INFO     | main:log_requests:85 - → GET /api/v1/safety-score/947366d8-369d-43ac-bcaa-6f58948dc5c9
-2026-03-10 14:45:37 | INFO     | main:log_requests:85 - → GET /api/v1/document-summary/947366d8-369d-43ac-bcaa-6f58948dc5c9
-2026-03-10 14:47:12 | WARNING  | services.risk_service:analyze_risk:86 - Risk analysis JSON parse failed, using fallback
-2026-03-10 14:47:12 | INFO     | main:log_requests:88 - ← GET /api/v1/risk-analysis/947366d8-369d-43ac-bcaa-6f58948dc5c9 [200] 95.36s
-2026-03-10 14:47:36 | INFO     | main:log_requests:88 - ← GET /api/v1/clause-fairness/947366d8-369d-43ac-bcaa-6f58948dc5c9 [200] 119.82s
-2026-03-10 14:47:37 | ERROR    | api.routes.documents:get_safety_score:210 - Safety score timed out for 947366d8-369d-43ac-bcaa-6f58948dc5c9 after 120s
-2026-03-10 14:47:37 | INFO     | main:log_requests:88 - ← GET /api/v1/safety-score/947366d8-369d-43ac-bcaa-6f58948dc5c9 [504] 120.01s
-2026-03-10 14:47:38 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:47:38 | ERROR    | api.routes.documents:get_document_summary:89 - Summary timed out for 947366d8-369d-43ac-bcaa-6f58948dc5c9 after 180s
-2026-03-10 14:47:38 | INFO     | main:log_requests:88 - ← GET /api/v1/document-summary/947366d8-369d-43ac-bcaa-6f58948dc5c9 [504] 120.91s
-2026-03-10 14:50:18 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 14:50:24 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:50:25 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:50:25 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:50:46 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:50:47 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\8b672c47-a413-4842-9e3f-7be9d41b0f1f.pdf
-2026-03-10 14:50:47 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\8b672c47-a413-4842-9e3f-7be9d41b0f1f.pdf (type: .pdf)
-2026-03-10 14:50:48 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:50:55 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 14:50:55 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 8b672c47-a413-4842-9e3f-7be9d41b0f1f
-2026-03-10 14:50:55 | INFO     | services.document_service:upload_and_process:100 - Document processed: 8b672c47-a413-4842-9e3f-7be9d41b0f1f, pages=10, chunks=22
-2026-03-10 14:50:55 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 9.58s
-2026-03-10 14:50:56 | INFO     | main:log_requests:85 - → GET /api/v1/risk-analysis/8b672c47-a413-4842-9e3f-7be9d41b0f1f
-2026-03-10 14:50:56 | INFO     | main:log_requests:85 - → GET /api/v1/document-summary/8b672c47-a413-4842-9e3f-7be9d41b0f1f
-2026-03-10 14:50:56 | INFO     | main:log_requests:85 - → GET /api/v1/clause-fairness/8b672c47-a413-4842-9e3f-7be9d41b0f1f
-2026-03-10 14:50:56 | INFO     | main:log_requests:85 - → GET /api/v1/safety-score/8b672c47-a413-4842-9e3f-7be9d41b0f1f
-2026-03-10 14:51:39 | INFO     | main:log_requests:88 - ← GET /api/v1/risk-analysis/8b672c47-a413-4842-9e3f-7be9d41b0f1f [200] 43.12s
-2026-03-10 14:52:31 | INFO     | main:log_requests:88 - ← GET /api/v1/clause-fairness/8b672c47-a413-4842-9e3f-7be9d41b0f1f [200] 94.90s
-2026-03-10 14:52:57 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:52:57 | INFO     | main:log_requests:88 - ← GET /api/v1/safety-score/8b672c47-a413-4842-9e3f-7be9d41b0f1f [504] 120.98s
-2026-03-10 14:53:14 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 14:53:15 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 14:53:15 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 14:53:24 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 14:53:25 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\6217bd2a-6a2c-448a-852c-bcd144968b6e.pdf
-2026-03-10 14:53:25 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\6217bd2a-6a2c-448a-852c-bcd144968b6e.pdf (type: .pdf)
-2026-03-10 14:53:25 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 14:53:32 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 14:53:32 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 6217bd2a-6a2c-448a-852c-bcd144968b6e
-2026-03-10 14:53:32 | INFO     | services.document_service:upload_and_process:100 - Document processed: 6217bd2a-6a2c-448a-852c-bcd144968b6e, pages=10, chunks=22
-2026-03-10 14:53:32 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 7.83s
-2026-03-10 14:53:33 | INFO     | main:log_requests:85 - → GET /api/v1/safety-score/6217bd2a-6a2c-448a-852c-bcd144968b6e
-2026-03-10 14:53:33 | INFO     | main:log_requests:85 - → GET /api/v1/risk-analysis/6217bd2a-6a2c-448a-852c-bcd144968b6e
-2026-03-10 14:53:33 | INFO     | main:log_requests:85 - → GET /api/v1/clause-fairness/6217bd2a-6a2c-448a-852c-bcd144968b6e
-2026-03-10 14:53:33 | INFO     | main:log_requests:85 - → GET /api/v1/document-summary/6217bd2a-6a2c-448a-852c-bcd144968b6e
-2026-03-10 14:54:36 | INFO     | main:log_requests:88 - ← GET /api/v1/risk-analysis/6217bd2a-6a2c-448a-852c-bcd144968b6e [200] 63.98s
-2026-03-10 14:55:34 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:55:34 | INFO     | main:log_requests:88 - ← GET /api/v1/clause-fairness/6217bd2a-6a2c-448a-852c-bcd144968b6e [504] 120.71s
-2026-03-10 14:55:34 | ERROR    | core.llm_client:generate:56 - Ollama request timed out
-2026-03-10 14:55:34 | INFO     | main:log_requests:88 - ← GET /api/v1/document-summary/6217bd2a-6a2c-448a-852c-bcd144968b6e [504] 120.74s
-2026-03-10 14:55:56 | INFO     | main:log_requests:88 - ← GET /api/v1/safety-score/6217bd2a-6a2c-448a-852c-bcd144968b6e [200] 143.72s
-2026-03-10 14:57:22 | INFO     | main:lifespan:39 - 🛑 Application shutdown
-2026-03-10 15:01:35 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
-2026-03-10 15:01:35 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
-2026-03-10 15:01:35 | INFO     | main:lifespan:35 - ✅ Application startup complete
-2026-03-10 15:02:30 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 15:02:42 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\fab9a383-de00-4204-97c0-cf7b60d45a01.pdf
-2026-03-10 15:02:42 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\fab9a383-de00-4204-97c0-cf7b60d45a01.pdf (type: .pdf)
-2026-03-10 15:02:43 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 15:02:50 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
-2026-03-10 15:02:50 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document fab9a383-de00-4204-97c0-cf7b60d45a01
-2026-03-10 15:02:50 | INFO     | services.document_service:upload_and_process:100 - Document processed: fab9a383-de00-4204-97c0-cf7b60d45a01, pages=10, chunks=22
-2026-03-10 15:02:50 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 19.89s
-2026-03-10 15:09:16 | INFO     | main:log_requests:85 - → POST /api/v1/upload-document
-2026-03-10 15:09:18 | INFO     | services.document_service:upload_and_process:66 - File saved: storage/documents\fd249119-8551-467a-844a-f92a8ff25ed4.pdf
-2026-03-10 15:09:18 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\fd249119-8551-467a-844a-f92a8ff25ed4.pdf (type: .pdf)
-2026-03-10 15:09:18 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
-2026-03-10 15:09:25 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document fd249119-8551-467a-844a-f92a8ff25ed4
-2026-03-10 15:09:25 | INFO     | services.document_service:upload_and_process:100 - Document processed: fd249119-8551-467a-844a-f92a8ff25ed4, pages=10, chunks=22
-2026-03-10 15:09:25 | INFO     | main:log_requests:88 - ← POST /api/v1/upload-document [200] 8.45s
-2026-03-10 15:09:25 | INFO     | main:log_requests:85 - → GET /api/v1/analyze-stream/fd249119-8551-467a-844a-f92a8ff25ed4
-2026-03-10 15:09:25 | INFO     | main:log_requests:88 - ← GET /api/v1/analyze-stream/fd249119-8551-467a-844a-f92a8ff25ed4 [200] 0.00s
-2026-03-10 15:10:39 | INFO     | api.routes.documents:analysis_stream:85 - [fd249119-8551-467a-844a-f92a8ff25ed4] Summary ✅
-2026-03-10 15:11:14 | INFO     | api.routes.documents:analysis_stream:99 - [fd249119-8551-467a-844a-f92a8ff25ed4] Risk ✅
-2026-03-10 15:11:39 | INFO     | api.routes.documents:analysis_stream:113 - [fd249119-8551-467a-844a-f92a8ff25ed4] Fairness ✅
-2026-03-10 15:11:39 | INFO     | api.routes.documents:analysis_stream:139 - [fd249119-8551-467a-844a-f92a8ff25ed4] Safety ✅
-2026-03-10 15:15:45 | INFO     | main:log_requests:85 - → POST /api/v1/chat-with-document
-2026-03-10 15:15:45 | ERROR    | api.routes.documents:chat_with_document:281 - Chat error for fd249119-8551-467a-844a-f92a8ff25ed4: Expected embeddings to be a list of floats or ints, a list of lists, a numpy array, or a list of numpy arrays, got [<coroutine object EmbeddingsManager.embed_query at 0x000001BDE953CBA0>] in query.
-2026-03-10 15:15:45 | INFO     | main:log_requests:88 - ← POST /api/v1/chat-with-document [500] 0.02s
-2026-03-10 15:17:25 | INFO     | main:lifespan:39 - 🛑 Application shutdown
+=======
+2026-03-05 16:21:56 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
+2026-03-05 16:21:57 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3)
+2026-03-05 16:21:57 | INFO     | main:lifespan:35 - ✅ Application startup complete
+2026-03-05 16:23:37 | INFO     | main:lifespan:39 - 🛑 Application shutdown
+2026-03-05 16:23:41 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
+2026-03-05 16:23:42 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.2:3b)
+2026-03-05 16:23:42 | INFO     | main:lifespan:35 - ✅ Application startup complete
+2026-03-05 16:24:07 | INFO     | main:lifespan:39 - 🛑 Application shutdown
+>>>>>>> 20331bd6a34f2ead40e41deeb87348ea25a3ae35

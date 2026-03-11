@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     # Ollama
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "llama3.1:8b"
+    OLLAMA_MODEL: str = "llama3.2:3b"
     OLLAMA_TIMEOUT: int = 120
 
     # ChromaDB
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     CHROMA_COLLECTION_NAME: str = "legal_documents"
 
     # Embeddings
-    EMBEDDING_MODEL: str = "bge-m3:567m"
+    EMBEDDING_MODEL: str = "bge-m3"
 
     # Storage
     UPLOAD_DIR: str = "storage/documents"

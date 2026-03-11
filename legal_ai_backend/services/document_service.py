@@ -74,8 +74,8 @@ class DocumentService:
         if not chunks:
             raise ValueError("Could not extract any text from the document")
 
-        # Generate embeddings — now properly awaited
-        embeddings = await embeddings_manager.embed_texts(chunks)
+        # Generate embeddings
+        embeddings = embeddings_manager.embed_texts(chunks)
 
         # Store in ChromaDB
         metadata = {
