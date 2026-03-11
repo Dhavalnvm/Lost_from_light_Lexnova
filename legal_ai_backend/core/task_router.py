@@ -1,0 +1,31 @@
+from core.llm_client import OllamaClient
+
+# ── Singleton clients ──────────────────────────────────────────────────────────
+llm_client_smart = OllamaClient(model="llama3.1:8b")   # heavy reasoning
+llm_client_fast  = OllamaClient(model="llama3.2:3b")   # fast tasks
+
+# ── Task classification ────────────────────────────────────────────────────────
+_FAST_TASKS = {
+    "chat",          # ✅ ADDED — chat_service uses get_client("chat")
+    "chatbot",
+    "rag_chat",
+    "translation",
+    "safety_score",
+    "checklist",
+}
+
+_SMART_TASKS = {
+    "summary",
+    "risk",
+    "fairness",
+    "comparison",
+    "rewrite",
+    "version_diff",
+}
+
+
+def get_client(task: str) -> OllamaClient:
+    """Return the appropriate Ollama client for the given task type."""
+    if task in _FAST_TASKS:
+        return llm_client_fast
+    return llm_client_smart
