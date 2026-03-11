@@ -172,3 +172,985 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-03-10 23:01:10 | INFO     | main:lifespan:23 - 🚀 Starting Legal AI Backend v1.0.0
 2026-03-10 23:01:11 | INFO     | main:lifespan:33 - ✅ Ollama connected at http://localhost:11434 (model: llama3.1:8b)
 2026-03-10 23:01:11 | INFO     | main:lifespan:35 - ✅ Application startup complete
+2026-03-11 13:25:37 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 13:25:37 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 13:25:37 | ERROR    | main:lifespan:31 - ❌ MongoDB connection failed: bad auth : Authentication failed., full error: {'ok': 0, 'errmsg': 'bad auth : Authentication failed.', 'code': 8000, 'codeName': 'AtlasError'}
+2026-03-11 13:25:38 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 13:25:38 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 13:26:51 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 13:26:51 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 13:26:54 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 13:26:54 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 13:26:55 | ERROR    | main:lifespan:31 - ❌ MongoDB connection failed: bad auth : Authentication failed., full error: {'ok': 0, 'errmsg': 'bad auth : Authentication failed.', 'code': 8000, 'codeName': 'AtlasError'}
+2026-03-11 13:26:55 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 13:26:55 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 13:26:58 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 13:26:58 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 13:28:51 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 13:28:51 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 13:28:52 | ERROR    | main:lifespan:31 - ❌ MongoDB connection failed: bad auth : Authentication failed., full error: {'ok': 0, 'errmsg': 'bad auth : Authentication failed.', 'code': 8000, 'codeName': 'AtlasError'}
+2026-03-11 13:28:53 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 13:28:53 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 13:31:05 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 13:31:05 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 13:31:49 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 13:31:49 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 13:31:50 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 13:31:50 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 13:31:50 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 13:31:50 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 13:36:05 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 13:36:05 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 14:11:27 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 14:11:27 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 14:11:29 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 14:11:29 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 14:11:30 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 14:11:30 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 14:12:51 | INFO     | main:log_requests:96 - ← GET / [200] 0.00s
+2026-03-11 14:17:46 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\9228d746-203c-45fc-bec0-28658ce22ac9.pdf
+2026-03-11 14:17:46 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\9228d746-203c-45fc-bec0-28658ce22ac9.pdf (type: .pdf)
+2026-03-11 14:17:46 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 14:17:52 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 14:17:52 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document 9228d746-203c-45fc-bec0-28658ce22ac9
+2026-03-11 14:17:52 | INFO     | services.document_service:upload_and_process:97 - Document processed: 9228d746-203c-45fc-bec0-28658ce22ac9, pages=10, chunks=22
+2026-03-11 14:17:52 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 8.92s
+2026-03-11 14:17:52 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/9228d746-203c-45fc-bec0-28658ce22ac9 [200] 0.00s
+2026-03-11 14:17:52 | ERROR    | api.routes.documents:analysis_stream:161 - [9228d746-203c-45fc-bec0-28658ce22ac9] summary failed: 'Settings' object has no attribute 'SUMMARY_TEXT_LIMIT'
+2026-03-11 14:17:52 | ERROR    | api.routes.documents:analysis_stream:161 - [9228d746-203c-45fc-bec0-28658ce22ac9] risk failed: 'Settings' object has no attribute 'ANALYSIS_TEXT_LIMIT'
+2026-03-11 14:17:52 | ERROR    | api.routes.documents:analysis_stream:161 - [9228d746-203c-45fc-bec0-28658ce22ac9] fairness failed: 'Settings' object has no attribute 'ANALYSIS_TEXT_LIMIT'
+2026-03-11 14:18:25 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response, lang=English
+2026-03-11 14:18:25 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [200] 9.11s
+2026-03-11 14:19:29 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response, lang=English
+2026-03-11 14:19:29 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [200] 7.29s
+2026-03-11 14:20:02 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response, lang=English
+2026-03-11 14:20:02 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [200] 6.26s
+2026-03-11 14:20:26 | INFO     | services.chatbot_service:chat:55 - Legal chatbot response, lang=English
+2026-03-11 14:20:26 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [200] 8.47s
+2026-03-11 14:21:10 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: loan
+2026-03-11 14:21:10 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/loan [200] 0.00s
+2026-03-11 14:21:30 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-11 14:21:30 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-11 14:22:15 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.06s
+2026-03-11 14:22:24 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.00s
+2026-03-11 14:22:28 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.62s
+2026-03-11 14:23:14 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.10s
+2026-03-11 14:23:28 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.01s
+2026-03-11 14:23:31 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.14s
+2026-03-11 14:23:40 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.00s
+2026-03-11 14:23:43 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.08s
+2026-03-11 14:23:44 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [400] 0.15s
+2026-03-11 14:23:58 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\a6933fde-a320-4a8d-a7c5-4c41825d8b99.pdf
+2026-03-11 14:23:58 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\a6933fde-a320-4a8d-a7c5-4c41825d8b99.pdf (type: .pdf)
+2026-03-11 14:23:59 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 14:24:03 | INFO     | core.vector_store:add_document_chunks:55 - Stored 22 chunks for document a6933fde-a320-4a8d-a7c5-4c41825d8b99
+2026-03-11 14:24:03 | INFO     | services.document_service:upload_and_process:97 - Document processed: a6933fde-a320-4a8d-a7c5-4c41825d8b99, pages=10, chunks=22
+2026-03-11 14:24:03 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 6.40s
+2026-03-11 14:24:03 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/a6933fde-a320-4a8d-a7c5-4c41825d8b99 [200] 0.00s
+2026-03-11 14:24:03 | ERROR    | api.routes.documents:analysis_stream:161 - [a6933fde-a320-4a8d-a7c5-4c41825d8b99] summary failed: 'Settings' object has no attribute 'SUMMARY_TEXT_LIMIT'
+2026-03-11 14:24:03 | ERROR    | api.routes.documents:analysis_stream:161 - [a6933fde-a320-4a8d-a7c5-4c41825d8b99] risk failed: 'Settings' object has no attribute 'ANALYSIS_TEXT_LIMIT'
+2026-03-11 14:24:03 | ERROR    | api.routes.documents:analysis_stream:161 - [a6933fde-a320-4a8d-a7c5-4c41825d8b99] fairness failed: 'Settings' object has no attribute 'ANALYSIS_TEXT_LIMIT'
+2026-03-11 14:28:18 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 14:28:18 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 15:50:54 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 15:50:54 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 15:50:55 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 15:50:56 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 15:50:56 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 15:50:56 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 15:51:11 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\124ac271-1020-4e68-9078-85218d84c46d.pdf
+2026-03-11 15:51:11 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\124ac271-1020-4e68-9078-85218d84c46d.pdf (type: .pdf)
+2026-03-11 15:51:11 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:51:16 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 15:51:16 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 124ac271-1020-4e68-9078-85218d84c46d
+2026-03-11 15:51:16 | INFO     | services.document_service:upload_and_process:97 - Document processed: 124ac271-1020-4e68-9078-85218d84c46d, pages=10, chunks=16
+2026-03-11 15:51:16 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 7.89s
+2026-03-11 15:51:17 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/124ac271-1020-4e68-9078-85218d84c46d [200] 0.00s
+2026-03-11 15:51:45 | INFO     | api.routes.documents:analysis_stream:164 - [124ac271-1020-4e68-9078-85218d84c46d] fairness ✅ (1/3)
+2026-03-11 15:52:14 | ERROR    | api.routes.documents:analysis_stream:161 - [124ac271-1020-4e68-9078-85218d84c46d] risk failed: 1 validation error for RedFlag
+page_reference
+  Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='Page 7', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/int_parsing
+2026-03-11 15:53:30 | INFO     | api.routes.documents:analysis_stream:164 - [124ac271-1020-4e68-9078-85218d84c46d] summary ✅ (3/3)
+2026-03-11 15:54:20 | INFO     | services.chatbot_service:chat:154 - Legal chatbot response, lang=English
+2026-03-11 15:54:20 | ERROR    | api.routes.chatbot:legal_chat:32 - Legal chat error: 2 validation errors for LegalChatResponse
+user_message
+  Field required [type=missing, input_value={'reply': "⚠️ DISCLAI..., 'language': 'English'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+ai_response
+  Field required [type=missing, input_value={'reply': "⚠️ DISCLAI..., 'language': 'English'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+2026-03-11 15:54:20 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [500] 9.55s
+2026-03-11 15:54:42 | INFO     | services.auth_service:register:75 - New user registered: omkar@gmail.com (id=69b142ea9a13ff0120d76137)
+2026-03-11 15:54:42 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [200] 0.55s
+2026-03-11 15:54:42 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.05s
+2026-03-11 15:54:43 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 0.13s
+2026-03-11 15:55:05 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.05s
+2026-03-11 15:55:05 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 0.52s
+2026-03-11 15:55:07 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: business
+2026-03-11 15:55:07 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/business [200] 0.01s
+2026-03-11 15:55:20 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\0569fdae-78ff-4343-b3fb-8388e67790bf.pdf
+2026-03-11 15:55:20 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\0569fdae-78ff-4343-b3fb-8388e67790bf.pdf (type: .pdf)
+2026-03-11 15:55:20 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:55:24 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 0569fdae-78ff-4343-b3fb-8388e67790bf
+2026-03-11 15:55:24 | INFO     | services.document_service:upload_and_process:97 - Document processed: 0569fdae-78ff-4343-b3fb-8388e67790bf, pages=10, chunks=16
+2026-03-11 15:55:24 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 5.78s
+2026-03-11 15:55:43 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\4a26afa7-7bf1-4d71-89c3-72168bdecec8.pdf
+2026-03-11 15:55:43 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\4a26afa7-7bf1-4d71-89c3-72168bdecec8.pdf (type: .pdf)
+2026-03-11 15:55:44 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:55:45 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 4a26afa7-7bf1-4d71-89c3-72168bdecec8
+2026-03-11 15:55:45 | INFO     | services.document_service:upload_and_process:97 - Document processed: 4a26afa7-7bf1-4d71-89c3-72168bdecec8, pages=10, chunks=16
+2026-03-11 15:55:45 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 5.05s
+2026-03-11 15:55:59 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\3c4c42e2-a345-486f-ae73-3238662d9936.pdf
+2026-03-11 15:55:59 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\3c4c42e2-a345-486f-ae73-3238662d9936.pdf (type: .pdf)
+2026-03-11 15:56:00 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:56:01 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 3c4c42e2-a345-486f-ae73-3238662d9936
+2026-03-11 15:56:01 | INFO     | services.document_service:upload_and_process:97 - Document processed: 3c4c42e2-a345-486f-ae73-3238662d9936, pages=10, chunks=16
+2026-03-11 15:56:01 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 4.62s
+2026-03-11 15:56:37 | WARNING  | services.comparison_service:compare_contracts:92 - Comparison JSON parse failed — using fallback
+2026-03-11 15:56:37 | INFO     | main:log_requests:96 - ← POST /api/v1/compare-contracts [200] 29.36s
+2026-03-11 15:57:37 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\44acada0-e38e-499c-8a44-833aeac1f78f.pdf
+2026-03-11 15:57:37 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\44acada0-e38e-499c-8a44-833aeac1f78f.pdf (type: .pdf)
+2026-03-11 15:57:37 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 1 pages, 1384 chars
+2026-03-11 15:57:41 | INFO     | core.vector_store:add_document_chunks:55 - Stored 2 chunks for document 44acada0-e38e-499c-8a44-833aeac1f78f
+2026-03-11 15:57:41 | INFO     | services.document_service:upload_and_process:97 - Document processed: 44acada0-e38e-499c-8a44-833aeac1f78f, pages=1, chunks=2
+2026-03-11 15:57:41 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 6.53s
+2026-03-11 15:58:19 | WARNING  | services.comparison_service:compare_contracts:92 - Comparison JSON parse failed — using fallback
+2026-03-11 15:58:19 | INFO     | main:log_requests:96 - ← POST /api/v1/compare-contracts [200] 34.10s
+2026-03-11 15:59:08 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\b7652f53-3b38-4047-92ed-0ea89f8ac574.pdf
+2026-03-11 15:59:08 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\b7652f53-3b38-4047-92ed-0ea89f8ac574.pdf (type: .pdf)
+2026-03-11 15:59:08 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:59:13 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document b7652f53-3b38-4047-92ed-0ea89f8ac574
+2026-03-11 15:59:13 | INFO     | services.document_service:upload_and_process:97 - Document processed: b7652f53-3b38-4047-92ed-0ea89f8ac574, pages=10, chunks=16
+2026-03-11 15:59:13 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 11.89s
+2026-03-11 15:59:13 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\fb4099de-4be9-4af7-890d-23c658640050.pdf
+2026-03-11 15:59:13 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\fb4099de-4be9-4af7-890d-23c658640050.pdf (type: .pdf)
+2026-03-11 15:59:14 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 15:59:15 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document fb4099de-4be9-4af7-890d-23c658640050
+2026-03-11 15:59:15 | INFO     | services.document_service:upload_and_process:97 - Document processed: fb4099de-4be9-4af7-890d-23c658640050, pages=10, chunks=16
+2026-03-11 15:59:15 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 3.90s
+2026-03-11 15:59:45 | INFO     | main:log_requests:96 - ← POST /api/v1/version-diff [200] 27.00s
+2026-03-11 16:00:48 | INFO     | services.chatbot_service:chat:154 - Legal chatbot response, lang=English
+2026-03-11 16:00:48 | ERROR    | api.routes.chatbot:legal_chat:32 - Legal chat error: 2 validation errors for LegalChatResponse
+user_message
+  Field required [type=missing, input_value={'reply': '⚠️ DISCLAI..., 'language': 'English'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+ai_response
+  Field required [type=missing, input_value={'reply': '⚠️ DISCLAI..., 'language': 'English'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+2026-03-11 16:00:48 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [500] 5.00s
+2026-03-11 16:02:23 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.06s
+2026-03-11 16:02:23 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 0.22s
+2026-03-11 16:02:39 | INFO     | services.document_service:upload_and_process:63 - File saved: storage/documents\ee7776b8-7c42-4238-807e-13668c6f35ee.pdf
+2026-03-11 16:02:39 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\ee7776b8-7c42-4238-807e-13668c6f35ee.pdf (type: .pdf)
+2026-03-11 16:02:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 16:02:43 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document ee7776b8-7c42-4238-807e-13668c6f35ee
+2026-03-11 16:02:43 | INFO     | services.document_service:upload_and_process:97 - Document processed: ee7776b8-7c42-4238-807e-13668c6f35ee, pages=10, chunks=16
+2026-03-11 16:02:43 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 12.69s
+2026-03-11 16:02:44 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/ee7776b8-7c42-4238-807e-13668c6f35ee [200] 0.01s
+2026-03-11 16:03:22 | INFO     | api.routes.documents:analysis_stream:164 - [ee7776b8-7c42-4238-807e-13668c6f35ee] fairness ✅ (1/3)
+2026-03-11 16:03:48 | INFO     | api.routes.documents:analysis_stream:164 - [ee7776b8-7c42-4238-807e-13668c6f35ee] risk ✅ (2/3)
+2026-03-11 16:05:04 | INFO     | api.routes.documents:analysis_stream:164 - [ee7776b8-7c42-4238-807e-13668c6f35ee] summary ✅ (3/3)
+2026-03-11 16:05:04 | INFO     | api.routes.documents:analysis_stream:188 - [ee7776b8-7c42-4238-807e-13668c6f35ee] safety ✅
+2026-03-11 16:05:38 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc ee7776b8-7c42-4238-807e-13668c6f35ee, question len=14
+2026-03-11 16:05:38 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 12.27s
+2026-03-11 16:06:10 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc ee7776b8-7c42-4238-807e-13668c6f35ee, question len=20
+2026-03-11 16:06:10 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 12.54s
+2026-03-11 16:13:40 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 16:13:40 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 16:13:54 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 16:13:54 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 16:13:55 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 16:13:55 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 16:13:56 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 16:13:56 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 16:14:02 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.11s
+2026-03-11 16:14:03 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 1.14s
+2026-03-11 16:14:12 | INFO     | services.document_service:upload_and_process:58 - File saved: storage/documents\277ce05f-a7b4-4ebb-902a-6ca64f83435f.pdf
+2026-03-11 16:14:12 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\277ce05f-a7b4-4ebb-902a-6ca64f83435f.pdf (type: .pdf)
+2026-03-11 16:14:12 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 16:14:16 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 16:14:16 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 277ce05f-a7b4-4ebb-902a-6ca64f83435f
+2026-03-11 16:14:16 | INFO     | services.document_service:upload_and_process:87 - Document processed: 277ce05f-a7b4-4ebb-902a-6ca64f83435f, pages=10, chunks=16
+2026-03-11 16:14:16 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 7.57s
+2026-03-11 16:14:17 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/277ce05f-a7b4-4ebb-902a-6ca64f83435f [200] 0.00s
+2026-03-11 16:15:07 | INFO     | api.routes.documents:analysis_stream:164 - [277ce05f-a7b4-4ebb-902a-6ca64f83435f] fairness ✅ (1/3)
+2026-03-11 16:15:43 | INFO     | api.routes.documents:analysis_stream:164 - [277ce05f-a7b4-4ebb-902a-6ca64f83435f] risk ✅ (2/3)
+2026-03-11 16:17:18 | ERROR    | core.llm_client:generate:52 - Ollama request timed out (model: llama3.1:8b)
+2026-03-11 16:17:18 | ERROR    | api.routes.documents:analysis_stream:161 - [277ce05f-a7b4-4ebb-902a-6ca64f83435f] summary failed: Summary timed out after 240s
+2026-03-11 16:17:18 | INFO     | api.routes.documents:analysis_stream:188 - [277ce05f-a7b4-4ebb-902a-6ca64f83435f] safety ✅
+2026-03-11 16:17:22 | ERROR    | api.routes.chatbot:legal_chat:32 - Legal chat error: Chat failed: 
+2026-03-11 16:17:22 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [500] 180.57s
+2026-03-11 16:17:28 | INFO     | services.chatbot_service:chat:156 - Legal chatbot response, lang=English
+2026-03-11 16:17:28 | INFO     | main:log_requests:96 - ← POST /api/v1/legal-chat [200] 39.54s
+2026-03-11 16:21:51 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 0.14s
+2026-03-11 16:21:51 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.11s
+2026-03-11 16:23:51 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 16:23:51 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 16:23:54 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 16:23:54 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 16:23:55 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 16:23:55 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 16:23:56 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 16:23:56 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 16:24:14 | INFO     | services.document_service:upload_and_process:57 - File saved: storage/documents\94cd420e-894f-4c35-a4f4-db4bae996f43.pdf
+2026-03-11 16:24:14 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\94cd420e-894f-4c35-a4f4-db4bae996f43.pdf (type: .pdf)
+2026-03-11 16:24:14 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 16:24:19 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 16:24:19 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 94cd420e-894f-4c35-a4f4-db4bae996f43
+2026-03-11 16:24:19 | INFO     | services.document_service:upload_and_process:86 - Document processed: 94cd420e-894f-4c35-a4f4-db4bae996f43, pages=10, chunks=16
+2026-03-11 16:24:19 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 7.08s
+2026-03-11 16:24:19 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/94cd420e-894f-4c35-a4f4-db4bae996f43 [200] 0.00s
+2026-03-11 16:27:20 | ERROR    | core.llm_client:generate:52 - Ollama request timed out (model: llama3.1:8b)
+2026-03-11 16:27:20 | ERROR    | core.llm_client:generate:52 - Ollama request timed out (model: llama3.1:8b)
+2026-03-11 16:27:20 | ERROR    | core.llm_client:generate:52 - Ollama request timed out (model: llama3.1:8b)
+2026-03-11 16:33:32 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 16:33:32 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 17:11:39 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 17:11:39 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 17:11:40 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 17:11:40 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 17:11:41 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 17:11:41 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 17:12:15 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\5dae0508-b42c-4db0-9f7c-97811fad8980.pdf
+2026-03-11 17:12:15 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\5dae0508-b42c-4db0-9f7c-97811fad8980.pdf (type: .pdf)
+2026-03-11 17:12:15 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 17:12:20 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 17:12:20 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 5dae0508-b42c-4db0-9f7c-97811fad8980
+2026-03-11 17:12:20 | INFO     | services.document_service:upload_and_process:94 - Document processed: 5dae0508-b42c-4db0-9f7c-97811fad8980, pages=10, chunks=16
+2026-03-11 17:12:20 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 6.82s
+2026-03-11 17:12:20 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/5dae0508-b42c-4db0-9f7c-97811fad8980 [200] 0.00s
+2026-03-11 17:13:06 | INFO     | api.routes.documents:analysis_stream:164 - [5dae0508-b42c-4db0-9f7c-97811fad8980] fairness ✅ (1/3)
+2026-03-11 17:13:24 | WARNING  | services.document_service:_retrieve_summary_context:140 - Summary query failed: 
+2026-03-11 17:13:58 | INFO     | api.routes.documents:analysis_stream:164 - [5dae0508-b42c-4db0-9f7c-97811fad8980] risk ✅ (2/3)
+2026-03-11 17:14:06 | INFO     | services.document_service:_retrieve_summary_context:149 - Summary context: 10 chunks, 8726 chars for doc 5dae0508-b42c-4db0-9f7c-97811fad8980
+2026-03-11 17:14:48 | INFO     | api.routes.documents:analysis_stream:164 - [5dae0508-b42c-4db0-9f7c-97811fad8980] summary ✅ (3/3)
+2026-03-11 17:14:48 | INFO     | api.routes.documents:analysis_stream:188 - [5dae0508-b42c-4db0-9f7c-97811fad8980] safety ✅
+2026-03-11 17:19:08 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 17:19:08 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 17:19:22 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 17:19:22 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 17:19:23 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 17:19:24 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 17:19:24 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 17:19:24 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 17:22:28 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\64b87bad-76e3-4011-85d8-c96f753910c7.pdf
+2026-03-11 17:22:28 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\64b87bad-76e3-4011-85d8-c96f753910c7.pdf (type: .pdf)
+2026-03-11 17:22:30 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-11 17:22:36 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 17:22:36 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document 64b87bad-76e3-4011-85d8-c96f753910c7
+2026-03-11 17:22:36 | INFO     | services.document_service:upload_and_process:93 - Document processed: 64b87bad-76e3-4011-85d8-c96f753910c7, pages=35, chunks=78
+2026-03-11 17:22:36 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 25.10s
+2026-03-11 17:22:37 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/64b87bad-76e3-4011-85d8-c96f753910c7 [200] 0.00s
+2026-03-11 17:23:28 | INFO     | api.routes.documents:analysis_stream:164 - [64b87bad-76e3-4011-85d8-c96f753910c7] fairness ✅ (1/3)
+2026-03-11 17:23:35 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc 64b87bad-76e3-4011-85d8-c96f753910c7
+2026-03-11 17:23:36 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 12 chunks, 10648 chars for doc 64b87bad-76e3-4011-85d8-c96f753910c7
+2026-03-11 17:24:11 | INFO     | api.routes.documents:analysis_stream:164 - [64b87bad-76e3-4011-85d8-c96f753910c7] summary ✅ (2/3)
+2026-03-11 17:24:56 | INFO     | api.routes.documents:analysis_stream:164 - [64b87bad-76e3-4011-85d8-c96f753910c7] risk ✅ (3/3)
+2026-03-11 17:24:56 | INFO     | api.routes.documents:analysis_stream:188 - [64b87bad-76e3-4011-85d8-c96f753910c7] safety ✅
+2026-03-11 17:25:48 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 64b87bad-76e3-4011-85d8-c96f753910c7, question len=30
+2026-03-11 17:25:48 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 8.26s
+2026-03-11 17:26:30 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 64b87bad-76e3-4011-85d8-c96f753910c7, question len=49
+2026-03-11 17:26:30 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 2.13s
+2026-03-11 17:27:06 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 64b87bad-76e3-4011-85d8-c96f753910c7, question len=59
+2026-03-11 17:27:06 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 5.15s
+2026-03-11 17:27:47 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 64b87bad-76e3-4011-85d8-c96f753910c7, question len=53
+2026-03-11 17:27:47 | INFO     | main:log_requests:96 - ← POST /api/v1/chat-with-document [200] 7.26s
+2026-03-11 17:29:11 | INFO     | services.auth_service:register:75 - New user registered: mahesh@gmail.com (id=69b1590f480db26ac47f80e5)
+2026-03-11 17:29:11 | INFO     | main:log_requests:96 - ← POST /api/v1/auth/register [200] 0.65s
+2026-03-11 17:29:12 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/me [200] 0.21s
+2026-03-11 17:29:12 | INFO     | main:log_requests:96 - ← GET /api/v1/auth/my-documents [200] 0.40s
+2026-03-11 17:30:04 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\1b7d7db6-263d-4340-b694-a87c69a85e1f.pdf
+2026-03-11 17:30:04 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\1b7d7db6-263d-4340-b694-a87c69a85e1f.pdf (type: .pdf)
+2026-03-11 17:30:06 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-11 17:30:09 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document 1b7d7db6-263d-4340-b694-a87c69a85e1f
+2026-03-11 17:30:09 | INFO     | services.document_service:upload_and_process:93 - Document processed: 1b7d7db6-263d-4340-b694-a87c69a85e1f, pages=35, chunks=78
+2026-03-11 17:30:09 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 29.76s
+2026-03-11 17:30:09 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/1b7d7db6-263d-4340-b694-a87c69a85e1f [200] 0.00s
+2026-03-11 17:31:06 | INFO     | api.routes.documents:analysis_stream:164 - [1b7d7db6-263d-4340-b694-a87c69a85e1f] fairness ✅ (1/3)
+2026-03-11 17:31:10 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 12 chunks, 10648 chars for doc 1b7d7db6-263d-4340-b694-a87c69a85e1f
+2026-03-11 17:31:10 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc 1b7d7db6-263d-4340-b694-a87c69a85e1f
+2026-03-11 17:32:12 | INFO     | core.database:close_db:36 - 🛑 MongoDB connection closed
+2026-03-11 17:32:12 | INFO     | main:lifespan:44 - 🛑 Shutdown complete
+2026-03-11 17:38:58 | INFO     | main:lifespan:25 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 17:38:58 | INFO     | core.database:connect_db:18 - 🔌 Connecting to MongoDB...
+2026-03-11 17:38:59 | INFO     | core.database:connect_db:23 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 17:38:59 | INFO     | core.database:connect_db:29 - ✅ MongoDB indexes ensured
+2026-03-11 17:39:00 | INFO     | main:lifespan:38 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-11 17:39:00 | INFO     | main:lifespan:40 - ✅ Startup complete
+2026-03-11 17:39:22 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\004d4400-283f-4ebe-b240-084b8f748aa0.pdf
+2026-03-11 17:39:22 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\004d4400-283f-4ebe-b240-084b8f748aa0.pdf (type: .pdf)
+2026-03-11 17:39:22 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-11 17:39:29 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 17:39:29 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 004d4400-283f-4ebe-b240-084b8f748aa0
+2026-03-11 17:39:29 | INFO     | services.document_service:upload_and_process:93 - Document processed: 004d4400-283f-4ebe-b240-084b8f748aa0, pages=7, chunks=3
+2026-03-11 17:39:29 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 14.34s
+2026-03-11 17:39:30 | INFO     | main:log_requests:96 - ← GET /api/v1/analyze-stream/004d4400-283f-4ebe-b240-084b8f748aa0 [200] 0.00s
+2026-03-11 17:40:22 | INFO     | api.routes.documents:analysis_stream:164 - [004d4400-283f-4ebe-b240-084b8f748aa0] fairness ✅ (1/3)
+2026-03-11 17:40:28 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 3 chunks, 1884 chars for doc 004d4400-283f-4ebe-b240-084b8f748aa0
+2026-03-11 17:40:28 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 3 chunks, 1884 chars for doc 004d4400-283f-4ebe-b240-084b8f748aa0
+2026-03-11 17:40:52 | INFO     | api.routes.documents:analysis_stream:164 - [004d4400-283f-4ebe-b240-084b8f748aa0] summary ✅ (2/3)
+2026-03-11 17:41:24 | INFO     | api.routes.documents:analysis_stream:164 - [004d4400-283f-4ebe-b240-084b8f748aa0] risk ✅ (3/3)
+2026-03-11 17:41:24 | INFO     | api.routes.documents:analysis_stream:188 - [004d4400-283f-4ebe-b240-084b8f748aa0] safety ✅
+2026-03-11 17:43:02 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: loan
+2026-03-11 17:43:02 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/loan [200] 0.00s
+2026-03-11 17:43:12 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: insurance
+2026-03-11 17:43:12 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/insurance [200] 0.00s
+2026-03-11 17:43:24 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-11 17:43:24 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-11 17:44:31 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\f69cdd14-98e4-401a-9615-7bc6f3101064.pdf
+2026-03-11 17:44:31 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\f69cdd14-98e4-401a-9615-7bc6f3101064.pdf (type: .pdf)
+2026-03-11 17:44:32 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 17:44:37 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document f69cdd14-98e4-401a-9615-7bc6f3101064
+2026-03-11 17:44:37 | INFO     | services.document_service:upload_and_process:93 - Document processed: f69cdd14-98e4-401a-9615-7bc6f3101064, pages=10, chunks=16
+2026-03-11 17:44:37 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 8.77s
+2026-03-11 17:44:39 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\182e3605-ed7b-415b-bd21-4b34c91506b1.pdf
+2026-03-11 17:44:39 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\182e3605-ed7b-415b-bd21-4b34c91506b1.pdf (type: .pdf)
+2026-03-11 17:44:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-11 17:44:40 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 182e3605-ed7b-415b-bd21-4b34c91506b1
+2026-03-11 17:44:40 | INFO     | services.document_service:upload_and_process:93 - Document processed: 182e3605-ed7b-415b-bd21-4b34c91506b1, pages=7, chunks=3
+2026-03-11 17:44:40 | INFO     | main:log_requests:96 - ← POST /api/v1/upload-document [200] 7.99s
+2026-03-11 17:45:33 | INFO     | main:log_requests:96 - ← POST /api/v1/version-diff [200] 48.93s
+2026-03-11 17:49:16 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: employment
+2026-03-11 17:49:16 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/employment [200] 0.00s
+2026-03-11 17:49:21 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-11 17:49:21 | INFO     | main:log_requests:96 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-11 22:24:57 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 22:24:57 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-11 22:24:57 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 22:24:58 | INFO     | core.database:connect_db:31 - ✅ MongoDB indexes ensured
+2026-03-11 22:24:59 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b (gpu_layers=10, ctx=4096)  fast=llama3.2:3b (gpu_layers=0, ctx=8192)
+2026-03-11 22:24:59 | INFO     | main:lifespan:45 - ✅ Startup complete
+2026-03-11 22:25:19 | INFO     | core.database:close_db:38 - 🛑 MongoDB connection closed
+2026-03-11 22:25:19 | INFO     | main:lifespan:49 - 🛑 Shutdown complete
+2026-03-11 22:32:30 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 22:32:30 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-11 22:32:31 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 22:32:31 | INFO     | core.database:connect_db:31 - ✅ MongoDB indexes ensured
+2026-03-11 22:32:32 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b (gpu_layers=10, ctx=4096)  fast=llama3.2:3b (gpu_layers=0, ctx=8192)
+2026-03-11 22:32:32 | INFO     | main:lifespan:45 - ✅ Startup complete
+2026-03-11 22:38:44 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-11 22:40:38 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\99f6b71e-0450-4bd3-9401-fdf57ad2e06e.pdf
+2026-03-11 22:40:38 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\99f6b71e-0450-4bd3-9401-fdf57ad2e06e.pdf (type: .pdf)
+2026-03-11 22:40:38 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 22:40:46 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 22:40:46 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 99f6b71e-0450-4bd3-9401-fdf57ad2e06e
+2026-03-11 22:40:46 | INFO     | services.document_service:upload_and_process:93 - Document processed: 99f6b71e-0450-4bd3-9401-fdf57ad2e06e, pages=10, chunks=16
+2026-03-11 22:40:46 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 10.87s
+2026-03-11 22:40:47 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/99f6b71e-0450-4bd3-9401-fdf57ad2e06e [200] 0.00s
+2026-03-11 22:41:00 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 99f6b71e-0450-4bd3-9401-fdf57ad2e06e
+2026-03-11 22:41:01 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 99f6b71e-0450-4bd3-9401-fdf57ad2e06e
+2026-03-11 22:42:26 | INFO     | api.routes.documents:analysis_stream:164 - [99f6b71e-0450-4bd3-9401-fdf57ad2e06e] fairness ✅ (1/3)
+2026-03-11 22:44:07 | ERROR    | api.routes.documents:analysis_stream:161 - [99f6b71e-0450-4bd3-9401-fdf57ad2e06e] risk failed: Risk analysis timed out after 200s
+2026-03-11 22:44:21 | INFO     | api.routes.documents:analysis_stream:164 - [99f6b71e-0450-4bd3-9401-fdf57ad2e06e] summary ✅ (3/3)
+2026-03-11 22:48:34 | INFO     | core.database:close_db:38 - 🛑 MongoDB connection closed
+2026-03-11 22:48:34 | INFO     | main:lifespan:49 - 🛑 Shutdown complete
+2026-03-11 22:48:38 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 22:48:38 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-11 22:48:38 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 22:48:39 | INFO     | core.database:connect_db:31 - ✅ MongoDB indexes ensured
+2026-03-11 22:48:39 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b (gpu_layers=99, ctx=4096)  fast=llama3.2:3b (gpu_layers=99, ctx=4096)
+2026-03-11 22:48:39 | INFO     | main:lifespan:45 - ✅ Startup complete
+2026-03-11 22:48:53 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\36cf0917-704d-467d-ac3f-80bb01ef1d9a.pdf
+2026-03-11 22:48:53 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\36cf0917-704d-467d-ac3f-80bb01ef1d9a.pdf (type: .pdf)
+2026-03-11 22:48:53 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 22:48:58 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 22:48:58 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 36cf0917-704d-467d-ac3f-80bb01ef1d9a
+2026-03-11 22:48:58 | INFO     | services.document_service:upload_and_process:93 - Document processed: 36cf0917-704d-467d-ac3f-80bb01ef1d9a, pages=10, chunks=16
+2026-03-11 22:48:58 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 6.73s
+2026-03-11 22:48:58 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/36cf0917-704d-467d-ac3f-80bb01ef1d9a [200] 0.00s
+2026-03-11 22:49:36 | INFO     | api.routes.documents:analysis_stream:164 - [36cf0917-704d-467d-ac3f-80bb01ef1d9a] fairness ✅ (1/3)
+2026-03-11 22:49:41 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 36cf0917-704d-467d-ac3f-80bb01ef1d9a
+2026-03-11 22:49:42 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 36cf0917-704d-467d-ac3f-80bb01ef1d9a
+2026-03-11 22:50:05 | INFO     | api.routes.documents:analysis_stream:164 - [36cf0917-704d-467d-ac3f-80bb01ef1d9a] summary ✅ (2/3)
+2026-03-11 22:50:42 | INFO     | api.routes.documents:analysis_stream:164 - [36cf0917-704d-467d-ac3f-80bb01ef1d9a] risk ✅ (3/3)
+2026-03-11 22:50:42 | INFO     | api.routes.documents:analysis_stream:188 - [36cf0917-704d-467d-ac3f-80bb01ef1d9a] safety ✅
+2026-03-11 22:52:36 | INFO     | core.database:close_db:38 - 🛑 MongoDB connection closed
+2026-03-11 22:52:36 | INFO     | main:lifespan:49 - 🛑 Shutdown complete
+2026-03-11 22:53:29 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-11 22:53:29 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-11 22:53:29 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-11 22:53:29 | INFO     | core.database:connect_db:31 - ✅ MongoDB indexes ensured
+2026-03-11 22:53:30 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b (gpu_layers=99, ctx=4096)  fast=llama3.2:3b (gpu_layers=99, ctx=4096)
+2026-03-11 22:53:30 | INFO     | main:lifespan:45 - ✅ Startup complete
+2026-03-11 22:53:39 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\243a41ec-2f59-4f42-802e-ebfd2d095fca.pdf
+2026-03-11 22:53:39 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\243a41ec-2f59-4f42-802e-ebfd2d095fca.pdf (type: .pdf)
+2026-03-11 22:53:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-11 22:53:45 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-11 22:53:45 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 243a41ec-2f59-4f42-802e-ebfd2d095fca
+2026-03-11 22:53:45 | INFO     | services.document_service:upload_and_process:93 - Document processed: 243a41ec-2f59-4f42-802e-ebfd2d095fca, pages=7, chunks=3
+2026-03-11 22:53:45 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 13.27s
+2026-03-11 22:53:46 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/243a41ec-2f59-4f42-802e-ebfd2d095fca [200] 0.00s
+2026-03-11 22:53:49 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 3 chunks, 1884 chars for doc 243a41ec-2f59-4f42-802e-ebfd2d095fca
+2026-03-11 22:54:09 | INFO     | api.routes.documents:analysis_stream:102 - [243a41ec-2f59-4f42-802e-ebfd2d095fca] summary ✅
+2026-03-11 22:54:18 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 3 chunks, 1884 chars for doc 243a41ec-2f59-4f42-802e-ebfd2d095fca
+2026-03-11 22:54:38 | INFO     | api.routes.documents:analysis_stream:118 - [243a41ec-2f59-4f42-802e-ebfd2d095fca] risk ✅
+2026-03-11 22:55:07 | INFO     | api.routes.documents:analysis_stream:134 - [243a41ec-2f59-4f42-802e-ebfd2d095fca] fairness ✅
+2026-03-11 22:55:07 | INFO     | api.routes.documents:analysis_stream:159 - [243a41ec-2f59-4f42-802e-ebfd2d095fca] safety ✅
+2026-03-11 22:55:47 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [401] 0.04s
+2026-03-11 22:56:06 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [401] 0.02s
+2026-03-11 22:56:19 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [401] 0.02s
+2026-03-11 22:57:27 | INFO     | services.auth_service:login:94 - User logged in: omkar@gmail.com
+2026-03-11 22:57:27 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [200] 0.24s
+2026-03-11 22:57:27 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-11 22:57:27 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-11 22:57:57 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\b257cbdd-9513-491c-9ab8-524da67bf0e6.pdf
+2026-03-11 22:57:57 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\b257cbdd-9513-491c-9ab8-524da67bf0e6.pdf (type: .pdf)
+2026-03-11 22:57:57 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-11 22:58:03 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document b257cbdd-9513-491c-9ab8-524da67bf0e6
+2026-03-11 22:58:03 | INFO     | services.document_service:upload_and_process:93 - Document processed: b257cbdd-9513-491c-9ab8-524da67bf0e6, pages=7, chunks=3
+2026-03-11 22:58:03 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 14.48s
+2026-03-11 22:58:03 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/b257cbdd-9513-491c-9ab8-524da67bf0e6 [200] 0.00s
+2026-03-11 22:58:06 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 3 chunks, 1884 chars for doc b257cbdd-9513-491c-9ab8-524da67bf0e6
+2026-03-11 22:58:25 | INFO     | api.routes.documents:analysis_stream:102 - [b257cbdd-9513-491c-9ab8-524da67bf0e6] summary ✅
+2026-03-11 22:58:33 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 3 chunks, 1884 chars for doc b257cbdd-9513-491c-9ab8-524da67bf0e6
+2026-03-11 22:59:05 | INFO     | api.routes.documents:analysis_stream:118 - [b257cbdd-9513-491c-9ab8-524da67bf0e6] risk ✅
+2026-03-11 22:59:33 | INFO     | api.routes.documents:analysis_stream:134 - [b257cbdd-9513-491c-9ab8-524da67bf0e6] fairness ✅
+2026-03-11 22:59:33 | INFO     | api.routes.documents:analysis_stream:159 - [b257cbdd-9513-491c-9ab8-524da67bf0e6] safety ✅
+2026-03-11 23:00:20 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room K9A9G2 created by ok
+2026-03-11 23:00:20 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/create [200] 0.20s
+2026-03-11 23:00:20 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room K9A9G2
+2026-03-11 23:04:36 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room K9A9G2
+2026-03-11 23:04:36 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from K9A9G2
+2026-03-11 23:09:02 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\08914964-359a-4b36-954f-294eb812e9f8.jpg
+2026-03-11 23:09:02 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\08914964-359a-4b36-954f-294eb812e9f8.jpg (type: .jpg)
+2026-03-11 23:09:02 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\08914964-359a-4b36-954f-294eb812e9f8.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-11 23:09:02 | INFO     | core.document_parser:_parse_image:90 - Image OCR complete: 0 chars
+2026-03-11 23:09:02 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [400] 0.85s
+2026-03-11 23:09:21 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\8ca1c6ae-b01e-4351-a5ee-230a9c11353d.jpg
+2026-03-11 23:09:21 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\8ca1c6ae-b01e-4351-a5ee-230a9c11353d.jpg (type: .jpg)
+2026-03-11 23:09:21 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\8ca1c6ae-b01e-4351-a5ee-230a9c11353d.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-11 23:09:21 | INFO     | core.document_parser:_parse_image:90 - Image OCR complete: 0 chars
+2026-03-11 23:09:21 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [400] 0.23s
+2026-03-11 23:10:11 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\95c7d9d3-20a6-46c4-aec0-e898659bb771.pdf
+2026-03-11 23:10:11 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\95c7d9d3-20a6-46c4-aec0-e898659bb771.pdf (type: .pdf)
+2026-03-11 23:10:12 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 23:10:19 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 95c7d9d3-20a6-46c4-aec0-e898659bb771
+2026-03-11 23:10:19 | INFO     | services.document_service:upload_and_process:93 - Document processed: 95c7d9d3-20a6-46c4-aec0-e898659bb771, pages=10, chunks=16
+2026-03-11 23:10:19 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 11.56s
+2026-03-11 23:10:19 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/95c7d9d3-20a6-46c4-aec0-e898659bb771 [200] 0.00s
+2026-03-11 23:10:23 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 95c7d9d3-20a6-46c4-aec0-e898659bb771
+2026-03-11 23:10:53 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room 1IC1HY created by ok
+2026-03-11 23:10:53 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/create [200] 0.10s
+2026-03-11 23:10:53 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room 1IC1HY
+2026-03-11 23:11:00 | INFO     | api.routes.documents:analysis_stream:102 - [95c7d9d3-20a6-46c4-aec0-e898659bb771] summary ✅
+2026-03-11 23:11:08 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 95c7d9d3-20a6-46c4-aec0-e898659bb771
+2026-03-11 23:11:37 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 1IC1HY
+2026-03-11 23:11:37 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from 1IC1HY
+2026-03-11 23:11:45 | INFO     | api.routes.documents:analysis_stream:118 - [95c7d9d3-20a6-46c4-aec0-e898659bb771] risk ✅
+2026-03-11 23:12:07 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\70a26d82-fff3-4290-99a1-d2024b38f3c6.pdf
+2026-03-11 23:12:07 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\70a26d82-fff3-4290-99a1-d2024b38f3c6.pdf (type: .pdf)
+2026-03-11 23:12:07 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 23:12:12 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 70a26d82-fff3-4290-99a1-d2024b38f3c6
+2026-03-11 23:12:12 | INFO     | services.document_service:upload_and_process:93 - Document processed: 70a26d82-fff3-4290-99a1-d2024b38f3c6, pages=10, chunks=16
+2026-03-11 23:12:12 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 9.54s
+2026-03-11 23:12:13 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/70a26d82-fff3-4290-99a1-d2024b38f3c6 [200] 0.00s
+2026-03-11 23:12:16 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 70a26d82-fff3-4290-99a1-d2024b38f3c6
+2026-03-11 23:12:44 | INFO     | api.routes.documents:analysis_stream:102 - [70a26d82-fff3-4290-99a1-d2024b38f3c6] summary ✅
+2026-03-11 23:12:51 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 70a26d82-fff3-4290-99a1-d2024b38f3c6
+2026-03-11 23:13:32 | INFO     | api.routes.documents:analysis_stream:118 - [70a26d82-fff3-4290-99a1-d2024b38f3c6] risk ✅
+2026-03-11 23:14:04 | INFO     | api.routes.documents:analysis_stream:134 - [70a26d82-fff3-4290-99a1-d2024b38f3c6] fairness ✅
+2026-03-11 23:14:04 | INFO     | api.routes.documents:analysis_stream:159 - [70a26d82-fff3-4290-99a1-d2024b38f3c6] safety ✅
+2026-03-11 23:14:22 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room FZDBLC created by ok
+2026-03-11 23:14:22 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/create [200] 0.10s
+2026-03-11 23:14:22 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room FZDBLC
+2026-03-11 23:14:57 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room FZDBLC
+2026-03-11 23:14:57 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from FZDBLC
+2026-03-11 23:15:00 | INFO     | services.auth_service:login:94 - User logged in: mahesh@gmail.com
+2026-03-11 23:15:00 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [200] 0.22s
+2026-03-11 23:15:01 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-11 23:15:02 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.27s
+2026-03-11 23:15:13 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\04b008a1-a87f-4f44-a82e-31478c1494b6.pdf
+2026-03-11 23:15:13 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\04b008a1-a87f-4f44-a82e-31478c1494b6.pdf (type: .pdf)
+2026-03-11 23:15:14 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-11 23:15:20 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 04b008a1-a87f-4f44-a82e-31478c1494b6
+2026-03-11 23:15:20 | INFO     | services.document_service:upload_and_process:93 - Document processed: 04b008a1-a87f-4f44-a82e-31478c1494b6, pages=10, chunks=16
+2026-03-11 23:15:20 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 11.56s
+2026-03-11 23:15:20 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/04b008a1-a87f-4f44-a82e-31478c1494b6 [200] 0.00s
+2026-03-11 23:15:23 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 04b008a1-a87f-4f44-a82e-31478c1494b6
+2026-03-11 23:15:38 | INFO     | services.auth_service:login:94 - User logged in: omkar@gmail.com
+2026-03-11 23:15:38 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [200] 0.22s
+2026-03-11 23:15:39 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-11 23:15:39 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.14s
+2026-03-11 23:15:49 | INFO     | api.routes.documents:analysis_stream:102 - [04b008a1-a87f-4f44-a82e-31478c1494b6] summary ✅
+2026-03-11 23:15:57 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 04b008a1-a87f-4f44-a82e-31478c1494b6
+2026-03-11 23:15:59 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\963f0d33-f1b0-4fd6-a4df-f27c45568611.pdf
+2026-03-11 23:15:59 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\963f0d33-f1b0-4fd6-a4df-f27c45568611.pdf (type: .pdf)
+2026-03-11 23:15:59 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-11 23:16:30 | INFO     | api.routes.documents:analysis_stream:118 - [04b008a1-a87f-4f44-a82e-31478c1494b6] risk ✅
+2026-03-11 23:16:33 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 963f0d33-f1b0-4fd6-a4df-f27c45568611
+2026-03-11 23:16:33 | INFO     | services.document_service:upload_and_process:93 - Document processed: 963f0d33-f1b0-4fd6-a4df-f27c45568611, pages=7, chunks=3
+2026-03-11 23:16:33 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 45.91s
+2026-03-11 23:16:33 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/963f0d33-f1b0-4fd6-a4df-f27c45568611 [200] 0.00s
+2026-03-11 23:16:57 | INFO     | api.routes.documents:analysis_stream:134 - [04b008a1-a87f-4f44-a82e-31478c1494b6] fairness ✅
+2026-03-11 23:16:57 | INFO     | api.routes.documents:analysis_stream:159 - [04b008a1-a87f-4f44-a82e-31478c1494b6] safety ✅
+2026-03-11 23:17:02 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 3 chunks, 1884 chars for doc 963f0d33-f1b0-4fd6-a4df-f27c45568611
+2026-03-11 23:17:24 | INFO     | api.routes.documents:analysis_stream:102 - [963f0d33-f1b0-4fd6-a4df-f27c45568611] summary ✅
+2026-03-11 23:17:31 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 3 chunks, 1884 chars for doc 963f0d33-f1b0-4fd6-a4df-f27c45568611
+2026-03-11 23:17:52 | INFO     | api.routes.documents:analysis_stream:118 - [963f0d33-f1b0-4fd6-a4df-f27c45568611] risk ✅
+2026-03-11 23:18:21 | INFO     | api.routes.documents:analysis_stream:134 - [963f0d33-f1b0-4fd6-a4df-f27c45568611] fairness ✅
+2026-03-11 23:18:21 | INFO     | api.routes.documents:analysis_stream:159 - [963f0d33-f1b0-4fd6-a4df-f27c45568611] safety ✅
+2026-03-11 23:18:45 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room 8LAA2M created by ok
+2026-03-11 23:18:45 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/create [200] 0.26s
+2026-03-11 23:18:45 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room 8LAA2M
+2026-03-11 23:18:56 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/join [200] 0.13s
+2026-03-11 23:18:57 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room 8LAA2M
+2026-03-11 23:20:41 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 8LAA2M
+2026-03-11 23:20:41 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from 8LAA2M
+2026-03-11 23:20:43 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 8LAA2M
+2026-03-11 23:20:43 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from 8LAA2M
+2026-03-11 23:21:01 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room C7MJ7S created by ok
+2026-03-11 23:21:01 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/create [200] 0.12s
+2026-03-11 23:21:01 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room C7MJ7S
+2026-03-11 23:21:18 | INFO     | main:log_requests:102 - ← POST /api/v1/group-chat/join [200] 0.20s
+2026-03-11 23:21:18 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room C7MJ7S
+2026-03-11 23:24:38 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room C7MJ7S
+2026-03-11 23:24:38 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from C7MJ7S
+2026-03-11 23:24:50 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room C7MJ7S
+2026-03-11 23:24:50 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from C7MJ7S
+2026-03-12 00:11:58 | INFO     | core.database:close_db:38 - 🛑 MongoDB connection closed
+2026-03-12 00:11:58 | INFO     | main:lifespan:49 - 🛑 Shutdown complete
+2026-03-12 00:15:19 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 00:15:19 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 00:15:24 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 00:15:24 | INFO     | core.database:connect_db:31 - ✅ MongoDB indexes ensured
+2026-03-12 00:15:25 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b (gpu_layers=99, ctx=4096)  fast=llama3.2:3b (gpu_layers=99, ctx=4096)
+2026-03-12 00:15:25 | INFO     | main:lifespan:45 - ✅ Startup complete
+2026-03-12 00:27:52 | INFO     | core.database:close_db:38 - 🛑 MongoDB connection closed
+2026-03-12 00:27:52 | INFO     | main:lifespan:49 - 🛑 Shutdown complete
+2026-03-12 01:24:25 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 01:24:25 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 01:24:29 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 01:24:30 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 01:24:30 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 01:24:30 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 01:26:31 | INFO     | services.auth_service:login:94 - User logged in: omkar@gmail.com
+2026-03-12 01:26:31 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [200] 0.25s
+2026-03-12 01:26:31 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.03s
+2026-03-12 01:26:31 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 01:26:53 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\2a03f4a3-a54f-46a8-b0b0-5483c2f05b36.pdf
+2026-03-12 01:26:53 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\2a03f4a3-a54f-46a8-b0b0-5483c2f05b36.pdf (type: .pdf)
+2026-03-12 01:26:55 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 01:27:04 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 01:27:04 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document 2a03f4a3-a54f-46a8-b0b0-5483c2f05b36
+2026-03-12 01:27:04 | INFO     | services.document_service:upload_and_process:93 - Document processed: 2a03f4a3-a54f-46a8-b0b0-5483c2f05b36, pages=35, chunks=78
+2026-03-12 01:27:04 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 13.01s
+2026-03-12 01:27:05 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/2a03f4a3-a54f-46a8-b0b0-5483c2f05b36 [200] 0.00s
+2026-03-12 01:27:08 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc 2a03f4a3-a54f-46a8-b0b0-5483c2f05b36
+2026-03-12 01:27:58 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\c9a845e6-ac77-470e-9551-4fb0583fb039.pdf
+2026-03-12 01:27:58 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\c9a845e6-ac77-470e-9551-4fb0583fb039.pdf (type: .pdf)
+2026-03-12 01:28:00 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 01:28:07 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document c9a845e6-ac77-470e-9551-4fb0583fb039
+2026-03-12 01:28:07 | INFO     | services.document_service:upload_and_process:93 - Document processed: c9a845e6-ac77-470e-9551-4fb0583fb039, pages=35, chunks=78
+2026-03-12 01:28:07 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 11.46s
+2026-03-12 01:28:08 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/c9a845e6-ac77-470e-9551-4fb0583fb039 [200] 0.00s
+2026-03-12 01:28:11 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc c9a845e6-ac77-470e-9551-4fb0583fb039
+2026-03-12 01:28:37 | INFO     | api.routes.documents:analysis_stream:102 - [c9a845e6-ac77-470e-9551-4fb0583fb039] summary ✅
+2026-03-12 01:28:45 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 12 chunks, 10648 chars for doc c9a845e6-ac77-470e-9551-4fb0583fb039
+2026-03-12 01:29:09 | INFO     | api.routes.documents:analysis_stream:118 - [c9a845e6-ac77-470e-9551-4fb0583fb039] risk ✅
+2026-03-12 01:29:49 | INFO     | api.routes.documents:analysis_stream:134 - [c9a845e6-ac77-470e-9551-4fb0583fb039] fairness ✅
+2026-03-12 01:29:49 | INFO     | api.routes.documents:analysis_stream:159 - [c9a845e6-ac77-470e-9551-4fb0583fb039] safety ✅
+2026-03-12 01:30:56 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\0a2b189e-0511-40ed-9a1f-4bddc217e464.pdf
+2026-03-12 01:30:56 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\0a2b189e-0511-40ed-9a1f-4bddc217e464.pdf (type: .pdf)
+2026-03-12 01:30:58 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 01:31:05 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document 0a2b189e-0511-40ed-9a1f-4bddc217e464
+2026-03-12 01:31:05 | INFO     | services.document_service:upload_and_process:93 - Document processed: 0a2b189e-0511-40ed-9a1f-4bddc217e464, pages=35, chunks=78
+2026-03-12 01:31:05 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 10.54s
+2026-03-12 01:31:05 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/0a2b189e-0511-40ed-9a1f-4bddc217e464 [200] 0.00s
+2026-03-12 01:31:08 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc 0a2b189e-0511-40ed-9a1f-4bddc217e464
+2026-03-12 01:31:37 | INFO     | api.routes.documents:analysis_stream:102 - [0a2b189e-0511-40ed-9a1f-4bddc217e464] summary ✅
+2026-03-12 01:31:46 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 12 chunks, 10648 chars for doc 0a2b189e-0511-40ed-9a1f-4bddc217e464
+2026-03-12 01:32:18 | INFO     | api.routes.documents:analysis_stream:118 - [0a2b189e-0511-40ed-9a1f-4bddc217e464] risk ✅
+2026-03-12 01:32:50 | INFO     | api.routes.documents:analysis_stream:134 - [0a2b189e-0511-40ed-9a1f-4bddc217e464] fairness ✅
+2026-03-12 01:32:50 | INFO     | api.routes.documents:analysis_stream:159 - [0a2b189e-0511-40ed-9a1f-4bddc217e464] safety ✅
+2026-03-12 01:34:18 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 0a2b189e-0511-40ed-9a1f-4bddc217e464, question len=29
+2026-03-12 01:34:18 | INFO     | main:log_requests:100 - ← POST /api/v1/chat-with-document [200] 8.91s
+2026-03-12 01:44:20 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 01:44:20 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 01:44:49 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 01:44:49 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 01:44:54 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 01:44:54 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 01:44:55 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 01:44:55 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 01:45:37 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.03s
+2026-03-12 01:45:37 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.24s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 01:47:10 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 01:47:39 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 01:47:39 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 01:48:09 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\c8762bc6-c4a4-4ade-b9bb-757abc509a84.pdf
+2026-03-12 01:48:09 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\c8762bc6-c4a4-4ade-b9bb-757abc509a84.pdf (type: .pdf)
+2026-03-12 01:48:11 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 01:48:20 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 01:48:20 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document c8762bc6-c4a4-4ade-b9bb-757abc509a84
+2026-03-12 01:48:20 | INFO     | services.document_service:upload_and_process:93 - Document processed: c8762bc6-c4a4-4ade-b9bb-757abc509a84, pages=35, chunks=78
+2026-03-12 01:48:20 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 14.02s
+2026-03-12 01:48:21 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/c8762bc6-c4a4-4ade-b9bb-757abc509a84 [200] 0.00s
+2026-03-12 01:48:24 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 12583 chars for doc c8762bc6-c4a4-4ade-b9bb-757abc509a84
+2026-03-12 01:48:48 | INFO     | api.routes.documents:analysis_stream:102 - [c8762bc6-c4a4-4ade-b9bb-757abc509a84] summary ✅
+2026-03-12 01:48:57 | INFO     | services.risk_service:_retrieve_risk_context:137 - Risk context: 12 chunks, 10184 chars for doc c8762bc6-c4a4-4ade-b9bb-757abc509a84
+2026-03-12 01:49:18 | INFO     | api.routes.documents:analysis_stream:118 - [c8762bc6-c4a4-4ade-b9bb-757abc509a84] risk ✅
+2026-03-12 01:49:30 | INFO     | api.routes.documents:analysis_stream:134 - [c8762bc6-c4a4-4ade-b9bb-757abc509a84] fairness ✅
+2026-03-12 01:49:30 | INFO     | api.routes.documents:analysis_stream:159 - [c8762bc6-c4a4-4ade-b9bb-757abc509a84] safety ✅
+2026-03-12 01:52:42 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 01:52:42 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 01:52:57 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: loan
+2026-03-12 01:52:57 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/loan [200] 0.00s
+2026-03-12 01:53:28 | INFO     | services.chatbot_service:chat:155 - Legal chatbot response, lang=English
+2026-03-12 01:53:28 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 12.41s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 01:53:58 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 01:54:39 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\2c7236eb-1501-4a78-94dd-343ead646e7f.pdf
+2026-03-12 01:54:39 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\2c7236eb-1501-4a78-94dd-343ead646e7f.pdf (type: .pdf)
+2026-03-12 01:54:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-12 01:54:40 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\a0da8199-b779-4f56-a3a7-9ea312e76e64.pdf
+2026-03-12 01:54:40 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\a0da8199-b779-4f56-a3a7-9ea312e76e64.pdf (type: .pdf)
+2026-03-12 01:54:40 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 01:54:43 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document a0da8199-b779-4f56-a3a7-9ea312e76e64
+2026-03-12 01:54:43 | INFO     | services.document_service:upload_and_process:93 - Document processed: a0da8199-b779-4f56-a3a7-9ea312e76e64, pages=10, chunks=16
+2026-03-12 01:54:43 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 3.86s
+2026-03-12 01:54:43 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 2c7236eb-1501-4a78-94dd-343ead646e7f
+2026-03-12 01:54:43 | INFO     | services.document_service:upload_and_process:93 - Document processed: 2c7236eb-1501-4a78-94dd-343ead646e7f, pages=7, chunks=3
+2026-03-12 01:54:43 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 5.28s
+2026-03-12 01:55:36 | WARNING  | services.comparison_service:compare_contracts:92 - Comparison JSON parse failed — using fallback
+2026-03-12 01:55:36 | INFO     | main:log_requests:100 - ← POST /api/v1/compare-contracts [200] 50.60s
+2026-03-12 01:56:02 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\fc44af9d-0cb6-4cfa-a579-ab91172d2a8e.pdf
+2026-03-12 01:56:02 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\fc44af9d-0cb6-4cfa-a579-ab91172d2a8e.pdf (type: .pdf)
+2026-03-12 01:56:02 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-12 01:56:03 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\70d007b4-bc4f-4e3b-ab8c-c10a6f5dbfda.pdf
+2026-03-12 01:56:03 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\70d007b4-bc4f-4e3b-ab8c-c10a6f5dbfda.pdf (type: .pdf)
+2026-03-12 01:56:03 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 01:56:07 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document fc44af9d-0cb6-4cfa-a579-ab91172d2a8e
+2026-03-12 01:56:07 | INFO     | services.document_service:upload_and_process:93 - Document processed: fc44af9d-0cb6-4cfa-a579-ab91172d2a8e, pages=7, chunks=3
+2026-03-12 01:56:07 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 5.72s
+2026-03-12 01:56:07 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 70d007b4-bc4f-4e3b-ab8c-c10a6f5dbfda
+2026-03-12 01:56:07 | INFO     | services.document_service:upload_and_process:93 - Document processed: 70d007b4-bc4f-4e3b-ab8c-c10a6f5dbfda, pages=10, chunks=16
+2026-03-12 01:56:07 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 4.76s
+2026-03-12 01:56:44 | INFO     | main:log_requests:100 - ← POST /api/v1/version-diff [200] 33.14s
+2026-03-12 01:59:20 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 01:59:20 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 02:02:40 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 02:02:40 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 02:02:44 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 02:02:45 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 02:02:45 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 02:02:45 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:02:49 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:06:23 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:06:23 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:06:23 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:06:32 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:06:32 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:06:32 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:06:51 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:07:12 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [401] 0.00s
+2026-03-12 02:07:12 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [401] 0.00s
+2026-03-12 02:07:12 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [401] 0.00s
+2026-03-12 02:09:47 | INFO     | main:log_requests:100 - ← OPTIONS /admin/login [200] 0.00s
+2026-03-12 02:09:47 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:10:24 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:17:00 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:17:11 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:18:01 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:20:53 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 02:20:53 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 02:20:55 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 02:20:55 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 02:21:00 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 02:21:00 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 02:21:01 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 02:21:01 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 02:21:15 | INFO     | main:log_requests:100 - ← OPTIONS /admin/login [200] 0.00s
+2026-03-12 02:21:15 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:21:55 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:22:00 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:26:50 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:26:55 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:27:37 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 02:27:37 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 02:27:40 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 02:27:40 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 02:27:44 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 02:27:45 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 02:27:45 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 02:27:45 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 02:27:52 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:27:59 | INFO     | main:log_requests:100 - ← POST /admin/login [404] 0.00s
+2026-03-12 02:30:08 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 02:30:08 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.18s
+2026-03-12 02:30:52 | INFO     | services.chatbot_service:chat:155 - Legal chatbot response, lang=English
+2026-03-12 02:30:52 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 12.46s
+2026-03-12 02:32:14 | INFO     | services.chatbot_service:chat:155 - Legal chatbot response, lang=English
+2026-03-12 02:32:14 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 6.68s
+2026-03-12 02:33:04 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.05s
+2026-03-12 02:33:04 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.08s
+2026-03-12 02:34:09 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b.pdf
+2026-03-12 02:34:09 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b.pdf (type: .pdf)
+2026-03-12 02:34:13 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 02:34:20 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 02:34:21 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document 66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b
+2026-03-12 02:34:21 | INFO     | services.document_service:upload_and_process:93 - Document processed: 66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b, pages=28, chunks=96
+2026-03-12 02:34:21 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 11.55s
+2026-03-12 02:34:21 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b [200] 0.00s
+2026-03-12 02:34:25 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 13011 chars for doc 66b3828b-1620-4bb9-a3b9-a6f1d37a3e5b
+2026-03-12 02:35:53 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\eb734e2a-ca5c-43cd-82a8-9c803cb8979b.pdf
+2026-03-12 02:35:53 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\eb734e2a-ca5c-43cd-82a8-9c803cb8979b.pdf (type: .pdf)
+2026-03-12 02:35:56 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 02:36:04 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document eb734e2a-ca5c-43cd-82a8-9c803cb8979b
+2026-03-12 02:36:04 | INFO     | services.document_service:upload_and_process:93 - Document processed: eb734e2a-ca5c-43cd-82a8-9c803cb8979b, pages=28, chunks=96
+2026-03-12 02:36:04 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 10.50s
+2026-03-12 02:36:04 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/eb734e2a-ca5c-43cd-82a8-9c803cb8979b [200] 0.00s
+2026-03-12 02:36:07 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 13011 chars for doc eb734e2a-ca5c-43cd-82a8-9c803cb8979b
+2026-03-12 02:36:33 | INFO     | api.routes.documents:analysis_stream:102 - [eb734e2a-ca5c-43cd-82a8-9c803cb8979b] summary ✅
+2026-03-12 02:36:42 | INFO     | services.risk_service:_retrieve_risk_context:130 - Risk context: 13 chunks, 11564 chars for doc eb734e2a-ca5c-43cd-82a8-9c803cb8979b
+2026-03-12 02:37:17 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 02:37:17 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 02:37:24 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\8ce320b9-e337-43d8-abf5-0ba3219fd5ce.pdf
+2026-03-12 02:37:24 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\8ce320b9-e337-43d8-abf5-0ba3219fd5ce.pdf (type: .pdf)
+2026-03-12 02:37:28 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 02:37:36 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document 8ce320b9-e337-43d8-abf5-0ba3219fd5ce
+2026-03-12 02:37:36 | INFO     | services.document_service:upload_and_process:93 - Document processed: 8ce320b9-e337-43d8-abf5-0ba3219fd5ce, pages=28, chunks=96
+2026-03-12 02:37:36 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 12.27s
+2026-03-12 02:37:36 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/8ce320b9-e337-43d8-abf5-0ba3219fd5ce [200] 0.00s
+2026-03-12 02:37:40 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 13011 chars for doc 8ce320b9-e337-43d8-abf5-0ba3219fd5ce
+2026-03-12 02:38:16 | INFO     | api.routes.documents:analysis_stream:102 - [8ce320b9-e337-43d8-abf5-0ba3219fd5ce] summary ✅
+2026-03-12 02:38:24 | INFO     | services.risk_service:_retrieve_risk_context:130 - Risk context: 13 chunks, 11564 chars for doc 8ce320b9-e337-43d8-abf5-0ba3219fd5ce
+2026-03-12 02:38:47 | INFO     | api.routes.documents:analysis_stream:118 - [8ce320b9-e337-43d8-abf5-0ba3219fd5ce] risk ✅
+2026-03-12 02:39:05 | INFO     | api.routes.documents:analysis_stream:134 - [8ce320b9-e337-43d8-abf5-0ba3219fd5ce] fairness ✅
+2026-03-12 02:39:05 | INFO     | api.routes.documents:analysis_stream:159 - [8ce320b9-e337-43d8-abf5-0ba3219fd5ce] safety ✅
+2026-03-12 02:39:36 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\6da9df36-4d01-461c-8a4e-f2e96aedce00.pdf
+2026-03-12 02:39:36 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\6da9df36-4d01-461c-8a4e-f2e96aedce00.pdf (type: .pdf)
+2026-03-12 02:39:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 02:39:47 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document 6da9df36-4d01-461c-8a4e-f2e96aedce00
+2026-03-12 02:39:47 | INFO     | services.document_service:upload_and_process:93 - Document processed: 6da9df36-4d01-461c-8a4e-f2e96aedce00, pages=28, chunks=96
+2026-03-12 02:39:47 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 11.06s
+2026-03-12 02:39:47 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/6da9df36-4d01-461c-8a4e-f2e96aedce00 [200] 0.00s
+2026-03-12 02:39:50 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 13011 chars for doc 6da9df36-4d01-461c-8a4e-f2e96aedce00
+2026-03-12 02:40:21 | INFO     | api.routes.documents:analysis_stream:102 - [6da9df36-4d01-461c-8a4e-f2e96aedce00] summary ✅
+2026-03-12 02:40:29 | INFO     | services.risk_service:_retrieve_risk_context:130 - Risk context: 13 chunks, 11564 chars for doc 6da9df36-4d01-461c-8a4e-f2e96aedce00
+2026-03-12 02:40:52 | INFO     | api.routes.documents:analysis_stream:118 - [6da9df36-4d01-461c-8a4e-f2e96aedce00] risk ✅
+2026-03-12 02:41:10 | INFO     | api.routes.documents:analysis_stream:134 - [6da9df36-4d01-461c-8a4e-f2e96aedce00] fairness ✅
+2026-03-12 02:41:10 | INFO     | api.routes.documents:analysis_stream:159 - [6da9df36-4d01-461c-8a4e-f2e96aedce00] safety ✅
+2026-03-12 02:41:37 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room SDT6TU created by ok
+2026-03-12 02:41:37 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.10s
+2026-03-12 02:41:38 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room SDT6TU
+2026-03-12 02:42:26 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/join [200] 0.07s
+2026-03-12 02:42:26 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room SDT6TU
+2026-03-12 02:43:57 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room SDT6TU
+2026-03-12 02:43:57 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from SDT6TU
+2026-03-12 02:44:03 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room SDT6TU
+2026-03-12 02:44:03 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from SDT6TU
+2026-03-12 02:44:03 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 02:44:03 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 02:48:52 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 02:48:52 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 02:48:57 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 02:48:57 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 02:48:58 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 02:48:58 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 02:49:23 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\c6531f75-781c-43e2-94f7-9a5f9cc6a538.pdf
+2026-03-12 02:49:23 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\c6531f75-781c-43e2-94f7-9a5f9cc6a538.pdf (type: .pdf)
+2026-03-12 02:49:23 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-12 02:49:30 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 02:49:30 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document c6531f75-781c-43e2-94f7-9a5f9cc6a538
+2026-03-12 02:49:30 | INFO     | services.document_service:upload_and_process:93 - Document processed: c6531f75-781c-43e2-94f7-9a5f9cc6a538, pages=7, chunks=3
+2026-03-12 02:49:30 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 8.37s
+2026-03-12 02:49:30 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/c6531f75-781c-43e2-94f7-9a5f9cc6a538 [200] 0.00s
+2026-03-12 02:49:34 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 3 chunks, 1884 chars for doc c6531f75-781c-43e2-94f7-9a5f9cc6a538
+2026-03-12 02:49:50 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.06s
+2026-03-12 02:49:50 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.14s
+2026-03-12 02:50:09 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 02:50:09 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 02:50:11 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 02:50:11 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 02:50:46 | INFO     | services.chatbot_service:chat:153 - Legal chatbot response, lang=English
+2026-03-12 02:50:46 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 6.51s
+2026-03-12 02:50:56 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 02:50:56 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 02:51:03 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\6dc8d17b-8360-4097-a45e-2add947c127d.pdf
+2026-03-12 02:51:03 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\6dc8d17b-8360-4097-a45e-2add947c127d.pdf (type: .pdf)
+2026-03-12 02:51:06 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 02:51:12 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document 6dc8d17b-8360-4097-a45e-2add947c127d
+2026-03-12 02:51:12 | INFO     | services.document_service:upload_and_process:93 - Document processed: 6dc8d17b-8360-4097-a45e-2add947c127d, pages=28, chunks=96
+2026-03-12 02:51:12 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 9.97s
+2026-03-12 02:51:13 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/6dc8d17b-8360-4097-a45e-2add947c127d [200] 0.00s
+2026-03-12 02:51:17 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 14 chunks, 13011 chars for doc 6dc8d17b-8360-4097-a45e-2add947c127d
+2026-03-12 02:51:42 | INFO     | api.routes.documents:analysis_stream:102 - [6dc8d17b-8360-4097-a45e-2add947c127d] summary ✅
+2026-03-12 02:51:51 | INFO     | services.risk_service:_retrieve_risk_context:130 - Risk context: 13 chunks, 11564 chars for doc 6dc8d17b-8360-4097-a45e-2add947c127d
+2026-03-12 02:51:58 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 02:51:58 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 02:51:59 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 02:51:59 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 02:52:13 | INFO     | api.routes.documents:analysis_stream:118 - [6dc8d17b-8360-4097-a45e-2add947c127d] risk ✅
+2026-03-12 02:52:32 | INFO     | api.routes.documents:analysis_stream:134 - [6dc8d17b-8360-4097-a45e-2add947c127d] fairness ✅
+2026-03-12 02:52:32 | INFO     | api.routes.documents:analysis_stream:159 - [6dc8d17b-8360-4097-a45e-2add947c127d] safety ✅
+2026-03-12 02:53:33 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 02:53:33 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 02:54:07 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 02:54:07 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 02:54:11 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 02:54:11 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 02:54:12 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 02:54:12 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 02:54:31 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: digital
+2026-03-12 02:54:31 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/digital [200] 0.01s
+2026-03-12 02:54:45 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: insurance
+2026-03-12 02:54:45 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/insurance [200] 0.00s
+2026-03-12 02:54:53 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room 5I4MLX created by ok
+2026-03-12 02:54:53 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.07s
+2026-03-12 02:54:54 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room 5I4MLX
+2026-03-12 02:55:25 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/join [200] 0.06s
+2026-03-12 02:55:25 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room 5I4MLX
+2026-03-12 02:56:18 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 02:57:45 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 5I4MLX
+2026-03-12 02:57:45 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from 5I4MLX
+2026-03-12 02:57:50 | INFO     | services.chatbot_service:chat:153 - Legal chatbot response, lang=English
+2026-03-12 02:57:50 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 1.90s
+2026-03-12 02:58:14 | INFO     | services.chatbot_service:chat:153 - Legal chatbot response, lang=English
+2026-03-12 02:58:14 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 4.16s
+2026-03-12 02:58:58 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 5I4MLX
+2026-03-12 02:58:58 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from 5I4MLX
+2026-03-12 02:59:13 | INFO     | services.chatbot_service:chat:153 - Legal chatbot response, lang=English
+2026-03-12 02:59:13 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 6.95s
+2026-03-12 03:01:36 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:01:36 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.17s
+2026-03-12 03:01:54 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: business
+2026-03-12 03:01:54 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/business [200] 0.00s
+2026-03-12 03:06:07 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:06:07 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 03:06:29 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\4f093b4d-432f-4e8b-b2d5-00332c52d016.pdf
+2026-03-12 03:06:29 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\4f093b4d-432f-4e8b-b2d5-00332c52d016.pdf (type: .pdf)
+2026-03-12 03:06:29 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:06:34 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:06:34 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.05s
+2026-03-12 03:06:36 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 4f093b4d-432f-4e8b-b2d5-00332c52d016
+2026-03-12 03:06:36 | INFO     | services.document_service:upload_and_process:93 - Document processed: 4f093b4d-432f-4e8b-b2d5-00332c52d016, pages=10, chunks=16
+2026-03-12 03:06:36 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 10.84s
+2026-03-12 03:06:37 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/4f093b4d-432f-4e8b-b2d5-00332c52d016 [200] 0.00s
+2026-03-12 03:06:40 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc 4f093b4d-432f-4e8b-b2d5-00332c52d016
+2026-03-12 03:07:56 | WARNING  | services.document_service:get_summary:200 - Summary JSON parse failed for 4f093b4d-432f-4e8b-b2d5-00332c52d016, using fallback
+2026-03-12 03:07:56 | INFO     | api.routes.documents:analysis_stream:102 - [4f093b4d-432f-4e8b-b2d5-00332c52d016] summary ✅
+2026-03-12 03:08:04 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 4f093b4d-432f-4e8b-b2d5-00332c52d016
+2026-03-12 03:08:41 | INFO     | api.routes.documents:analysis_stream:118 - [4f093b4d-432f-4e8b-b2d5-00332c52d016] risk ✅
+2026-03-12 03:09:01 | INFO     | api.routes.documents:analysis_stream:134 - [4f093b4d-432f-4e8b-b2d5-00332c52d016] fairness ✅
+2026-03-12 03:09:01 | INFO     | api.routes.documents:analysis_stream:159 - [4f093b4d-432f-4e8b-b2d5-00332c52d016] safety ✅
+2026-03-12 03:10:29 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:10:29 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 03:10:40 | INFO     | services.document_service:upload_and_process:64 - File saved: storage/documents\a12a7f17-059f-4089-9f53-90f0fc8bfd9e.pdf
+2026-03-12 03:10:40 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\a12a7f17-059f-4089-9f53-90f0fc8bfd9e.pdf (type: .pdf)
+2026-03-12 03:10:41 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:10:47 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document a12a7f17-059f-4089-9f53-90f0fc8bfd9e
+2026-03-12 03:10:47 | INFO     | services.document_service:upload_and_process:93 - Document processed: a12a7f17-059f-4089-9f53-90f0fc8bfd9e, pages=10, chunks=16
+2026-03-12 03:10:47 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 7.41s
+2026-03-12 03:10:47 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/a12a7f17-059f-4089-9f53-90f0fc8bfd9e [200] 0.00s
+2026-03-12 03:10:51 | INFO     | services.document_service:_retrieve_summary_context:148 - Summary context: 10 chunks, 8726 chars for doc a12a7f17-059f-4089-9f53-90f0fc8bfd9e
+2026-03-12 03:11:19 | INFO     | api.routes.documents:analysis_stream:102 - [a12a7f17-059f-4089-9f53-90f0fc8bfd9e] summary ✅
+2026-03-12 03:11:32 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 03:11:32 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 03:11:36 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 03:11:37 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 03:11:37 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 03:11:37 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 03:11:52 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 03:11:52 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.13s
+2026-03-12 03:12:47 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\592831da-ae0e-4500-87fc-10e55cf80581.pdf
+2026-03-12 03:12:47 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\592831da-ae0e-4500-87fc-10e55cf80581.pdf (type: .pdf)
+2026-03-12 03:12:48 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:12:56 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 03:12:56 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 592831da-ae0e-4500-87fc-10e55cf80581
+2026-03-12 03:12:56 | INFO     | services.document_service:upload_and_process:135 - Document processed: 592831da-ae0e-4500-87fc-10e55cf80581, pages=10, chunks=16
+2026-03-12 03:12:56 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 14.41s
+2026-03-12 03:12:57 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/592831da-ae0e-4500-87fc-10e55cf80581 [200] 0.00s
+2026-03-12 03:13:00 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 10 chunks, 8726 chars for doc 592831da-ae0e-4500-87fc-10e55cf80581
+2026-03-12 03:13:32 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 592831da-ae0e-4500-87fc-10e55cf80581
+2026-03-12 03:13:32 | INFO     | api.routes.documents:analysis_stream:102 - [592831da-ae0e-4500-87fc-10e55cf80581] summary ✅
+2026-03-12 03:13:41 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 592831da-ae0e-4500-87fc-10e55cf80581
+2026-03-12 03:14:19 | INFO     | api.routes.documents:analysis_stream:118 - [592831da-ae0e-4500-87fc-10e55cf80581] risk ✅
+2026-03-12 03:14:38 | INFO     | api.routes.documents:analysis_stream:134 - [592831da-ae0e-4500-87fc-10e55cf80581] fairness ✅
+2026-03-12 03:14:38 | INFO     | api.routes.documents:analysis_stream:159 - [592831da-ae0e-4500-87fc-10e55cf80581] safety ✅
+2026-03-12 03:20:57 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:20:57 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 03:21:08 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\5284e5c4-ed55-450c-97b9-20a2b3846879.pdf
+2026-03-12 03:21:08 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\5284e5c4-ed55-450c-97b9-20a2b3846879.pdf (type: .pdf)
+2026-03-12 03:21:09 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:21:16 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 5284e5c4-ed55-450c-97b9-20a2b3846879
+2026-03-12 03:21:16 | INFO     | services.document_service:upload_and_process:135 - Document processed: 5284e5c4-ed55-450c-97b9-20a2b3846879, pages=10, chunks=16
+2026-03-12 03:21:16 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 12.87s
+2026-03-12 03:21:17 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/5284e5c4-ed55-450c-97b9-20a2b3846879 [200] 0.00s
+2026-03-12 03:21:20 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 10 chunks, 8726 chars for doc 5284e5c4-ed55-450c-97b9-20a2b3846879
+2026-03-12 03:21:50 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 5284e5c4-ed55-450c-97b9-20a2b3846879
+2026-03-12 03:21:50 | INFO     | api.routes.documents:analysis_stream:102 - [5284e5c4-ed55-450c-97b9-20a2b3846879] summary ✅
+2026-03-12 03:21:59 | INFO     | services.risk_service:_retrieve_risk_context:80 - Risk context: 11 chunks, 9983 chars for doc 5284e5c4-ed55-450c-97b9-20a2b3846879
+2026-03-12 03:22:37 | INFO     | api.routes.documents:analysis_stream:118 - [5284e5c4-ed55-450c-97b9-20a2b3846879] risk ✅
+2026-03-12 03:23:05 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 03:23:05 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 03:23:09 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 03:23:09 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 03:23:13 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 03:23:14 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 03:23:14 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 03:23:14 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 03:23:26 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:23:26 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.18s
+2026-03-12 03:23:38 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\3cf9114b-5382-4823-87c1-98d49c1040fc.pdf
+2026-03-12 03:23:38 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\3cf9114b-5382-4823-87c1-98d49c1040fc.pdf (type: .pdf)
+2026-03-12 03:23:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:23:45 | INFO     | core.vector_store:_init_client:22 - ChromaDB initialized successfully
+2026-03-12 03:23:45 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 3cf9114b-5382-4823-87c1-98d49c1040fc
+2026-03-12 03:23:45 | INFO     | services.document_service:upload_and_process:135 - Document processed: 3cf9114b-5382-4823-87c1-98d49c1040fc, pages=10, chunks=16
+2026-03-12 03:23:45 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 8.71s
+2026-03-12 03:23:46 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/3cf9114b-5382-4823-87c1-98d49c1040fc [200] 0.00s
+2026-03-12 03:23:49 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 10 chunks, 8726 chars for doc 3cf9114b-5382-4823-87c1-98d49c1040fc
+2026-03-12 03:24:15 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 3cf9114b-5382-4823-87c1-98d49c1040fc
+2026-03-12 03:24:15 | INFO     | api.routes.documents:analysis_stream:102 - [3cf9114b-5382-4823-87c1-98d49c1040fc] summary ✅
+2026-03-12 03:24:24 | INFO     | services.risk_service:_retrieve_risk_context:143 - Risk context: 11 chunks, 9983 chars for doc 3cf9114b-5382-4823-87c1-98d49c1040fc
+2026-03-12 03:24:43 | INFO     | services.risk_service:analyze_risk:202 - Risk JSON parsed successfully for 3cf9114b-5382-4823-87c1-98d49c1040fc
+2026-03-12 03:24:43 | INFO     | api.routes.documents:analysis_stream:118 - [3cf9114b-5382-4823-87c1-98d49c1040fc] risk ✅
+2026-03-12 03:25:03 | INFO     | api.routes.documents:analysis_stream:134 - [3cf9114b-5382-4823-87c1-98d49c1040fc] fairness ✅
+2026-03-12 03:25:03 | INFO     | api.routes.documents:analysis_stream:159 - [3cf9114b-5382-4823-87c1-98d49c1040fc] safety ✅
+2026-03-12 03:26:47 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\d38d57ce-d10b-4e5e-b9c9-9f1fe566218c.pdf
+2026-03-12 03:26:47 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\d38d57ce-d10b-4e5e-b9c9-9f1fe566218c.pdf (type: .pdf)
+2026-03-12 03:26:49 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 03:26:58 | INFO     | core.vector_store:add_document_chunks:55 - Stored 78 chunks for document d38d57ce-d10b-4e5e-b9c9-9f1fe566218c
+2026-03-12 03:26:58 | INFO     | services.document_service:upload_and_process:135 - Document processed: d38d57ce-d10b-4e5e-b9c9-9f1fe566218c, pages=35, chunks=78
+2026-03-12 03:26:58 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 25.24s
+2026-03-12 03:26:58 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/d38d57ce-d10b-4e5e-b9c9-9f1fe566218c [200] 0.00s
+2026-03-12 03:27:02 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 14 chunks, 12583 chars for doc d38d57ce-d10b-4e5e-b9c9-9f1fe566218c
+2026-03-12 03:27:29 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for d38d57ce-d10b-4e5e-b9c9-9f1fe566218c
+2026-03-12 03:27:29 | INFO     | api.routes.documents:analysis_stream:102 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] summary ✅
+2026-03-12 03:27:38 | INFO     | services.risk_service:_retrieve_risk_context:143 - Risk context: 12 chunks, 10648 chars for doc d38d57ce-d10b-4e5e-b9c9-9f1fe566218c
+2026-03-12 03:27:58 | INFO     | services.risk_service:analyze_risk:202 - Risk JSON parsed successfully for d38d57ce-d10b-4e5e-b9c9-9f1fe566218c
+2026-03-12 03:27:58 | INFO     | api.routes.documents:analysis_stream:118 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] risk ✅
+2026-03-12 03:28:14 | INFO     | api.routes.documents:analysis_stream:134 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] fairness ✅
+2026-03-12 03:28:14 | INFO     | api.routes.documents:analysis_stream:159 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] safety ✅

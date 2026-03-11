@@ -1,8 +1,9 @@
 """
-Document routes — includes parallel SSE streaming pipeline.
+Document routes — sequential SSE streaming pipeline.
 
-Analysis stream fires summary + risk + fairness concurrently via asyncio.gather,
-yielding each result to the Flutter client as soon as it finishes.
+Order is guaranteed:  summary → risk → fairness → safety
+Each step streams to the client as soon as it finishes,
+so the Flutter UI still gets progressive updates — just in the right order.
 """
 
 import asyncio
@@ -31,7 +32,7 @@ from utils.logging import app_logger as logger
 router = APIRouter(prefix="/api/v1", tags=["Document Analyzer"])
 
 UPLOAD_TIMEOUT   = 120
-SUMMARY_TIMEOUT  = 240   # 8b model — give it more time
+SUMMARY_TIMEOUT  = 240
 ANALYSIS_TIMEOUT = 200
 CHAT_TIMEOUT     = 90
 
@@ -60,13 +61,18 @@ async def upload_document(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Document processing failed: {str(e)}")
 
 
-# ─── Parallel Analysis Stream (SSE) ───────────────────────────────────────────
+# ─── Sequential Analysis Stream (SSE) ─────────────────────────────────────────
 
 async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGenerator[str, None]:
     """
-    Fires summary (8b), risk (8b), and fairness (8b) concurrently via asyncio.gather.
-    Each result is streamed to the client as soon as it's ready.
-    Safety score is computed instantly after (pure math, no LLM).
+    Runs analysis steps in strict order:
+      1. Summary   (8b smart model)
+      2. Risk      (8b smart model)
+      3. Fairness  (8b smart model)
+      4. Safety    (pure math — instant)
+
+    Each result is yielded to the client immediately after it completes,
+    so the Flutter UI still gets progressive updates — just in the right order.
 
     Event types:
       status   → progress message
@@ -82,93 +88,58 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
         yield sse_event("error", {"step": "init", "message": f"Document '{document_id}' not found"})
         return
 
-    yield sse_event("status", {
-        "step": "start",
-        "message": "Launching parallel analysis on both models..."
-    })
-
-    # ── Fire all 3 heavy tasks simultaneously ─────────────────────────────────
-    # All three use the smart 8b model. Since Ollama queues requests internally,
-    # they overlap on GPU — the first to finish streams back immediately.
-
-    async def run_summary():
-        try:
-            result = await asyncio.wait_for(
-                document_service.get_summary(document_id, mode),
-                timeout=SUMMARY_TIMEOUT,
-            )
-            return ("summary", result, None)
-        except asyncio.TimeoutError:
-            return ("summary", None, f"Summary timed out after {SUMMARY_TIMEOUT}s")
-        except Exception as e:
-            return ("summary", None, str(e))
-
-    async def run_risk():
-        try:
-            result = await asyncio.wait_for(
-                risk_service.analyze_risk(document_id, doc["full_text"]),
-                timeout=ANALYSIS_TIMEOUT,
-            )
-            return ("risk", result, None)
-        except asyncio.TimeoutError:
-            return ("risk", None, f"Risk analysis timed out after {ANALYSIS_TIMEOUT}s")
-        except Exception as e:
-            return ("risk", None, str(e))
-
-    async def run_fairness():
-        try:
-            result = await asyncio.wait_for(
-                fairness_service.analyze_fairness(document_id, doc["full_text"]),
-                timeout=ANALYSIS_TIMEOUT,
-            )
-            return ("fairness", result, None)
-        except asyncio.TimeoutError:
-            return ("fairness", None, f"Fairness timed out after {ANALYSIS_TIMEOUT}s")
-        except Exception as e:
-            return ("fairness", None, str(e))
-
-    # Use a queue so we can yield results as each task completes
-    result_queue: asyncio.Queue = asyncio.Queue()
-
-    async def task_wrapper(coro):
-        result = await coro
-        await result_queue.put(result)
-
-    # Launch all three concurrently
-    tasks = [
-        asyncio.create_task(task_wrapper(run_summary())),
-        asyncio.create_task(task_wrapper(run_risk())),
-        asyncio.create_task(task_wrapper(run_fairness())),
-    ]
-
     risk_result     = None
     fairness_result = None
-    completed       = 0
-    total           = len(tasks)
 
-    yield sse_event("status", {
-        "step": "analyzing",
-        "message": "Running summary, risk analysis, and clause fairness in parallel..."
-    })
+    # ── Step 1: Summary ────────────────────────────────────────────────────────
+    yield sse_event("status", {"step": "summary", "message": "Generating summary..."})
+    try:
+        summary_result = await asyncio.wait_for(
+            document_service.get_summary(document_id, mode),
+            timeout=SUMMARY_TIMEOUT,
+        )
+        yield sse_event("summary", summary_result.dict())
+        logger.info(f"[{document_id}] summary ✅")
+    except asyncio.TimeoutError:
+        yield sse_event("error", {"step": "summary", "message": f"Summary timed out after {SUMMARY_TIMEOUT}s"})
+        logger.error(f"[{document_id}] summary timeout")
+    except Exception as e:
+        yield sse_event("error", {"step": "summary", "message": str(e)})
+        logger.error(f"[{document_id}] summary error: {e}")
 
-    # Stream each result as it arrives
-    while completed < total:
-        step, result, error = await result_queue.get()
-        completed += 1
+    # ── Step 2: Risk ───────────────────────────────────────────────────────────
+    yield sse_event("status", {"step": "risk", "message": "Analyzing risk..."})
+    try:
+        risk_result = await asyncio.wait_for(
+            risk_service.analyze_risk(document_id, doc["full_text"]),
+            timeout=ANALYSIS_TIMEOUT,
+        )
+        yield sse_event("risk", risk_result.dict())
+        logger.info(f"[{document_id}] risk ✅")
+    except asyncio.TimeoutError:
+        yield sse_event("error", {"step": "risk", "message": f"Risk analysis timed out after {ANALYSIS_TIMEOUT}s"})
+        logger.error(f"[{document_id}] risk timeout")
+    except Exception as e:
+        yield sse_event("error", {"step": "risk", "message": str(e)})
+        logger.error(f"[{document_id}] risk error: {e}")
 
-        if error:
-            yield sse_event("error", {"step": step, "message": error})
-            logger.error(f"[{document_id}] {step} failed: {error}")
-        else:
-            yield sse_event(step, result.dict())
-            logger.info(f"[{document_id}] {step} ✅ ({completed}/{total})")
+    # ── Step 3: Fairness ───────────────────────────────────────────────────────
+    yield sse_event("status", {"step": "fairness", "message": "Checking clause fairness..."})
+    try:
+        fairness_result = await asyncio.wait_for(
+            fairness_service.analyze_fairness(document_id, doc["full_text"]),
+            timeout=ANALYSIS_TIMEOUT,
+        )
+        yield sse_event("fairness", fairness_result.dict())
+        logger.info(f"[{document_id}] fairness ✅")
+    except asyncio.TimeoutError:
+        yield sse_event("error", {"step": "fairness", "message": f"Fairness timed out after {ANALYSIS_TIMEOUT}s"})
+        logger.error(f"[{document_id}] fairness timeout")
+    except Exception as e:
+        yield sse_event("error", {"step": "fairness", "message": str(e)})
+        logger.error(f"[{document_id}] fairness error: {e}")
 
-            if step == "risk":
-                risk_result = result
-            elif step == "fairness":
-                fairness_result = result
-
-    # ── Safety Score (instant — pure math) ────────────────────────────────────
+    # ── Step 4: Safety Score (instant — pure math) ─────────────────────────────
     if risk_result and fairness_result:
         try:
             total_red_flags = len(risk_result.detected_red_flags)
@@ -188,6 +159,7 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
             logger.info(f"[{document_id}] safety ✅")
         except Exception as e:
             yield sse_event("error", {"step": "safety", "message": str(e)})
+            logger.error(f"[{document_id}] safety error: {e}")
     else:
         yield sse_event("error", {
             "step": "safety",
@@ -199,11 +171,10 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
 
 @router.get(
     "/analyze-stream/{document_id}",
-    summary="Stream parallel analysis results (SSE)",
+    summary="Stream sequential analysis results (SSE)",
     description=(
-        "Returns a text/event-stream. Fires summary, risk, and fairness concurrently "
-        "on the 8b model. Each result is pushed as soon as it finishes — "
-        "no waiting for all steps to complete."
+        "Returns a text/event-stream. Runs summary → risk → fairness → safety "
+        "in order. Each result is pushed to the client as soon as it finishes."
     ),
     response_class=StreamingResponse,
 )
@@ -226,7 +197,7 @@ async def analyze_stream(
     )
 
 
-# ─── Individual endpoints (for direct access) ──────────────────────────────────
+# ─── Individual endpoints (direct access) ─────────────────────────────────────
 
 @router.get("/document-summary/{document_id}", response_model=DocumentSummaryResponse)
 async def get_document_summary(
