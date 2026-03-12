@@ -6,6 +6,7 @@ from config.settings import settings
 
 
 def generate_document_id() -> str:
+    """Generate a unique document ID."""
     return str(uuid.uuid4())
 
 
@@ -23,10 +24,7 @@ def chunk_text(text: str, chunk_size: int = None, overlap: int = None) -> List[s
     chunk_size = chunk_size or settings.CHUNK_SIZE
     overlap = overlap or settings.CHUNK_OVERLAP
 
-    # Guard: overlap must be less than chunk_size to avoid infinite loop
-    if overlap >= chunk_size:
-        overlap = chunk_size // 4
-
+    # Clean text
     text = re.sub(r'\s+', ' ', text).strip()
 
     if len(text) <= chunk_size:
@@ -47,34 +45,23 @@ def chunk_text(text: str, chunk_size: int = None, overlap: int = None) -> List[s
         if chunk:
             chunks.append(chunk)
 
-        next_start = end - overlap
-        # Guard: always move forward
-        if next_start <= start:
-            next_start = start + 1
-        start = next_start
+        start = end - overlap
+        if start >= len(text):
+            break
 
     return chunks
 
 
 def clean_text(text: str) -> str:
+    """Clean and normalize extracted text."""
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = re.sub(r' {2,}', ' ', text)
-    return text.strip()
-
-
-def clean_json_response(response: str) -> str:
-    """Strip markdown code fences from LLM JSON responses."""
-    cleaned = response.strip()
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    elif cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    return cleaned.strip()
+    text = text.strip()
+    return text
 
 
 def estimate_risk_score(red_flags: list) -> dict:
+    """Calculate risk score from detected red flags."""
     if not red_flags:
         return {"risk_score": 10, "risk_level": "Low"}
 

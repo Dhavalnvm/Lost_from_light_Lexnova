@@ -1,5 +1,5 @@
 from typing import List, Dict
-from core.task_router import get_client
+from core.llm_client import llm_client
 from core.embeddings import embeddings_manager
 from core.vector_store import vector_store
 from utils.logging import app_logger as logger
@@ -26,11 +26,10 @@ class ChatService:
         conversation_history: List[Dict[str, str]] = None,
     ) -> ChatWithDocumentResponse:
         """RAG-powered Q&A over a specific document."""
-        client = get_client("chat")  # fast 3b — retrieval does the heavy lifting
+        # Get query embedding
+        query_embedding = embeddings_manager.embed_query(user_question)
 
-        # FIX: was missing await — caused coroutine passed to ChromaDB
-        query_embedding = await embeddings_manager.embed_query(user_question)
-
+        # Retrieve relevant chunks
         relevant_chunks = vector_store.query_similar_chunks(
             query_embedding=query_embedding,
             document_id=document_id,
@@ -57,13 +56,13 @@ USER QUESTION: {user_question}
 Provide a clear, accurate answer based only on the document content above."""
 
         history = conversation_history or []
-        response = await client.generate_with_history(
+        response = await llm_client.generate_with_history(
             user_message=prompt,
             conversation_history=history,
             system_prompt=RAG_SYSTEM_PROMPT,
         )
 
-        logger.info(f"Chat response for doc {document_id}, question len={len(user_question)}")
+        logger.info(f"Chat response generated for doc {document_id}, question length={len(user_question)}")
 
         return ChatWithDocumentResponse(
             document_id=document_id,
@@ -80,13 +79,20 @@ Provide a clear, accurate answer based only on the document content above."""
         total_red_flags: int,
         high_severity_flags: int,
     ) -> SafetyScoreResponse:
-        """Calculate an overall contract safety score — pure math, no LLM needed."""
+        """Calculate an overall contract safety score."""
 
+        # Safety is inverse of risk
         base_safety = 100 - risk_score
+
+        # Deduct for fairness issues
         fairness_deduction = min(20, fairness_issues * 5)
+
+        # Deduct for high severity flags
         severity_deduction = min(15, high_severity_flags * 5)
+
         safety_score = max(0, base_safety - fairness_deduction - severity_deduction)
 
+        # Determine level
         if safety_score >= 70:
             risk_level = "Low"
         elif safety_score >= 40:
@@ -94,6 +100,7 @@ Provide a clear, accurate answer based only on the document content above."""
         else:
             risk_level = "High"
 
+        # Generate recommendations
         recommendations = []
         if high_severity_flags > 0:
             recommendations.append(

@@ -1,5 +1,4 @@
-import re
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from enum import Enum
 
@@ -73,17 +72,6 @@ class RedFlag(BaseModel):
     severity: str  # low / medium / high
     page_reference: Optional[int] = None
 
-    @field_validator("page_reference", mode="before")
-    @classmethod
-    def parse_page_reference(cls, v):
-        # ✅ FIXED — handles "Page 7", "p.3", "7", None, int
-        if v is None:
-            return None
-        if isinstance(v, int):
-            return v
-        match = re.search(r"\d+", str(v))
-        return int(match.group()) if match else None
-
 
 class RiskAnalysisResponse(BaseModel):
     document_id: str
@@ -144,7 +132,6 @@ class LegalChatRequest(BaseModel):
 
 
 class LegalChatResponse(BaseModel):
-    # ✅ FIXED — was missing user_message and ai_response, had wrong field "reply"
     user_message: str
     ai_response: str
     disclaimer: str = "This is general legal information, not legal advice. Consult a qualified lawyer for your specific situation."

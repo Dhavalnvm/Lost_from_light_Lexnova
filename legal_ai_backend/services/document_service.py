@@ -1,7 +1,6 @@
-import json
-import asyncio
-import aiofiles
 import os
+import json
+import aiofiles
 from pathlib import Path
 from typing import Optional
 from fastapi import UploadFile
@@ -10,45 +9,46 @@ from config.settings import settings
 from core.document_parser import document_parser
 from core.embeddings import embeddings_manager
 from core.vector_store import vector_store
-from core.task_router import get_client
+from core.llm_client import llm_client
 from utils.helpers import generate_document_id, is_allowed_file, chunk_text, clean_text
 from utils.logging import app_logger as logger
 from models.schemas import (
     UploadDocumentResponse,
     DocumentSummaryResponse,
+    PageSummary,
     ClauseItem,
     ExplanationMode,
 )
 
+
+# In-memory document registry (use Redis/DB in production)
 _document_registry: dict = {}
 
-SUMMARY_SYSTEM_PROMPT = """You are a legal document expert. Your role is to analyze legal documents
-and explain them clearly. Always be accurate, thorough, and helpful.
+
+SUMMARY_SYSTEM_PROMPT = """You are a legal document expert. Your role is to analyze legal documents 
+and explain them clearly. Always be accurate, thorough, and helpful. 
 Never give personal legal advice — instead explain what the document says."""
 
-SUMMARY_QUERIES = [
-    "what is this document about and its main purpose",
-    "key obligations and duties of the parties",
-    "rights and entitlements of each party",
-    "important clauses terms and conditions",
-    "payment penalties termination and liability",
+CLAUSE_TYPES = [
+    "Payment Terms",
+    "Termination Clause",
+    "Liability Clause",
+    "Confidentiality Clause",
+    "Non-Compete Clause",
+    "Penalty Clause",
+    "Renewal Clause",
+    "Governing Law",
+    "Dispute Resolution",
+    "Indemnification Clause",
+    "Force Majeure",
+    "Intellectual Property",
 ]
-
-
-def _clean_json_response(response: str) -> str:
-    cleaned = response.strip()
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    elif cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    return cleaned.strip()
 
 
 class DocumentService:
 
     async def upload_and_process(self, file: UploadFile) -> UploadDocumentResponse:
+        """Accept upload, parse, chunk, embed, and store in vector DB."""
         if not is_allowed_file(file.filename):
             raise ValueError(f"Unsupported file type: {file.filename}")
 
@@ -56,6 +56,7 @@ class DocumentService:
         file_ext = Path(file.filename).suffix.lower()
         save_path = os.path.join(settings.UPLOAD_DIR, f"{doc_id}{file_ext}")
 
+        # Save file to disk
         async with aiofiles.open(save_path, "wb") as out_file:
             content = await file.read()
             if len(content) > settings.MAX_FILE_SIZE_MB * 1024 * 1024:
@@ -64,15 +65,19 @@ class DocumentService:
 
         logger.info(f"File saved: {save_path}")
 
+        # Parse document
         full_text, page_count, page_texts = document_parser.parse(save_path)
         full_text = clean_text(full_text)
 
+        # Chunk text
         chunks = chunk_text(full_text)
         if not chunks:
             raise ValueError("Could not extract any text from the document")
 
-        embeddings = await embeddings_manager.embed_texts(chunks)
+        # Generate embeddings
+        embeddings = embeddings_manager.embed_texts(chunks)
 
+        # Store in ChromaDB
         metadata = {
             "filename": file.filename,
             "file_path": save_path,
@@ -81,6 +86,7 @@ class DocumentService:
         }
         vector_store.add_document_chunks(doc_id, chunks, embeddings, metadata)
 
+        # Register document
         _document_registry[doc_id] = {
             "doc_id": doc_id,
             "filename": file.filename,
@@ -112,60 +118,11 @@ class DocumentService:
             raise KeyError(f"Document not found: {document_id}")
         return doc
 
-    async def _retrieve_summary_context(self, document_id: str) -> str:
-        """
-        Run all RAG embedding queries IN PARALLEL instead of sequentially.
-        Previously: 5 queries × ~2s each = ~10s before LLM even starts.
-        Now: all 5 fire at once → ~2s total.
-        """
-
-        async def _query_one(query: str):
-            try:
-                query_embedding = await embeddings_manager.embed_query(query)
-                return vector_store.query_similar_chunks(
-                    query_embedding=query_embedding,
-                    document_id=document_id,
-                    n_results=3,
-                )
-            except Exception as e:
-                logger.warning(
-                    f"Summary query '{query[:30]}' failed: {type(e).__name__}: {e}"
-                )
-                return []
-
-        # Fire all queries concurrently
-        results = await asyncio.gather(*[_query_one(q) for q in SUMMARY_QUERIES])
-
-        seen = set()
-        relevant_chunks = []
-        for chunk_list in results:
-            for chunk in chunk_list:
-                key = chunk[:80]
-                if key not in seen:
-                    seen.add(key)
-                    relevant_chunks.append(chunk)
-
-        if not relevant_chunks:
-            logger.warning(f"RAG retrieval failed for {document_id}, falling back to all chunks")
-            relevant_chunks = vector_store.get_all_chunks(document_id)
-
-        if not relevant_chunks:
-            logger.warning(f"ChromaDB fallback failed, using full_text for {document_id}")
-            doc = self._require_document(document_id)
-            return doc["full_text"][:settings.SUMMARY_TEXT_LIMIT]
-
-        context = "\n\n---\n\n".join(relevant_chunks)
-        logger.info(
-            f"Summary context: {len(relevant_chunks)} chunks, "
-            f"{len(context)} chars for doc {document_id}"
-        )
-        return context
-
     async def get_summary(
         self, document_id: str, mode: ExplanationMode = ExplanationMode.student
     ) -> DocumentSummaryResponse:
         doc = self._require_document(document_id)
-        client = get_client("summary")
+        full_text = doc["full_text"][:6000]  # context window safety
 
         mode_instructions = {
             ExplanationMode.beginner: (
@@ -182,38 +139,45 @@ class DocumentService:
             ),
         }
 
-        context = await self._retrieve_summary_context(document_id)
-
         prompt = f"""
 {mode_instructions[mode]}
 
-DOCUMENT EXCERPTS (most relevant sections):
-{context}
+DOCUMENT TEXT:
+{full_text}
 
-Based on these excerpts, provide:
+Please provide:
 1. OVERALL SUMMARY: A clear summary of what this document is about
-2. KEY OBLIGATIONS: What the parties must do
-3. KEY RIGHTS: What rights each party has
-4. IMPORTANT CLAUSES: The most important clauses found
+2. KEY OBLIGATIONS: What the parties must do (bullet points)  
+3. KEY RIGHTS: What rights each party has (bullet points)
+4. IMPORTANT CLAUSES: List the most important clauses found
 
-IMPORTANT: Return ONLY raw JSON. No markdown, no code fences. Start with {{ and end with }}.
-
-Format:
-{{"summary": "...", "key_obligations": ["...", "..."], "key_rights": ["...", "..."], "important_clauses": [{{"clause_type": "...", "extracted_text": "..."}}]}}
+Format your response as JSON with keys:
+"summary", "key_obligations" (list), "key_rights" (list), "important_clauses" (list of {{"clause_type": ..., "extracted_text": ...}})
 """
 
-        response = await client.generate(prompt, SUMMARY_SYSTEM_PROMPT)
+        response = await llm_client.generate(prompt, SUMMARY_SYSTEM_PROMPT)
 
+        # Parse JSON response
         try:
-            data = json.loads(_clean_json_response(response))
+            cleaned = response.strip().strip("```json").strip("```").strip()
+            data = json.loads(cleaned)
         except Exception:
-            logger.warning(f"Summary JSON parse failed for {document_id}, using fallback")
+            # Fallback: construct a basic response from raw text
             data = {
-                "summary": response[:1000],
+                "summary": response[:500],
                 "key_obligations": [],
                 "key_rights": [],
                 "important_clauses": [],
             }
+
+        # Generate page-level summaries
+        page_summaries = []
+        for i, page_text in enumerate(doc["page_texts"][:10]):  # cap at 10 pages
+            if not page_text.strip():
+                continue
+            page_prompt = f"Summarize this page of a legal document in 2-3 sentences:\n\n{page_text[:1500]}"
+            page_summary = await llm_client.generate(page_prompt, SUMMARY_SYSTEM_PROMPT)
+            page_summaries.append(PageSummary(page_number=i + 1, summary=page_summary))
 
         clauses = [
             ClauseItem(
@@ -228,7 +192,7 @@ Format:
             document_id=document_id,
             mode=mode.value,
             summary=data.get("summary", ""),
-            page_summaries=[],
+            page_summaries=page_summaries,
             important_clauses=clauses,
             key_obligations=data.get("key_obligations", []),
             key_rights=data.get("key_rights", []),
