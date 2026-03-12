@@ -1,37 +1,18 @@
 """
 services/comparison_service.py
-Contract Safety Comparison — fixed JSON parsing and uses 3b model for reliability.
+--------------------------------
+Feature A: Contract Safety Comparison
+Compares two uploaded documents and produces a clause-by-clause safety diff.
+Uses 8b model (heavy reasoning task).
 """
 import json
-import re
 from core.task_router import get_client
+from utils.helpers import clean_json_response
 from utils.logging import app_logger as logger
 
-
 COMPARISON_SYSTEM = """You are an expert legal analyst specialising in contract safety evaluation.
-Compare two contracts objectively. Tell someone (with no legal background) which contract
-protects them better and exactly why. Respond ONLY in valid JSON."""
-
-
-def _clean_json_response(response: str) -> str:
-    """Robustly extract JSON from LLM response — handles markdown fences and leading text."""
-    cleaned = response.strip()
-    # Remove markdown fences
-    if "```json" in cleaned:
-        cleaned = cleaned.split("```json", 1)[1]
-        cleaned = cleaned.split("```")[0]
-    elif "```" in cleaned:
-        cleaned = cleaned.split("```", 1)[1]
-        cleaned = cleaned.split("```")[0]
-    cleaned = cleaned.strip()
-
-    # Find JSON object boundaries if LLM added preamble text
-    start = cleaned.find("{")
-    end = cleaned.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        cleaned = cleaned[start:end + 1]
-
-    return cleaned.strip()
+Compare two contracts objectively. Your goal: tell someone (with no legal background)
+which contract protects them better and exactly why."""
 
 
 class ComparisonService:
@@ -45,68 +26,71 @@ class ComparisonService:
         text_b: str,
         filename_b: str,
     ) -> dict:
-        # Use fast 3b model — 8b was timing out and causing 50/50 fallback
-        client = get_client("chatbot")
+        """
+        Side-by-side safety comparison. Returns structured JSON with:
+        - overall winner + percentage safer
+        - per-clause comparison items (better / worse / similar)
+        - actionable verdict
+        """
+        client = get_client("comparison")
 
-        # Trim texts to fit context window comfortably
-        text_a_trimmed = text_a[:3000]
-        text_b_trimmed = text_b[:3000]
+        prompt = f"""
+Compare these two legal contracts for safety and fairness from the perspective of the person signing them.
 
-        prompt = f"""Compare these two legal contracts for safety and fairness from the perspective of the person signing them.
+CONTRACT A ({filename_a}):
+{text_a[:4000]}
 
-CONTRACT A — {filename_a}:
-{text_a_trimmed}
+CONTRACT B ({filename_b}):
+{text_b[:4000]}
 
-CONTRACT B — {filename_b}:
-{text_b_trimmed}
+Analyse ALL key clause types: payment terms, termination, liability, penalties, non-compete,
+dispute resolution, renewal, confidentiality, indemnification, IP rights, governing law.
 
-For each major clause type present in either document, compare them.
-Clause types to look for: payment terms, termination, liability, penalties,
-notice period, renewal, dispute resolution, indemnification, governing law.
+For each clause type found in either document, provide:
+- clause_type: the clause name
+- contract_a_text: what Contract A says (brief, max 60 words)
+- contract_b_text: what Contract B says (brief, max 60 words)
+- winner: "A" | "B" | "tie"
+- outcome: "better" | "worse" | "similar"  (from Contract A's perspective)
+- reason: plain-English explanation of WHY A is better/worse (max 40 words)
+- severity: "high" | "medium" | "low"
 
-IMPORTANT: Only compare clauses that actually appear in the documents.
-If a clause is absent from both, skip it.
+Also compute:
+- contract_a_safety_score: 0-100 integer
+- contract_b_safety_score: 0-100 integer
+- winner: "A" | "B" | "tie"
+- percentage_difference: positive integer (how much safer the winner is)
+- verdict: 1-2 sentence actionable conclusion for a non-lawyer
+- key_differences: list of 3-5 most impactful differences (strings)
 
-Assign safety scores based on how well each contract protects the signing party:
-- 80-100: Balanced and protective
-- 60-79: Mostly fair with minor concerns
-- 40-59: Some unfair terms
-- 20-39: Several problematic clauses
-- 0-19: Highly risky
-
-Return ONLY this exact JSON structure, no markdown, no explanation:
-
+Respond ONLY in valid JSON:
 {{
-  "contract_a_safety_score": 65,
-  "contract_b_safety_score": 58,
+  "contract_a_safety_score": 72,
+  "contract_b_safety_score": 55,
   "winner": "A",
-  "percentage_difference": 7,
-  "verdict": "Contract A offers slightly better protections due to clearer termination terms and capped penalties.",
-  "key_differences": ["Contract A has a defined notice period; Contract B does not", "Contract B has higher late payment penalties"],
+  "percentage_difference": 17,
+  "verdict": "...",
+  "key_differences": ["...", "..."],
   "clause_comparisons": [
     {{
-      "clause_type": "Termination Notice",
-      "contract_a_text": "30 days written notice required",
-      "contract_b_text": "No notice period specified",
+      "clause_type": "...",
+      "contract_a_text": "...",
+      "contract_b_text": "...",
       "winner": "A",
       "outcome": "better",
-      "reason": "Contract A gives you time to prepare; B could end abruptly",
+      "reason": "...",
       "severity": "high"
     }}
   ]
-}}"""
-
-        response = await client.generate(prompt, COMPARISON_SYSTEM, temperature=0.0)
+}}
+"""
+        response = await client.generate(prompt, COMPARISON_SYSTEM, temperature=0.2)
 
         try:
-            cleaned = _clean_json_response(response)
+            cleaned = clean_json_response(response)
             data = json.loads(cleaned)
-            # Validate required keys exist
-            required = ["contract_a_safety_score", "contract_b_safety_score", "winner", "verdict"]
-            if not all(k in data for k in required):
-                raise ValueError("Missing required keys in response")
-        except Exception as e:
-            logger.warning(f"Comparison JSON parse failed ({e}) — using partial fallback")
+        except Exception:
+            logger.warning("Comparison JSON parse failed — using fallback")
             data = self._fallback(doc_id_a, doc_id_b)
 
         data["doc_id_a"] = doc_id_a
@@ -121,7 +105,7 @@ Return ONLY this exact JSON structure, no markdown, no explanation:
             "contract_b_safety_score": 50,
             "winner": "tie",
             "percentage_difference": 0,
-            "verdict": "The AI could not complete a detailed comparison for these documents. Please try again or review the documents individually using the Analyzer.",
+            "verdict": "Unable to fully compare documents. Please review manually.",
             "key_differences": [],
             "clause_comparisons": [],
         }

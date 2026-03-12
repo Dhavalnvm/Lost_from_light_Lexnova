@@ -1156,3 +1156,624 @@ ai_response
 2026-03-12 03:28:14 | INFO     | api.routes.documents:analysis_stream:159 - [d38d57ce-d10b-4e5e-b9c9-9f1fe566218c] safety ✅
 2026-03-12 03:29:30 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
 2026-03-12 03:29:30 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 03:41:42 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\45533a2a-2477-491e-863f-e8b60780c3e0.pdf
+2026-03-12 03:41:42 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\45533a2a-2477-491e-863f-e8b60780c3e0.pdf (type: .pdf)
+2026-03-12 03:41:42 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12990 chars
+2026-03-12 03:41:49 | INFO     | core.vector_store:add_document_chunks:55 - Stored 16 chunks for document 45533a2a-2477-491e-863f-e8b60780c3e0
+2026-03-12 03:41:49 | INFO     | services.document_service:upload_and_process:135 - Document processed: 45533a2a-2477-491e-863f-e8b60780c3e0, pages=10, chunks=16
+2026-03-12 03:41:49 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 8.34s
+2026-03-12 03:41:49 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/45533a2a-2477-491e-863f-e8b60780c3e0 [200] 0.00s
+2026-03-12 03:41:53 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 10 chunks, 8726 chars for doc 45533a2a-2477-491e-863f-e8b60780c3e0
+2026-03-12 03:42:16 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 45533a2a-2477-491e-863f-e8b60780c3e0
+2026-03-12 03:42:16 | INFO     | api.routes.documents:analysis_stream:102 - [45533a2a-2477-491e-863f-e8b60780c3e0] summary ✅
+2026-03-12 03:42:24 | INFO     | services.risk_service:_retrieve_risk_context:143 - Risk context: 11 chunks, 9983 chars for doc 45533a2a-2477-491e-863f-e8b60780c3e0
+2026-03-12 03:42:44 | INFO     | services.risk_service:analyze_risk:202 - Risk JSON parsed successfully for 45533a2a-2477-491e-863f-e8b60780c3e0
+2026-03-12 03:42:44 | INFO     | api.routes.documents:analysis_stream:118 - [45533a2a-2477-491e-863f-e8b60780c3e0] risk ✅
+2026-03-12 03:43:03 | INFO     | api.routes.documents:analysis_stream:134 - [45533a2a-2477-491e-863f-e8b60780c3e0] fairness ✅
+2026-03-12 03:43:03 | INFO     | api.routes.documents:analysis_stream:159 - [45533a2a-2477-491e-863f-e8b60780c3e0] safety ✅
+2026-03-12 03:44:17 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 03:44:17 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/housing [200] 0.01s
+2026-03-12 03:44:37 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: business
+2026-03-12 03:44:37 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/business [200] 0.00s
+2026-03-12 03:44:42 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-12 03:44:42 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-12 03:47:27 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 03:47:27 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 03:48:39 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\31edc31d-ab2a-4256-98a0-1ca6064813a9.pdf
+2026-03-12 03:48:39 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\31edc31d-ab2a-4256-98a0-1ca6064813a9.pdf (type: .pdf)
+2026-03-12 03:48:39 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 7 pages, 1677 chars
+2026-03-12 03:48:46 | INFO     | core.vector_store:add_document_chunks:55 - Stored 3 chunks for document 31edc31d-ab2a-4256-98a0-1ca6064813a9
+2026-03-12 03:48:46 | INFO     | services.document_service:upload_and_process:135 - Document processed: 31edc31d-ab2a-4256-98a0-1ca6064813a9, pages=7, chunks=3
+2026-03-12 03:48:46 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 16.74s
+2026-03-12 03:48:47 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/31edc31d-ab2a-4256-98a0-1ca6064813a9 [200] 0.00s
+2026-03-12 03:48:50 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 3 chunks, 1884 chars for doc 31edc31d-ab2a-4256-98a0-1ca6064813a9
+2026-03-12 03:49:09 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 31edc31d-ab2a-4256-98a0-1ca6064813a9
+2026-03-12 03:49:09 | INFO     | api.routes.documents:analysis_stream:102 - [31edc31d-ab2a-4256-98a0-1ca6064813a9] summary ✅
+2026-03-12 03:49:18 | INFO     | services.risk_service:_retrieve_risk_context:143 - Risk context: 3 chunks, 1884 chars for doc 31edc31d-ab2a-4256-98a0-1ca6064813a9
+2026-03-12 03:49:31 | INFO     | services.risk_service:analyze_risk:202 - Risk JSON parsed successfully for 31edc31d-ab2a-4256-98a0-1ca6064813a9
+2026-03-12 03:49:31 | INFO     | api.routes.documents:analysis_stream:118 - [31edc31d-ab2a-4256-98a0-1ca6064813a9] risk ✅
+2026-03-12 03:49:47 | INFO     | api.routes.documents:analysis_stream:134 - [31edc31d-ab2a-4256-98a0-1ca6064813a9] fairness ✅
+2026-03-12 03:49:47 | INFO     | api.routes.documents:analysis_stream:159 - [31edc31d-ab2a-4256-98a0-1ca6064813a9] safety ✅
+2026-03-12 03:50:30 | INFO     | services.chatbot_service:chat:152 - Legal chatbot response, lang=Hindi
+2026-03-12 03:50:30 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 5.51s
+2026-03-12 03:51:51 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 03:51:51 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 04:02:10 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 04:02:10 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.05s
+2026-03-12 04:03:42 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.00s
+2026-03-12 04:03:42 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 04:03:46 | INFO     | services.auth_service:login:94 - User logged in: omkar@gmail.com
+2026-03-12 04:03:46 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [200] 0.22s
+2026-03-12 04:03:46 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 04:03:46 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 04:30:52 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room 0V8MC8 created by mahesh
+2026-03-12 04:30:52 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.07s
+2026-03-12 04:30:53 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room 0V8MC8
+2026-03-12 04:30:54 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 0V8MC8
+2026-03-12 04:30:54 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from 0V8MC8
+2026-03-12 04:47:04 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 04:47:04 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 04:47:16 | INFO     | services.document_service:upload_and_process:106 - File saved: storage/documents\548bc0a6-b553-42da-81d1-0ea60e028c6a.pdf
+2026-03-12 04:47:16 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\548bc0a6-b553-42da-81d1-0ea60e028c6a.pdf (type: .pdf)
+2026-03-12 04:47:18 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 04:47:28 | INFO     | core.vector_store:add_document_chunks:55 - Stored 96 chunks for document 548bc0a6-b553-42da-81d1-0ea60e028c6a
+2026-03-12 04:47:28 | INFO     | services.document_service:upload_and_process:135 - Document processed: 548bc0a6-b553-42da-81d1-0ea60e028c6a, pages=28, chunks=96
+2026-03-12 04:47:28 | INFO     | main:log_requests:100 - ← POST /api/v1/upload-document [200] 14.51s
+2026-03-12 04:47:28 | INFO     | main:log_requests:100 - ← GET /api/v1/analyze-stream/548bc0a6-b553-42da-81d1-0ea60e028c6a [200] 0.00s
+2026-03-12 04:47:31 | INFO     | services.document_service:_retrieve_summary_context:187 - Summary context: 14 chunks, 13011 chars for doc 548bc0a6-b553-42da-81d1-0ea60e028c6a
+2026-03-12 04:48:00 | INFO     | services.document_service:get_summary:239 - Summary JSON parsed successfully for 548bc0a6-b553-42da-81d1-0ea60e028c6a
+2026-03-12 04:48:00 | INFO     | api.routes.documents:analysis_stream:102 - [548bc0a6-b553-42da-81d1-0ea60e028c6a] summary ✅
+2026-03-12 04:48:06 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-12 04:48:06 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-12 04:48:09 | INFO     | services.risk_service:_retrieve_risk_context:143 - Risk context: 13 chunks, 11564 chars for doc 548bc0a6-b553-42da-81d1-0ea60e028c6a
+2026-03-12 04:48:10 | INFO     | services.chatbot_service:chat:152 - Legal chatbot response, lang=English
+2026-03-12 04:48:10 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 18.29s
+2026-03-12 04:48:27 | INFO     | services.risk_service:analyze_risk:202 - Risk JSON parsed successfully for 548bc0a6-b553-42da-81d1-0ea60e028c6a
+2026-03-12 04:48:27 | INFO     | api.routes.documents:analysis_stream:118 - [548bc0a6-b553-42da-81d1-0ea60e028c6a] risk ✅
+2026-03-12 04:48:46 | INFO     | api.routes.documents:analysis_stream:134 - [548bc0a6-b553-42da-81d1-0ea60e028c6a] fairness ✅
+2026-03-12 04:48:46 | INFO     | api.routes.documents:analysis_stream:159 - [548bc0a6-b553-42da-81d1-0ea60e028c6a] safety ✅
+2026-03-12 04:49:36 | INFO     | services.chatbot_service:chat:152 - Legal chatbot response, lang=English
+2026-03-12 04:49:36 | INFO     | main:log_requests:100 - ← POST /api/v1/legal-chat [200] 10.66s
+2026-03-12 04:49:55 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room 2IWBDW created by ok
+2026-03-12 04:49:55 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.06s
+2026-03-12 04:49:55 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room 2IWBDW
+2026-03-12 04:50:24 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/join [200] 0.07s
+2026-03-12 04:50:25 | INFO     | services.group_chat_service:connect:41 - [GroupChat] mahesh connected → room 2IWBDW
+2026-03-12 04:50:34 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 2IWBDW
+2026-03-12 04:50:34 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from 2IWBDW
+2026-03-12 04:51:59 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room W4MBCH created by ok
+2026-03-12 04:51:59 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.06s
+2026-03-12 04:51:59 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room W4MBCH
+2026-03-12 04:52:01 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room 2IWBDW
+2026-03-12 04:52:01 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] mahesh disconnected from 2IWBDW
+2026-03-12 04:52:25 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room W4MBCH
+2026-03-12 04:52:25 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from W4MBCH
+2026-03-12 04:52:44 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: employment
+2026-03-12 04:52:44 | INFO     | main:log_requests:100 - ← GET /api/v1/required-documents/employment [200] 0.00s
+2026-03-12 04:58:13 | INFO     | services.group_chat_service:create_room:118 - [GroupChat] Room AHE1F6 created by ok
+2026-03-12 04:58:13 | INFO     | main:log_requests:100 - ← POST /api/v1/group-chat/create [200] 0.09s
+2026-03-12 04:58:15 | INFO     | services.group_chat_service:connect:41 - [GroupChat] ok connected → room AHE1F6
+2026-03-12 04:58:35 | INFO     | services.group_chat_service:disconnect:45 - [GroupChat] A user disconnected from room AHE1F6
+2026-03-12 04:58:35 | INFO     | api.routes.group_chat:group_chat_ws:229 - [GroupChat] ok disconnected from AHE1F6
+2026-03-12 04:58:38 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 04:58:38 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 06:04:09 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 06:04:09 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 06:04:14 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 06:04:14 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 06:04:15 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 06:04:15 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 06:04:55 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/my-documents [200] 0.06s
+2026-03-12 06:04:55 | INFO     | main:log_requests:100 - ← GET /api/v1/auth/me [200] 0.16s
+2026-03-12 06:12:09 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/auth/login [200] 0.00s
+2026-03-12 06:12:09 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [422] 0.00s
+2026-03-12 06:14:18 | INFO     | services.auth_service:login:94 - User logged in: admin@lexnova.com
+2026-03-12 06:14:18 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [200] 0.21s
+2026-03-12 06:20:40 | INFO     | services.auth_service:login:94 - User logged in: admin@lexnova.com
+2026-03-12 06:20:40 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [200] 0.20s
+2026-03-12 06:23:09 | INFO     | main:log_requests:100 - ← GET /health [200] 0.70s
+2026-03-12 06:23:09 | INFO     | main:log_requests:100 - ← GET /favicon.ico [404] 0.00s
+2026-03-12 06:26:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 06:26:27 | INFO     | main:log_requests:100 - ← OPTIONS / [200] 0.00s
+2026-03-12 06:26:27 | INFO     | main:log_requests:100 - ← OPTIONS /health [200] 0.00s
+2026-03-12 06:26:27 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:26:28 | INFO     | main:log_requests:100 - ← GET / [200] 0.49s
+2026-03-12 06:26:28 | INFO     | main:log_requests:100 - ← GET /health [200] 0.78s
+2026-03-12 06:26:32 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:26:32 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.01s
+2026-03-12 06:26:32 | INFO     | main:log_requests:100 - ← GET /health [200] 0.67s
+2026-03-12 06:26:46 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:26:46 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.01s
+2026-03-12 06:26:47 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:26:47 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:26:47 | INFO     | main:log_requests:100 - ← GET /health [200] 0.75s
+2026-03-12 06:26:47 | INFO     | main:log_requests:100 - ← GET /health [200] 0.74s
+2026-03-12 06:27:05 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:27:05 | INFO     | main:log_requests:100 - ← GET / [200] 0.01s
+2026-03-12 06:27:06 | INFO     | main:log_requests:100 - ← GET /health [200] 0.74s
+2026-03-12 06:27:07 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:27:07 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:27:08 | INFO     | main:log_requests:100 - ← GET /health [200] 0.70s
+2026-03-12 06:27:09 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:27:09 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:27:09 | INFO     | main:log_requests:100 - ← GET /health [200] 0.51s
+2026-03-12 06:27:21 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 06:27:21 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 06:27:41 | INFO     | main:lifespan:26 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 06:27:41 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 06:27:45 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 06:27:45 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 06:27:46 | INFO     | main:lifespan:37 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 06:27:46 | INFO     | main:lifespan:42 - ✅ Startup complete
+2026-03-12 06:27:53 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:27:53 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:27:53 | INFO     | main:log_requests:100 - ← GET /health [200] 0.58s
+2026-03-12 06:28:02 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:28:02 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:28:02 | INFO     | main:log_requests:100 - ← GET /health [200] 0.57s
+2026-03-12 06:28:02 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:28:02 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:28:03 | INFO     | main:log_requests:100 - ← GET /health [200] 0.56s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.17s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.21s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.06s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.09s
+2026-03-12 06:29:27 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [200] 0.44s
+2026-03-12 06:29:28 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [200] 0.46s
+2026-03-12 06:29:49 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:29:49 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.01s
+2026-03-12 06:29:49 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:29:49 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:29:50 | INFO     | main:log_requests:100 - ← GET /health [200] 0.55s
+2026-03-12 06:29:50 | INFO     | main:log_requests:100 - ← GET /health [200] 0.50s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.10s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [200] 0.44s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.04s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.09s
+2026-03-12 06:30:05 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [200] 0.41s
+2026-03-12 06:30:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/user/dashboard [200] 0.00s
+2026-03-12 06:30:10 | INFO     | main:log_requests:100 - ← OPTIONS /api/user/dashboard [200] 0.00s
+2026-03-12 06:30:10 | INFO     | main:log_requests:100 - ← GET /api/user/dashboard [404] 0.00s
+2026-03-12 06:30:10 | INFO     | main:log_requests:100 - ← GET /api/user/dashboard [404] 0.00s
+2026-03-12 06:37:59 | INFO     | main:log_requests:100 - ← GET /api/user/dashboard [404] 0.00s
+2026-03-12 06:37:59 | INFO     | main:log_requests:100 - ← GET /api/user/dashboard [404] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.04s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.09s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/team [200] 0.09s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← GET /api/v1/enterprise/company/dashboard [200] 0.45s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS /health [200] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS / [200] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS /health [200] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS / [200] 0.00s
+2026-03-12 06:38:06 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:24 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/auth/login [200] 0.00s
+2026-03-12 06:38:25 | INFO     | services.auth_service:login:94 - User logged in: admin@lexnova.com
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← POST /api/v1/auth/login [200] 0.28s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS /health [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS / [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS /health [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← OPTIONS / [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:38:25 | INFO     | main:log_requests:100 - ← GET / [200] 0.00s
+2026-03-12 06:38:26 | INFO     | main:log_requests:100 - ← GET /health [200] 0.71s
+2026-03-12 06:38:26 | INFO     | main:log_requests:100 - ← GET /health [200] 0.69s
+2026-03-12 06:47:56 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 06:47:56 | INFO     | main:lifespan:46 - 🛑 Shutdown complete
+2026-03-12 06:48:01 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 06:48:01 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 06:48:06 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 06:48:06 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 06:48:07 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 06:48:07 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 06:48:16 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 06:48:17 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.56s
+2026-03-12 06:48:17 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 06:48:17 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 06:48:17 | INFO     | main:log_requests:102 - ← GET /health [200] 0.83s
+2026-03-12 06:48:18 | INFO     | main:log_requests:102 - ← GET /health [200] 0.75s
+2026-03-12 06:50:12 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.03s
+2026-03-12 06:50:12 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.17s
+2026-03-12 06:50:26 | INFO     | services.document_service:upload_and_process:54 - File saved: storage/documents\711c1491-a091-4079-b9a9-5f3d31e332be.pdf
+2026-03-12 06:50:26 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\711c1491-a091-4079-b9a9-5f3d31e332be.pdf (type: .pdf)
+2026-03-12 06:50:29 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 06:50:39 | ERROR    | api.routes.documents:upload_document:60 - Upload error: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.
+2026-03-12 06:50:39 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [500] 15.74s
+2026-03-12 06:54:33 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 06:54:33 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 06:55:10 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 06:55:10 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 06:55:14 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 06:55:14 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 06:55:15 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 06:55:15 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 06:56:21 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 06:56:21 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.27s
+2026-03-12 06:56:34 | INFO     | services.document_service:upload_and_process:54 - File saved: storage/documents\28049132-fef9-4697-9326-bd7a2232a0da.pdf
+2026-03-12 06:56:34 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\28049132-fef9-4697-9326-bd7a2232a0da.pdf (type: .pdf)
+2026-03-12 06:56:34 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 06:56:42 | ERROR    | api.routes.documents:upload_document:60 - Upload error: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.
+2026-03-12 06:56:42 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [500] 8.84s
+2026-03-12 06:57:00 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 06:57:00 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 06:57:28 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 06:57:28 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 06:57:32 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 06:57:33 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 06:57:33 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 06:57:33 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 06:57:36 | INFO     | services.document_service:upload_and_process:54 - File saved: storage/documents\ea33cc05-ab62-4f65-895d-7ac1416ec6a0.pdf
+2026-03-12 06:57:36 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\ea33cc05-ab62-4f65-895d-7ac1416ec6a0.pdf (type: .pdf)
+2026-03-12 06:57:36 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 06:57:38 | INFO     | core.vector_store:_init_client:25 - ChromaDB initialized successfully
+2026-03-12 06:57:38 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document ea33cc05-ab62-4f65-895d-7ac1416ec6a0
+2026-03-12 06:57:38 | INFO     | services.document_service:upload_and_process:83 - Document processed: ea33cc05-ab62-4f65-895d-7ac1416ec6a0, pages=10, chunks=16
+2026-03-12 06:57:38 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 2.95s
+2026-03-12 06:57:39 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/ea33cc05-ab62-4f65-895d-7ac1416ec6a0 [200] 0.00s
+2026-03-12 06:57:45 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 12 chunks, 10521 chars for doc ea33cc05-ab62-4f65-895d-7ac1416ec6a0
+2026-03-12 06:58:11 | INFO     | api.routes.documents:analysis_stream:93 - [ea33cc05-ab62-4f65-895d-7ac1416ec6a0] fairness ✅
+2026-03-12 06:58:19 | INFO     | services.risk_service:_retrieve_risk_context:71 - Risk context: 9 chunks, 8055 chars for doc ea33cc05-ab62-4f65-895d-7ac1416ec6a0
+2026-03-12 06:59:03 | INFO     | api.routes.documents:analysis_stream:110 - [ea33cc05-ab62-4f65-895d-7ac1416ec6a0] risk ✅
+2026-03-12 06:59:12 | INFO     | services.document_service:_retrieve_summary_context:139 - Summary context: 8 chunks, 7093 chars for doc ea33cc05-ab62-4f65-895d-7ac1416ec6a0
+2026-03-12 06:59:39 | INFO     | api.routes.documents:analysis_stream:126 - [ea33cc05-ab62-4f65-895d-7ac1416ec6a0] summary ✅
+2026-03-12 06:59:39 | INFO     | api.routes.documents:analysis_stream:151 - [ea33cc05-ab62-4f65-895d-7ac1416ec6a0] safety ✅
+2026-03-12 07:04:33 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 07:04:33 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 07:04:37 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 07:04:37 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 07:04:42 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 07:04:42 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 07:04:43 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 07:04:43 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 07:05:43 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.05s
+2026-03-12 07:05:43 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.21s
+2026-03-12 07:05:49 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\b948e2a1-58c8-412d-9e98-da9a47fe2f5c.pdf
+2026-03-12 07:05:49 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\b948e2a1-58c8-412d-9e98-da9a47fe2f5c.pdf (type: .pdf)
+2026-03-12 07:05:50 | INFO     | core.document_parser:_parse_pdf:52 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 07:05:58 | INFO     | core.vector_store:_init_client:25 - ChromaDB initialized successfully
+2026-03-12 07:05:58 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document b948e2a1-58c8-412d-9e98-da9a47fe2f5c
+2026-03-12 07:05:58 | INFO     | services.document_service:upload_and_process:94 - Document processed: b948e2a1-58c8-412d-9e98-da9a47fe2f5c, pages=10, chunks=16
+2026-03-12 07:05:58 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 8.92s
+2026-03-12 07:05:58 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/b948e2a1-58c8-412d-9e98-da9a47fe2f5c [200] 0.00s
+2026-03-12 07:06:04 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 12 chunks, 10521 chars for doc b948e2a1-58c8-412d-9e98-da9a47fe2f5c
+2026-03-12 07:06:33 | INFO     | api.routes.documents:analysis_stream:93 - [b948e2a1-58c8-412d-9e98-da9a47fe2f5c] fairness ✅
+2026-03-12 07:06:39 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 9 chunks, 8055 chars for doc b948e2a1-58c8-412d-9e98-da9a47fe2f5c
+2026-03-12 07:07:24 | INFO     | api.routes.documents:analysis_stream:110 - [b948e2a1-58c8-412d-9e98-da9a47fe2f5c] risk ✅
+2026-03-12 07:07:31 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 8 chunks, 7093 chars for doc b948e2a1-58c8-412d-9e98-da9a47fe2f5c
+2026-03-12 07:08:04 | INFO     | api.routes.documents:analysis_stream:126 - [b948e2a1-58c8-412d-9e98-da9a47fe2f5c] summary ✅
+2026-03-12 07:08:04 | INFO     | api.routes.documents:analysis_stream:151 - [b948e2a1-58c8-412d-9e98-da9a47fe2f5c] safety ✅
+2026-03-12 07:19:22 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.23s
+2026-03-12 07:19:22 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.29s
+2026-03-12 07:19:32 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\59249619-df43-41ae-be55-6bc5f5218845.jpg
+2026-03-12 07:19:32 | INFO     | core.document_parser:parse:17 - Parsing document: storage/documents\59249619-df43-41ae-be55-6bc5f5218845.jpg (type: .jpg)
+2026-03-12 07:19:32 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\59249619-df43-41ae-be55-6bc5f5218845.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-12 07:19:32 | INFO     | core.document_parser:_parse_image:90 - Image OCR complete: 0 chars
+2026-03-12 07:19:32 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [400] 0.43s
+2026-03-12 07:23:06 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 07:23:06 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 07:23:09 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 07:23:09 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 07:23:14 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 07:23:15 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 07:23:15 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 07:23:15 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 07:24:24 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.07s
+2026-03-12 07:24:24 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.18s
+2026-03-12 07:24:39 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\48bc8973-ba6a-4071-9c79-eb3128190dcf.pdf
+2026-03-12 07:24:39 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\48bc8973-ba6a-4071-9c79-eb3128190dcf.pdf (type: .pdf)
+2026-03-12 07:24:40 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 07:24:48 | INFO     | core.vector_store:_init_client:25 - ChromaDB initialized successfully
+2026-03-12 07:24:48 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document 48bc8973-ba6a-4071-9c79-eb3128190dcf
+2026-03-12 07:24:48 | INFO     | services.document_service:upload_and_process:94 - Document processed: 48bc8973-ba6a-4071-9c79-eb3128190dcf, pages=10, chunks=16
+2026-03-12 07:24:48 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 9.61s
+2026-03-12 07:24:49 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/48bc8973-ba6a-4071-9c79-eb3128190dcf [200] 0.00s
+2026-03-12 07:24:55 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 12 chunks, 10521 chars for doc 48bc8973-ba6a-4071-9c79-eb3128190dcf
+2026-03-12 07:25:17 | INFO     | api.routes.documents:analysis_stream:93 - [48bc8973-ba6a-4071-9c79-eb3128190dcf] fairness ✅
+2026-03-12 07:25:24 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 9 chunks, 8055 chars for doc 48bc8973-ba6a-4071-9c79-eb3128190dcf
+2026-03-12 07:26:06 | INFO     | api.routes.documents:analysis_stream:110 - [48bc8973-ba6a-4071-9c79-eb3128190dcf] risk ✅
+2026-03-12 07:26:13 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 8 chunks, 7093 chars for doc 48bc8973-ba6a-4071-9c79-eb3128190dcf
+2026-03-12 07:26:37 | INFO     | api.routes.documents:analysis_stream:126 - [48bc8973-ba6a-4071-9c79-eb3128190dcf] summary ✅
+2026-03-12 07:26:37 | INFO     | api.routes.documents:analysis_stream:151 - [48bc8973-ba6a-4071-9c79-eb3128190dcf] safety ✅
+2026-03-12 07:27:42 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 07:27:42 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 07:27:55 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 07:27:55 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 07:27:59 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 07:28:00 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 07:28:00 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 07:28:00 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 07:35:12 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 07:35:12 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.20s
+2026-03-12 07:35:28 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\67ea6d6c-ddbb-4b5f-8edf-73a6506faa17.pdf
+2026-03-12 07:35:28 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\67ea6d6c-ddbb-4b5f-8edf-73a6506faa17.pdf (type: .pdf)
+2026-03-12 07:35:29 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 07:35:37 | INFO     | core.vector_store:_init_client:25 - ChromaDB initialized successfully
+2026-03-12 07:35:37 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17
+2026-03-12 07:35:37 | INFO     | services.document_service:upload_and_process:94 - Document processed: 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17, pages=10, chunks=16
+2026-03-12 07:35:37 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 9.39s
+2026-03-12 07:35:37 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/67ea6d6c-ddbb-4b5f-8edf-73a6506faa17 [200] 0.00s
+2026-03-12 07:35:39 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 8 chunks, 7093 chars for doc 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17
+2026-03-12 07:36:07 | INFO     | api.routes.documents:analysis_stream:99 - [67ea6d6c-ddbb-4b5f-8edf-73a6506faa17] summary ✅
+2026-03-12 07:36:14 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 9 chunks, 8055 chars for doc 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17
+2026-03-12 07:36:58 | INFO     | api.routes.documents:analysis_stream:121 - [67ea6d6c-ddbb-4b5f-8edf-73a6506faa17] risk ✅
+2026-03-12 07:37:09 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 12 chunks, 10521 chars for doc 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17
+2026-03-12 07:37:33 | INFO     | api.routes.documents:analysis_stream:143 - [67ea6d6c-ddbb-4b5f-8edf-73a6506faa17] fairness ✅
+2026-03-12 07:37:33 | INFO     | api.routes.documents:analysis_stream:171 - [67ea6d6c-ddbb-4b5f-8edf-73a6506faa17] safety ✅
+2026-03-12 07:37:53 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 07:37:53 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 07:38:19 | INFO     | services.chatbot_service:chat:143 - Legal chatbot response, lang=English
+2026-03-12 07:38:19 | INFO     | main:log_requests:102 - ← POST /api/v1/legal-chat [200] 10.09s
+2026-03-12 07:39:33 | INFO     | services.chat_service:chat_with_document:66 - Chat response for doc 67ea6d6c-ddbb-4b5f-8edf-73a6506faa17, question len=29
+2026-03-12 07:39:33 | INFO     | main:log_requests:102 - ← POST /api/v1/chat-with-document [200] 7.92s
+2026-03-12 07:39:59 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 07:39:59 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 07:41:40 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 07:41:40 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 07:42:25 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 07:42:25 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 07:45:06 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 07:45:06 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 07:46:53 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\11cc91f2-8c2d-458d-83f5-1f6a8aa822c1.pdf
+2026-03-12 07:46:53 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\11cc91f2-8c2d-458d-83f5-1f6a8aa822c1.pdf (type: .pdf)
+2026-03-12 07:46:55 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 35 pages, 60895 chars
+2026-03-12 07:46:56 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.00s
+2026-03-12 07:46:56 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 07:47:03 | INFO     | core.vector_store:add_document_chunks:59 - Stored 78 chunks for document 11cc91f2-8c2d-458d-83f5-1f6a8aa822c1
+2026-03-12 07:47:03 | INFO     | services.document_service:upload_and_process:94 - Document processed: 11cc91f2-8c2d-458d-83f5-1f6a8aa822c1, pages=35, chunks=78
+2026-03-12 07:47:03 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 107.03s
+2026-03-12 07:47:08 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\c654ce98-ed8c-4b52-af4d-227f61d297e7.pdf
+2026-03-12 07:47:08 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\c654ce98-ed8c-4b52-af4d-227f61d297e7.pdf (type: .pdf)
+2026-03-12 07:47:10 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 07:47:13 | INFO     | core.vector_store:add_document_chunks:59 - Stored 96 chunks for document c654ce98-ed8c-4b52-af4d-227f61d297e7
+2026-03-12 07:47:13 | INFO     | services.document_service:upload_and_process:94 - Document processed: c654ce98-ed8c-4b52-af4d-227f61d297e7, pages=28, chunks=96
+2026-03-12 07:47:13 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 10.18s
+2026-03-12 07:47:14 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/c654ce98-ed8c-4b52-af4d-227f61d297e7 [200] 0.00s
+2026-03-12 07:47:16 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 14 chunks, 13011 chars for doc c654ce98-ed8c-4b52-af4d-227f61d297e7
+2026-03-12 07:47:44 | INFO     | api.routes.documents:analysis_stream:99 - [c654ce98-ed8c-4b52-af4d-227f61d297e7] summary ✅
+2026-03-12 07:47:50 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 13 chunks, 11564 chars for doc c654ce98-ed8c-4b52-af4d-227f61d297e7
+2026-03-12 07:48:29 | INFO     | api.routes.documents:analysis_stream:121 - [c654ce98-ed8c-4b52-af4d-227f61d297e7] risk ✅
+2026-03-12 07:48:39 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 23 chunks, 21212 chars for doc c654ce98-ed8c-4b52-af4d-227f61d297e7
+2026-03-12 07:49:16 | INFO     | api.routes.documents:analysis_stream:143 - [c654ce98-ed8c-4b52-af4d-227f61d297e7] fairness ✅
+2026-03-12 07:49:16 | INFO     | api.routes.documents:analysis_stream:171 - [c654ce98-ed8c-4b52-af4d-227f61d297e7] safety ✅
+2026-03-12 07:50:15 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\90ce9367-2718-48e0-8508-db0196ca2c4e.pdf
+2026-03-12 07:50:15 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\90ce9367-2718-48e0-8508-db0196ca2c4e.pdf (type: .pdf)
+2026-03-12 07:50:16 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 07:50:21 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document 90ce9367-2718-48e0-8508-db0196ca2c4e
+2026-03-12 07:50:21 | INFO     | services.document_service:upload_and_process:94 - Document processed: 90ce9367-2718-48e0-8508-db0196ca2c4e, pages=10, chunks=16
+2026-03-12 07:50:21 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 31.31s
+2026-03-12 07:51:08 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\027476d1-d773-4b86-b84c-192325fea865.pdf
+2026-03-12 07:51:08 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\027476d1-d773-4b86-b84c-192325fea865.pdf (type: .pdf)
+2026-03-12 07:51:08 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 10 pages, 12586 chars
+2026-03-12 07:51:10 | INFO     | core.vector_store:add_document_chunks:59 - Stored 16 chunks for document 027476d1-d773-4b86-b84c-192325fea865
+2026-03-12 07:51:10 | INFO     | services.document_service:upload_and_process:94 - Document processed: 027476d1-d773-4b86-b84c-192325fea865, pages=10, chunks=16
+2026-03-12 07:51:10 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 5.13s
+2026-03-12 07:51:38 | INFO     | main:log_requests:102 - ← POST /api/v1/version-diff [200] 25.36s
+2026-03-12 07:51:39 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 07:51:39 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 07:51:41 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 07:51:41 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 07:51:46 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: loan
+2026-03-12 07:51:46 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/loan [200] 0.00s
+2026-03-12 08:00:27 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 08:00:27 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 08:00:31 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 08:00:32 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 08:00:32 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 08:00:32 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 08:00:34 | INFO     | main:log_requests:102 - ← OPTIONS /health [200] 0.00s
+2026-03-12 08:00:34 | INFO     | main:log_requests:102 - ← OPTIONS / [200] 0.00s
+2026-03-12 08:00:34 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 08:00:34 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 08:00:34 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 08:00:35 | INFO     | main:log_requests:102 - ← GET /health [200] 0.67s
+2026-03-12 08:01:15 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/auth/login [200] 0.00s
+2026-03-12 08:01:15 | INFO     | services.auth_service:login:94 - User logged in: admin@lexnova.com
+2026-03-12 08:01:15 | INFO     | main:log_requests:102 - ← POST /api/v1/auth/login [200] 0.32s
+2026-03-12 08:01:16 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 08:01:16 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 08:01:16 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 08:01:16 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 08:01:16 | INFO     | main:log_requests:102 - ← GET /health [200] 0.81s
+2026-03-12 08:01:17 | INFO     | main:log_requests:102 - ← GET /health [200] 0.85s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.01s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.01s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:01:22 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.20s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.26s
+2026-03-12 08:01:22 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.06s
+2026-03-12 08:01:22 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:01:25 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:01:25 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:01:25 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:01:25 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:25 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.06s
+2026-03-12 08:01:25 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:32 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:01:32 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:01:32 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:01:32 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:32 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.07s
+2026-03-12 08:01:32 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:03:33 | INFO     | core.database:close_db:48 - 🛑 MongoDB connection closed
+2026-03-12 08:03:33 | INFO     | main:lifespan:48 - 🛑 Shutdown complete
+2026-03-12 08:03:36 | INFO     | main:lifespan:29 - 🚀 Starting LexNova Legal AI Backend v2.0.0
+2026-03-12 08:03:36 | INFO     | core.database:connect_db:16 - 🔌 Connecting to MongoDB...
+2026-03-12 08:03:41 | INFO     | core.database:connect_db:20 - ✅ MongoDB connected  →  db=lexnova
+2026-03-12 08:03:41 | INFO     | core.database:connect_db:41 - ✅ MongoDB indexes ensured
+2026-03-12 08:03:42 | INFO     | main:lifespan:42 - ✅ Ollama connected — smart=llama3.1:8b  fast=llama3.2:3b
+2026-03-12 08:03:42 | INFO     | main:lifespan:44 - ✅ Startup complete
+2026-03-12 08:04:00 | INFO     | main:log_requests:102 - ← OPTIONS /api/user/dashboard [200] 0.00s
+2026-03-12 08:04:00 | INFO     | main:log_requests:102 - ← OPTIONS /api/user/dashboard [200] 0.00s
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS /health [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS / [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS /health [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/document-types [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← OPTIONS / [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← GET / [200] 0.23s
+2026-03-12 08:04:03 | INFO     | main:log_requests:102 - ← GET /api/v1/document-types [200] 0.00s
+2026-03-12 08:04:04 | INFO     | main:log_requests:102 - ← GET / [200] 0.00s
+2026-03-12 08:04:04 | INFO     | main:log_requests:102 - ← GET /health [200] 0.52s
+2026-03-12 08:04:04 | INFO     | main:log_requests:102 - ← GET /health [200] 0.50s
+2026-03-12 08:04:34 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:35 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:35 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.16s
+2026-03-12 08:04:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.23s
+2026-03-12 08:04:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:04:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.07s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:04:37 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:04:37 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:04:37 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:10:32 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.01s
+2026-03-12 08:10:32 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 08:13:09 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.03s
+2026-03-12 08:13:09 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 08:13:30 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\30a0c5eb-c1af-4c88-99fa-87ea02cbbe22.pdf
+2026-03-12 08:13:30 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\30a0c5eb-c1af-4c88-99fa-87ea02cbbe22.pdf (type: .pdf)
+2026-03-12 08:13:34 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 08:13:45 | INFO     | core.vector_store:_init_client:25 - ChromaDB initialized successfully
+2026-03-12 08:13:45 | INFO     | core.vector_store:add_document_chunks:59 - Stored 96 chunks for document 30a0c5eb-c1af-4c88-99fa-87ea02cbbe22
+2026-03-12 08:13:45 | INFO     | services.document_service:upload_and_process:94 - Document processed: 30a0c5eb-c1af-4c88-99fa-87ea02cbbe22, pages=28, chunks=96
+2026-03-12 08:13:45 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 17.27s
+2026-03-12 08:13:46 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/30a0c5eb-c1af-4c88-99fa-87ea02cbbe22 [200] 0.00s
+2026-03-12 08:13:48 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 14 chunks, 13011 chars for doc 30a0c5eb-c1af-4c88-99fa-87ea02cbbe22
+2026-03-12 08:14:18 | INFO     | api.routes.documents:analysis_stream:99 - [30a0c5eb-c1af-4c88-99fa-87ea02cbbe22] summary ✅
+2026-03-12 08:14:26 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 13 chunks, 11564 chars for doc 30a0c5eb-c1af-4c88-99fa-87ea02cbbe22
+2026-03-12 08:15:03 | INFO     | api.routes.documents:analysis_stream:121 - [30a0c5eb-c1af-4c88-99fa-87ea02cbbe22] risk ✅
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.01s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:04 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:04 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.08s
+2026-03-12 08:15:04 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:08 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:15:08 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.07s
+2026-03-12 08:15:08 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:14 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 23 chunks, 21212 chars for doc 30a0c5eb-c1af-4c88-99fa-87ea02cbbe22
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.01s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/dashboard [200] 0.00s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/team [200] 0.00s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← OPTIONS /api/v1/enterprise/company/activity [200] 0.00s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.06s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.05s
+2026-03-12 08:15:28 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:28 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:28 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:29 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.06s
+2026-03-12 08:15:29 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.08s
+2026-03-12 08:15:29 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.05s
+2026-03-12 08:15:29 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:29 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.07s
+2026-03-12 08:15:29 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:15:36 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.07s
+2026-03-12 08:15:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:38 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:38 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:38 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:38 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.04s
+2026-03-12 08:15:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:41 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:41 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:41 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:41 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:41 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.04s
+2026-03-12 08:15:41 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:53 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:15:53 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:53 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.03s
+2026-03-12 08:15:53 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:53 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:15:54 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:54 | INFO     | api.routes.documents:analysis_stream:143 - [30a0c5eb-c1af-4c88-99fa-87ea02cbbe22] fairness ✅
+2026-03-12 08:15:54 | INFO     | api.routes.documents:analysis_stream:171 - [30a0c5eb-c1af-4c88-99fa-87ea02cbbe22] safety ✅
+2026-03-12 08:16:10 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.04s
+2026-03-12 08:16:10 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 08:16:12 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/team [200] 0.04s
+2026-03-12 08:16:12 | INFO     | main:log_requests:102 - ← GET /api/v1/enterprise/company/activity [200] 0.05s
+2026-03-12 08:16:12 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:16:20 | INFO     | services.document_service:upload_and_process:65 - File saved: storage/documents\2b92143d-25b1-44e6-b352-ab80b95984b9.pdf
+2026-03-12 08:16:20 | INFO     | core.document_parser:parse:23 - Parsing document: storage/documents\2b92143d-25b1-44e6-b352-ab80b95984b9.pdf (type: .pdf)
+2026-03-12 08:16:22 | INFO     | core.document_parser:_parse_pdf:64 - PDF parsed: 28 pages, 73818 chars
+2026-03-12 08:16:30 | INFO     | core.vector_store:add_document_chunks:59 - Stored 96 chunks for document 2b92143d-25b1-44e6-b352-ab80b95984b9
+2026-03-12 08:16:30 | INFO     | services.document_service:upload_and_process:94 - Document processed: 2b92143d-25b1-44e6-b352-ab80b95984b9, pages=28, chunks=96
+2026-03-12 08:16:30 | INFO     | main:log_requests:102 - ← POST /api/v1/upload-document [200] 14.44s
+2026-03-12 08:16:31 | INFO     | main:log_requests:102 - ← GET /api/v1/analyze-stream/2b92143d-25b1-44e6-b352-ab80b95984b9 [200] 0.00s
+2026-03-12 08:16:33 | INFO     | services.document_service:_retrieve_summary_context:158 - Summary context: 14 chunks, 13011 chars for doc 2b92143d-25b1-44e6-b352-ab80b95984b9
+2026-03-12 08:17:04 | INFO     | api.routes.documents:analysis_stream:99 - [2b92143d-25b1-44e6-b352-ab80b95984b9] summary ✅
+2026-03-12 08:17:10 | INFO     | services.risk_service:_retrieve_risk_context:85 - Risk context: 13 chunks, 11564 chars for doc 2b92143d-25b1-44e6-b352-ab80b95984b9
+2026-03-12 08:17:55 | INFO     | api.routes.documents:analysis_stream:121 - [2b92143d-25b1-44e6-b352-ab80b95984b9] risk ✅
+2026-03-12 08:18:08 | INFO     | services.fairness_service:_retrieve_fairness_context:116 - Fairness context: 23 chunks, 21212 chars for doc 2b92143d-25b1-44e6-b352-ab80b95984b9
+2026-03-12 08:18:25 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 08:18:25 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 08:18:32 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: loan
+2026-03-12 08:18:32 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/loan [200] 0.00s
+2026-03-12 08:18:42 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: employment
+2026-03-12 08:18:42 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/employment [200] 0.00s
+2026-03-12 08:18:45 | INFO     | api.routes.documents:analysis_stream:143 - [2b92143d-25b1-44e6-b352-ab80b95984b9] fairness ✅
+2026-03-12 08:18:45 | INFO     | api.routes.documents:analysis_stream:171 - [2b92143d-25b1-44e6-b352-ab80b95984b9] safety ✅
+2026-03-12 08:18:47 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: business
+2026-03-12 08:18:47 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/business [200] 0.00s
+2026-03-12 08:18:55 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: education
+2026-03-12 08:18:55 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/education [200] 0.00s
+2026-03-12 08:19:02 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: insurance
+2026-03-12 08:19:02 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/insurance [200] 0.00s
+2026-03-12 08:19:07 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: digital
+2026-03-12 08:19:07 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/digital [200] 0.00s
+2026-03-12 08:19:10 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: personal
+2026-03-12 08:19:10 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/personal [200] 0.00s
+2026-03-12 08:21:22 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 08:21:22 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s
+2026-03-12 08:21:24 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 08:21:24 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 08:22:02 | INFO     | services.guidance_service:get_required_documents:36 - Returned guidance for category: housing
+2026-03-12 08:22:02 | INFO     | main:log_requests:102 - ← GET /api/v1/required-documents/housing [200] 0.00s
+2026-03-12 08:23:02 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/me [200] 0.02s
+2026-03-12 08:23:02 | INFO     | main:log_requests:102 - ← GET /api/v1/auth/my-documents [200] 0.03s

@@ -8,6 +8,7 @@ Uses 8b model (deep reasoning task).
 """
 import json
 from core.task_router import get_client
+from utils.helpers import clean_json_response
 from utils.logging import app_logger as logger
 
 REWRITE_SYSTEM = """You are a senior contract attorney and plain-language expert.
@@ -79,7 +80,7 @@ Respond ONLY in valid JSON:
         response = await client.generate(prompt, REWRITE_SYSTEM, temperature=0.25)
 
         try:
-            cleaned = response.strip().strip("```json").strip("```").strip()
+            cleaned = clean_json_response(response)
             data = json.loads(cleaned)
         except Exception:
             logger.warning("Rewrite JSON parse failed — fallback")

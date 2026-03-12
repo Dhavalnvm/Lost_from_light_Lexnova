@@ -1,8 +1,14 @@
 import io
 import os
+import shutil
 from pathlib import Path
 from typing import Tuple, List, Optional
 from utils.logging import app_logger as logger
+
+
+def _tesseract_available() -> bool:
+    """Check whether Tesseract is installed and on PATH."""
+    return shutil.which("tesseract") is not None
 
 
 class DocumentParser:
@@ -40,10 +46,16 @@ class DocumentParser:
             for i, page in enumerate(pdf.pages):
                 text = page.extract_text() or ""
 
-                # If no text extracted, try OCR
+                # If no text extracted, try OCR only if Tesseract is available
                 if not text.strip():
-                    logger.warning(f"Page {i+1} has no extractable text — attempting OCR")
-                    text = self._ocr_page(page)
+                    if _tesseract_available():
+                        logger.warning(f"Page {i+1} has no extractable text — attempting OCR")
+                        text = self._ocr_page(page)
+                    else:
+                        logger.warning(
+                            f"Page {i+1} has no extractable text and Tesseract is not "
+                            f"installed — skipping OCR. Install Tesseract to read scanned PDFs."
+                        )
 
                 page_texts.append(text)
                 full_text_parts.append(f"[Page {i+1}]\n{text}")
@@ -86,7 +98,22 @@ class DocumentParser:
 
     def _parse_image(self, file_path: str) -> Tuple[str, int, List[str]]:
         """Extract text from image using OCR."""
+        # Fail fast with a clear message if Tesseract is not installed
+        if not _tesseract_available():
+            raise ValueError(
+                "Image files require Tesseract OCR which is not installed on this server. "
+                "Please upload a PDF or DOCX file instead, or ask the administrator to "
+                "install Tesseract: https://github.com/UB-Mannheim/tesseract/wiki"
+            )
+
         text = self._ocr_image_file(file_path)
+        if not text.strip():
+            raise ValueError(
+                "Could not extract any text from this image. "
+                "Please ensure the image is clear and contains readable text, "
+                "or convert it to a PDF/DOCX file."
+            )
+
         logger.info(f"Image OCR complete: {len(text)} chars")
         return text, 1, [text]
 

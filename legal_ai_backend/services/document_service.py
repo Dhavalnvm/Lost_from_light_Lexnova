@@ -1,7 +1,7 @@
-import os
 import json
-import re
+import asyncio
 import aiofiles
+import os
 from pathlib import Path
 from typing import Optional
 from fastapi import UploadFile
@@ -35,56 +35,15 @@ SUMMARY_QUERIES = [
 ]
 
 
-def _extract_json(response: str) -> dict:
-    """
-    Robustly extract a JSON object from an LLM response.
-
-    Tries in order:
-      1. Direct parse (already clean JSON)
-      2. Strip markdown code fences (```json ... ``` or ``` ... ```)
-      3. Find first { ... } block via brace counting
-      4. Regex search for JSON object pattern
-    """
-    text = response.strip()
-
-    # 1. Direct parse
-    try:
-        return json.loads(text)
-    except Exception:
-        pass
-
-    # 2. Strip markdown fences
-    stripped = re.sub(r'^```(?:json)?\s*', '', text, flags=re.IGNORECASE)
-    stripped = re.sub(r'\s*```$', '', stripped).strip()
-    try:
-        return json.loads(stripped)
-    except Exception:
-        pass
-
-    # 3. Find first complete { ... } block by counting braces
-    start = text.find('{')
-    if start != -1:
-        depth = 0
-        for i, ch in enumerate(text[start:], start=start):
-            if ch == '{':
-                depth += 1
-            elif ch == '}':
-                depth -= 1
-                if depth == 0:
-                    try:
-                        return json.loads(text[start:i + 1])
-                    except Exception:
-                        break
-
-    # 4. Regex fallback — grab anything that looks like a JSON object
-    match = re.search(r'\{[\s\S]*\}', text)
-    if match:
-        try:
-            return json.loads(match.group())
-        except Exception:
-            pass
-
-    raise ValueError("No valid JSON object found in LLM response")
+def _clean_json_response(response: str) -> str:
+    cleaned = response.strip()
+    if cleaned.startswith("```json"):
+        cleaned = cleaned[7:]
+    elif cleaned.startswith("```"):
+        cleaned = cleaned[3:]
+    if cleaned.endswith("```"):
+        cleaned = cleaned[:-3]
+    return cleaned.strip()
 
 
 class DocumentService:
@@ -154,25 +113,37 @@ class DocumentService:
         return doc
 
     async def _retrieve_summary_context(self, document_id: str) -> str:
-        seen = set()
-        relevant_chunks = []
+        """
+        Run all RAG embedding queries IN PARALLEL instead of sequentially.
+        Previously: 5 queries × ~2s each = ~10s before LLM even starts.
+        Now: all 5 fire at once → ~2s total.
+        """
 
-        for query in SUMMARY_QUERIES:
+        async def _query_one(query: str):
             try:
                 query_embedding = await embeddings_manager.embed_query(query)
-                chunks = vector_store.query_similar_chunks(
+                return vector_store.query_similar_chunks(
                     query_embedding=query_embedding,
                     document_id=document_id,
                     n_results=3,
                 )
-                for chunk in chunks:
-                    key = chunk[:80]
-                    if key not in seen:
-                        seen.add(key)
-                        relevant_chunks.append(chunk)
             except Exception as e:
-                logger.warning(f"Summary query '{query[:30]}' failed: {type(e).__name__}: {e}")
-                continue
+                logger.warning(
+                    f"Summary query '{query[:30]}' failed: {type(e).__name__}: {e}"
+                )
+                return []
+
+        # Fire all queries concurrently
+        results = await asyncio.gather(*[_query_one(q) for q in SUMMARY_QUERIES])
+
+        seen = set()
+        relevant_chunks = []
+        for chunk_list in results:
+            for chunk in chunk_list:
+                key = chunk[:80]
+                if key not in seen:
+                    seen.add(key)
+                    relevant_chunks.append(chunk)
 
         if not relevant_chunks:
             logger.warning(f"RAG retrieval failed for {document_id}, falling back to all chunks")
@@ -225,25 +196,20 @@ Based on these excerpts, provide:
 3. KEY RIGHTS: What rights each party has
 4. IMPORTANT CLAUSES: The most important clauses found
 
-CRITICAL: Return ONLY a raw JSON object. Do NOT wrap in markdown. Do NOT add any text before or after.
-Start your response with {{ and end with }}.
+IMPORTANT: Return ONLY raw JSON. No markdown, no code fences. Start with {{ and end with }}.
 
-Required format:
+Format:
 {{"summary": "...", "key_obligations": ["...", "..."], "key_rights": ["...", "..."], "important_clauses": [{{"clause_type": "...", "extracted_text": "..."}}]}}
 """
 
         response = await client.generate(prompt, SUMMARY_SYSTEM_PROMPT)
 
         try:
-            data = _extract_json(response)
-            logger.info(f"Summary JSON parsed successfully for {document_id}")
-        except Exception as e:
-            logger.warning(f"Summary JSON parse failed for {document_id}: {e}")
-            logger.debug(f"Raw LLM response: {response[:500]}")
-            # Fallback: use raw text as summary text only — NOT the whole JSON blob
+            data = json.loads(_clean_json_response(response))
+        except Exception:
+            logger.warning(f"Summary JSON parse failed for {document_id}, using fallback")
             data = {
-                "summary": re.sub(r'\{[\s\S]*\}', '', response).strip()[:800] or
-                           "Summary could not be parsed. Please review the document manually.",
+                "summary": response[:1000],
                 "key_obligations": [],
                 "key_rights": [],
                 "important_clauses": [],
@@ -256,7 +222,6 @@ Required format:
                 page_number=c.get("page_number"),
             )
             for c in data.get("important_clauses", [])
-            if isinstance(c, dict)
         ]
 
         return DocumentSummaryResponse(

@@ -8,6 +8,7 @@ Uses 3b model (fast task).
 """
 import json
 from core.task_router import get_client
+from utils.helpers import clean_json_response
 from utils.logging import app_logger as logger
 
 CHECKLIST_SYSTEM = """You are a legal document expert. Your job is to review a contract
@@ -119,7 +120,7 @@ Respond ONLY in valid JSON:
         response = await client.generate(prompt, CHECKLIST_SYSTEM, temperature=0.2)
 
         try:
-            cleaned = response.strip().strip("```json").strip("```").strip()
+            cleaned = clean_json_response(response)
             data = json.loads(cleaned)
         except Exception:
             logger.warning("Checklist JSON parse failed — building fallback")

@@ -1,9 +1,8 @@
 """
 Document routes — sequential SSE streaming pipeline.
 
-Order is guaranteed:  summary → risk → fairness → safety
-Each step streams to the client as soon as it finishes,
-so the Flutter UI still gets progressive updates — just in the right order.
+Analysis runs in guaranteed order: summary → risk → fairness → safety.
+Each result is streamed to the client immediately after it completes.
 """
 
 import asyncio
@@ -32,7 +31,7 @@ from utils.logging import app_logger as logger
 router = APIRouter(prefix="/api/v1", tags=["Document Analyzer"])
 
 UPLOAD_TIMEOUT   = 120
-SUMMARY_TIMEOUT  = 240
+SUMMARY_TIMEOUT  = 300   # 8b model — needs more time
 ANALYSIS_TIMEOUT = 200
 CHAT_TIMEOUT     = 90
 
@@ -65,14 +64,9 @@ async def upload_document(file: UploadFile = File(...)):
 
 async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGenerator[str, None]:
     """
-    Runs analysis steps in strict order:
-      1. Summary   (8b smart model)
-      2. Risk      (8b smart model)
-      3. Fairness  (8b smart model)
-      4. Safety    (pure math — instant)
-
-    Each result is yielded to the client immediately after it completes,
-    so the Flutter UI still gets progressive updates — just in the right order.
+    Runs analysis in strict order: summary → risk → fairness → safety.
+    Each result is streamed immediately after it completes so the Flutter
+    client can render tabs progressively in the correct sequence.
 
     Event types:
       status   → progress message
@@ -92,7 +86,10 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
     fairness_result = None
 
     # ── Step 1: Summary ────────────────────────────────────────────────────────
-    yield sse_event("status", {"step": "summary", "message": "Generating summary..."})
+    yield sse_event("status", {
+        "step": "summary",
+        "message": "Generating document summary..."
+    })
     try:
         summary_result = await asyncio.wait_for(
             document_service.get_summary(document_id, mode),
@@ -101,14 +98,20 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
         yield sse_event("summary", summary_result.dict())
         logger.info(f"[{document_id}] summary ✅")
     except asyncio.TimeoutError:
-        yield sse_event("error", {"step": "summary", "message": f"Summary timed out after {SUMMARY_TIMEOUT}s"})
-        logger.error(f"[{document_id}] summary timeout")
+        yield sse_event("error", {
+            "step": "summary",
+            "message": f"Summary timed out after {SUMMARY_TIMEOUT}s"
+        })
+        logger.error(f"[{document_id}] summary timed out")
     except Exception as e:
         yield sse_event("error", {"step": "summary", "message": str(e)})
-        logger.error(f"[{document_id}] summary error: {e}")
+        logger.error(f"[{document_id}] summary failed: {e}")
 
-    # ── Step 2: Risk ───────────────────────────────────────────────────────────
-    yield sse_event("status", {"step": "risk", "message": "Analyzing risk..."})
+    # ── Step 2: Risk Analysis ──────────────────────────────────────────────────
+    yield sse_event("status", {
+        "step": "risk",
+        "message": "Analyzing contract risks..."
+    })
     try:
         risk_result = await asyncio.wait_for(
             risk_service.analyze_risk(document_id, doc["full_text"]),
@@ -117,14 +120,20 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
         yield sse_event("risk", risk_result.dict())
         logger.info(f"[{document_id}] risk ✅")
     except asyncio.TimeoutError:
-        yield sse_event("error", {"step": "risk", "message": f"Risk analysis timed out after {ANALYSIS_TIMEOUT}s"})
-        logger.error(f"[{document_id}] risk timeout")
+        yield sse_event("error", {
+            "step": "risk",
+            "message": f"Risk analysis timed out after {ANALYSIS_TIMEOUT}s"
+        })
+        logger.error(f"[{document_id}] risk timed out")
     except Exception as e:
         yield sse_event("error", {"step": "risk", "message": str(e)})
-        logger.error(f"[{document_id}] risk error: {e}")
+        logger.error(f"[{document_id}] risk failed: {e}")
 
-    # ── Step 3: Fairness ───────────────────────────────────────────────────────
-    yield sse_event("status", {"step": "fairness", "message": "Checking clause fairness..."})
+    # ── Step 3: Clause Fairness ────────────────────────────────────────────────
+    yield sse_event("status", {
+        "step": "fairness",
+        "message": "Checking clause fairness..."
+    })
     try:
         fairness_result = await asyncio.wait_for(
             fairness_service.analyze_fairness(document_id, doc["full_text"]),
@@ -133,13 +142,16 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
         yield sse_event("fairness", fairness_result.dict())
         logger.info(f"[{document_id}] fairness ✅")
     except asyncio.TimeoutError:
-        yield sse_event("error", {"step": "fairness", "message": f"Fairness timed out after {ANALYSIS_TIMEOUT}s"})
-        logger.error(f"[{document_id}] fairness timeout")
+        yield sse_event("error", {
+            "step": "fairness",
+            "message": f"Fairness timed out after {ANALYSIS_TIMEOUT}s"
+        })
+        logger.error(f"[{document_id}] fairness timed out")
     except Exception as e:
         yield sse_event("error", {"step": "fairness", "message": str(e)})
-        logger.error(f"[{document_id}] fairness error: {e}")
+        logger.error(f"[{document_id}] fairness failed: {e}")
 
-    # ── Step 4: Safety Score (instant — pure math) ─────────────────────────────
+    # ── Step 4: Safety Score (instant — pure math, no LLM) ────────────────────
     if risk_result and fairness_result:
         try:
             total_red_flags = len(risk_result.detected_red_flags)
@@ -159,12 +171,13 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
             logger.info(f"[{document_id}] safety ✅")
         except Exception as e:
             yield sse_event("error", {"step": "safety", "message": str(e)})
-            logger.error(f"[{document_id}] safety error: {e}")
+            logger.error(f"[{document_id}] safety failed: {e}")
     else:
         yield sse_event("error", {
             "step": "safety",
             "message": "Skipped — risk or fairness data unavailable",
         })
+        logger.warning(f"[{document_id}] safety skipped — missing risk or fairness result")
 
     yield sse_event("done", {"message": "Analysis complete"})
 
@@ -174,7 +187,7 @@ async def analysis_stream(document_id: str, mode: ExplanationMode) -> AsyncGener
     summary="Stream sequential analysis results (SSE)",
     description=(
         "Returns a text/event-stream. Runs summary → risk → fairness → safety "
-        "in order. Each result is pushed to the client as soon as it finishes."
+        "in strict order. Each result is pushed as soon as it completes."
     ),
     response_class=StreamingResponse,
 )
@@ -190,14 +203,14 @@ async def analyze_stream(
         analysis_stream(document_id, mode),
         media_type="text/event-stream",
         headers={
-            "Cache-Control": "no-cache",
+            "Cache-Control":    "no-cache",
             "X-Accel-Buffering": "no",
-            "Connection": "keep-alive",
+            "Connection":       "keep-alive",
         },
     )
 
 
-# ─── Individual endpoints (direct access) ─────────────────────────────────────
+# ─── Individual endpoints (for direct access) ──────────────────────────────────
 
 @router.get("/document-summary/{document_id}", response_model=DocumentSummaryResponse)
 async def get_document_summary(

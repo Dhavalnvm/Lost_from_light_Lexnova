@@ -50,3 +50,39 @@ ai_response
 2026-03-11 22:44:07 | ERROR    | api.routes.documents:analysis_stream:161 - [99f6b71e-0450-4bd3-9401-fdf57ad2e06e] risk failed: Risk analysis timed out after 200s
 2026-03-11 23:09:02 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\08914964-359a-4b36-954f-294eb812e9f8.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
 2026-03-11 23:09:21 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\8ca1c6ae-b01e-4351-a5ee-230a9c11353d.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-12 06:50:39 | ERROR    | api.routes.documents:upload_document:60 - Upload error: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.
+2026-03-12 06:56:42 | ERROR    | api.routes.documents:upload_document:60 - Upload error: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.
+2026-03-12 07:19:32 | ERROR    | core.document_parser:_ocr_image_file:112 - OCR failed for storage/documents\59249619-df43-41ae-be55-6bc5f5218845.jpg: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-12 08:01:22 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:22 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:25 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:25 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:32 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:01:32 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:01 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:34 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:35 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:35 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/user/dashboard: Invalid format string
+2026-03-12 08:04:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:37 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:37 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:04:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:04 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:04 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:08 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:28 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:28 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:29 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:29 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:36 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:38 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:41 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:41 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:53 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:15:54 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string
+2026-03-12 08:16:12 | ERROR    | main:global_exception_handler:108 - Unhandled exception on /api/v1/enterprise/company/dashboard: Invalid format string

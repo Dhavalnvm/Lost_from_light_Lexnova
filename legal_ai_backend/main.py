@@ -15,29 +15,31 @@ from core.llm_client import llm_client
 from api.routes import documents, guidance, chatbot, translation
 from api.routes.auth import router as auth_router
 from api.routes.features import router as features_router
-from api.routes.group_chat import router as group_chat_router
+
+# ── NEW routers ────────────────────────────────────────────────────────────────
 from api.routes.enterprise import router as enterprise_router
+from api.routes.user_dashboard import router as user_dashboard_router
 
 
 # ─── Lifespan ─────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Startup: connect MongoDB + check Ollama. Shutdown: close DB."""
     logger.info(f"🚀 Starting {settings.APP_NAME} v{settings.APP_VERSION}")
 
+    # MongoDB
     try:
         await connect_db()
     except Exception as e:
         logger.error(f"❌ MongoDB connection failed: {e}")
 
+    # Ollama health check
     ollama_ok = await llm_client.health_check()
     if not ollama_ok:
         logger.warning(f"⚠️  Ollama NOT reachable at {settings.OLLAMA_BASE_URL}")
     else:
-        logger.info(
-            f"✅ Ollama connected — "
-            f"smart={settings.OLLAMA_MODEL_SMART}  fast={settings.OLLAMA_MODEL_FAST}"
-        )
+        logger.info(f"✅ Ollama connected — smart={settings.OLLAMA_MODEL_SMART}  fast={settings.OLLAMA_MODEL_FAST}")
 
     logger.info("✅ Startup complete")
     yield
@@ -70,12 +72,12 @@ def create_app() -> FastAPI:
 - **Version Diff** — Compare contract v1 vs v2
 - **Required Documents Guidance** — Housing, loan, employment etc.
 - **Translation** — Multi-language support
-- **Group Discussion** — Real-time multi-user chat over a shared PDF
-- **Enterprise** — Multi-tenant company dashboards, team, billing, activity
+- **User Dashboard** — Per-user analytics and document history
+- **Enterprise Dashboard** — Company-level analytics, team management, billing
 
-### Model Routing (RTX 3050 optimised)
-- `llama3.1:8b` — GPU auto-fit (CUDA num_gpu=99) — reasoning tasks
-- `llama3.2:3b` — GPU auto-fit (CUDA num_gpu=99) — chat, RAG, translation
+### Model Routing
+- `llama3.1:8b` — reasoning: summary, risk, fairness, comparison, rewrite, version diff
+- `llama3.2:3b` — speed: chatbot, RAG chat, checklist, translation, safety score
         """,
         docs_url="/docs",
         redoc_url="/redoc",
@@ -97,10 +99,7 @@ def create_app() -> FastAPI:
         start = time.time()
         response = await call_next(request)
         dur = time.time() - start
-        logger.info(
-            f"← {request.method} {request.url.path} "
-            f"[{response.status_code}] {dur:.2f}s"
-        )
+        logger.info(f"← {request.method} {request.url.path} [{response.status_code}] {dur:.2f}s")
         return response
 
     # ── Global Exception Handler ───────────────────────────────────────────────
@@ -119,11 +118,12 @@ def create_app() -> FastAPI:
     app.include_router(chatbot.router)
     app.include_router(translation.router)
     app.include_router(features_router)
-    app.include_router(group_chat_router)
+
+    # ── New dashboard routers ───────────────────────────────────────────────────
     app.include_router(enterprise_router)
+    app.include_router(user_dashboard_router)
 
     # ── System endpoints ───────────────────────────────────────────────────────
-
     @app.get("/", tags=["System"])
     async def root():
         return {
@@ -135,29 +135,12 @@ def create_app() -> FastAPI:
 
     @app.get("/health", tags=["System"])
     async def health():
-        """
-        Health check consumed by both the Flutter app and the Admin Dashboard.
-
-        Returns:
-          status          — "healthy" | "degraded"
-          ollama          — "connected" | "disconnected"
-          ollama_url      — Ollama server URL (used by AdminDashboard)
-          model           — primary fast model (used by AdminDashboard stat card)
-          model_smart     — heavy reasoning model
-          model_fast      — fast chat/RAG model
-          smart_gpu_layers — GPU layers loaded for smart model
-          fast_gpu_layers  — GPU layers loaded for fast model
-        """
         ollama_ok = await llm_client.health_check()
         return {
-            "status":           "healthy" if ollama_ok else "degraded",
-            "ollama":           "connected" if ollama_ok else "disconnected",
-            "ollama_url":       settings.OLLAMA_BASE_URL,
-            "model":            settings.OLLAMA_MODEL_FAST,
-            "model_smart":      settings.OLLAMA_MODEL_SMART,
-            "model_fast":       settings.OLLAMA_MODEL_FAST,
-            "smart_gpu_layers": settings.SMART_GPU_LAYERS,
-            "fast_gpu_layers":  settings.FAST_GPU_LAYERS,
+            "status": "healthy" if ollama_ok else "degraded",
+            "ollama": "connected" if ollama_ok else "disconnected",
+            "model_smart": settings.OLLAMA_MODEL_SMART,
+            "model_fast": settings.OLLAMA_MODEL_FAST,
         }
 
     @app.get("/api/v1/document-types", tags=["Document Analyzer"])
