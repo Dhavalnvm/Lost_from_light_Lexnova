@@ -78,90 +78,90 @@ class _GuidanceDetailScreenState extends State<GuidanceDetailScreen> {
               ),
             )
           else if (_guidance != null)
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // Overview
-                  GlassCard(
-                    borderColor: AppColors.gold.withOpacity(0.3),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Overview',
-                            style: AppTextStyles.sectionTitle),
-                        const SizedBox(height: 10),
-                        Text(
-                          _guidance!.overview,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(height: 1.7),
-                        ),
-                      ],
-                    ),
-                  ).animate().fadeIn(duration: 400.ms),
-
-                  const SizedBox(height: 20),
-
-                  Text(
-                    'REQUIRED DOCUMENTS',
-                    style: AppTextStyles.sectionTitle,
-                  ),
-                  const SizedBox(height: 12),
-
-                  ..._guidance!.requiredDocuments.asMap().entries.map(
-                        (e) => _DocumentCard(
-                          doc: e.value,
-                          index: e.key,
-                        ),
-                      ),
-
-                  if (_guidance!.generalTips.isNotEmpty) ...[
-                    const SizedBox(height: 20),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    // Overview
                     GlassCard(
-                      borderColor: AppColors.infoBlue.withOpacity(0.3),
+                      borderColor: AppColors.gold.withOpacity(0.3),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.tips_and_updates_rounded,
-                                  color: AppColors.infoBlue, size: 18),
-                              const SizedBox(width: 8),
-                              Text('PRO TIPS',
-                                  style: AppTextStyles.sectionTitle),
-                            ],
+                          Text('Overview',
+                              style: AppTextStyles.sectionTitle),
+                          const SizedBox(height: 10),
+                          Text(
+                            _guidance!.overview,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(height: 1.7),
                           ),
-                          const SizedBox(height: 12),
-                          ..._guidance!.generalTips.map((tip) => Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.arrow_right_rounded,
-                                        color: AppColors.infoBlue, size: 18),
-                                    const SizedBox(width: 6),
-                                    Expanded(
-                                      child: Text(
-                                        tip,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(height: 1.5),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
                         ],
                       ),
-                    ).animate(delay: 300.ms).fadeIn(),
-                  ],
-                ]),
+                    ).animate().fadeIn(duration: 400.ms),
+
+                    const SizedBox(height: 20),
+
+                    Text(
+                      'REQUIRED DOCUMENTS',
+                      style: AppTextStyles.sectionTitle,
+                    ),
+                    const SizedBox(height: 12),
+
+                    ..._guidance!.requiredDocuments.asMap().entries.map(
+                          (e) => _DocumentCard(
+                        doc: e.value,
+                        index: e.key,
+                      ),
+                    ),
+
+                    if (_guidance!.generalTips.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      GlassCard(
+                        borderColor: AppColors.infoBlue.withOpacity(0.3),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.tips_and_updates_rounded,
+                                    color: AppColors.infoBlue, size: 18),
+                                const SizedBox(width: 8),
+                                Text('PRO TIPS',
+                                    style: AppTextStyles.sectionTitle),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            ..._guidance!.generalTips.map((tip) => Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(Icons.arrow_right_rounded,
+                                      color: AppColors.infoBlue, size: 18),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      tip,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(height: 1.5),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
+                      ).animate(delay: 300.ms).fadeIn(),
+                    ],
+                  ]),
+                ),
               ),
-            ),
         ],
       ),
     );
@@ -210,13 +210,16 @@ class _DocumentCardState extends State<_DocumentCard> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Expanded(
+                Flexible(
                   child: Text(
                     widget.doc.documentName,
                     style: Theme.of(context).textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
-                if (widget.doc.validity != null)
+                if (widget.doc.validity != null) ...[
+                  const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 3),
@@ -233,6 +236,7 @@ class _DocumentCardState extends State<_DocumentCard> {
                       ),
                     ),
                   ),
+                ],
               ],
             ),
 
@@ -324,52 +328,52 @@ class _DocumentCardState extends State<_DocumentCard> {
               if (_showSteps) ...[
                 const SizedBox(height: 12),
                 ...widget.doc.steps.map((step) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              color: AppColors.goldGlow,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: AppColors.goldDark, width: 1),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${step.stepNumber}',
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.gold,
-                                ),
-                              ),
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: AppColors.goldGlow,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: AppColors.goldDark, width: 1),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${step.stepNumber}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.gold,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(step.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(fontSize: 13)),
-                                const SizedBox(height: 2),
-                                Text(step.description,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(fontSize: 12, height: 1.5)),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(step.title,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontSize: 13)),
+                            const SizedBox(height: 2),
+                            Text(step.description,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontSize: 12, height: 1.5)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
               ],
             ],
           ],

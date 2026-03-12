@@ -1,12 +1,15 @@
 import json
 from core.task_router import get_client
+from core.embeddings import embeddings_manager
+from core.vector_store import vector_store
+from utils.helpers import clean_json_response
 from utils.logging import app_logger as logger
 from models.schemas import ClauseFairnessResponse, ClauseFairnessItem
 from config.settings import settings
 
 
-FAIRNESS_SYSTEM_PROMPT = """You are a legal contract fairness expert. 
-Compare contract clauses against industry standard benchmarks and explain if they are fair, 
+FAIRNESS_SYSTEM_PROMPT = """You are a legal contract fairness expert.
+Compare contract clauses against industry standard benchmarks and explain if they are fair,
 unfair, or unusual. Be objective and cite typical industry standards."""
 
 
@@ -63,25 +66,64 @@ CLAUSE_BENCHMARKS = {
     },
 }
 
-
-def _clean_json_response(response: str) -> str:
-    cleaned = response.strip()
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    elif cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    return cleaned.strip()
+# RAG queries targeting clause-relevant sections
+FAIRNESS_QUERIES = [
+    "penalty late payment interest charges fees",
+    "security deposit refundable advance",
+    "non-compete restriction post-employment",
+    "termination notice period without cause",
+    "automatic renewal evergreen clause",
+    "limitation of liability liability cap",
+    "indemnification hold harmless",
+    "arbitration dispute resolution",
+    "intellectual property ownership work for hire",
+]
 
 
 class FairnessService:
 
+    async def _retrieve_fairness_context(self, document_id: str, full_text: str) -> str:
+        """RAG retrieval focused on clause-fairness-relevant sections."""
+        seen = set()
+        relevant_chunks = []
+
+        for query in FAIRNESS_QUERIES:
+            try:
+                query_embedding = await embeddings_manager.embed_query(query)
+                chunks = vector_store.query_similar_chunks(
+                    query_embedding=query_embedding,
+                    document_id=document_id,
+                    n_results=3,
+                )
+                for chunk in chunks:
+                    key = chunk[:80]
+                    if key not in seen:
+                        seen.add(key)
+                        relevant_chunks.append(chunk)
+            except Exception as e:
+                logger.warning(f"Fairness query '{query[:30]}' failed: {type(e).__name__}: {e}")
+                continue
+
+        if not relevant_chunks:
+            logger.warning(f"Fairness RAG failed for {document_id}, using all chunks")
+            relevant_chunks = vector_store.get_all_chunks(document_id)
+
+        if not relevant_chunks:
+            logger.warning(f"ChromaDB fallback failed for fairness {document_id}, using full_text")
+            return full_text[:settings.ANALYSIS_TEXT_LIMIT]
+
+        context = "\n\n---\n\n".join(relevant_chunks)
+        logger.info(
+            f"Fairness context: {len(relevant_chunks)} chunks, "
+            f"{len(context)} chars for doc {document_id}"
+        )
+        return context
+
     async def analyze_fairness(
         self, document_id: str, full_text: str
     ) -> ClauseFairnessResponse:
-        # Use increased text limit + smart (8b) model
-        text_sample = full_text[:settings.ANALYSIS_TEXT_LIMIT]
+        # Fix #5 — was raw full_text slice; now uses RAG for relevant clause chunks
+        context = await self._retrieve_fairness_context(document_id, full_text)
         client = get_client("fairness")
 
         benchmarks_str = json.dumps(
@@ -94,7 +136,7 @@ class FairnessService:
 Analyze this legal document and compare its clauses against standard industry benchmarks.
 
 DOCUMENT:
-{text_sample}
+{context}
 
 INDUSTRY BENCHMARKS:
 {benchmarks_str}
@@ -107,26 +149,16 @@ For each relevant clause type you find in the document:
 
 Also give an overall_fairness rating: "Fair", "Mostly Fair", "Mixed", "Mostly Unfair", or "Unfair"
 
-Respond ONLY with valid JSON:
-{{
-  "overall_fairness": "...",
-  "clauses_analyzed": [
-    {{
-      "clause_type": "...",
-      "contract_value": "exact value/term from document",
-      "typical_standard": "industry benchmark",
-      "fairness_rating": "Fair|Unfair|Slightly Unfair|Very Unfair",
-      "ai_insight": "explanation",
-      "severity": "low|medium|high"
-    }}
-  ]
-}}
+IMPORTANT: Return ONLY raw JSON. No markdown, no explanation, no code fences. Start with {{ and end with }}.
+
+Format:
+{{"overall_fairness": "...", "clauses_analyzed": [{{"clause_type": "...", "contract_value": "...", "typical_standard": "...", "fairness_rating": "Fair|Unfair|Slightly Unfair|Very Unfair", "ai_insight": "...", "severity": "low|medium|high"}}]}}
 """
 
         response = await client.generate(prompt, FAIRNESS_SYSTEM_PROMPT)
 
         try:
-            data = json.loads(_clean_json_response(response))
+            data = json.loads(clean_json_response(response))
         except Exception:
             logger.warning("Fairness JSON parse failed, using keyword fallback")
             data = self._keyword_fallback(full_text)
@@ -152,7 +184,6 @@ Respond ONLY with valid JSON:
     def _keyword_fallback(self, text: str) -> dict:
         text_lower = text.lower()
         clauses = []
-
         for key, bench in CLAUSE_BENCHMARKS.items():
             for kw in bench["keywords"]:
                 if kw in text_lower:
@@ -167,7 +198,6 @@ Respond ONLY with valid JSON:
                         "severity": "medium",
                     })
                     break
-
         return {"overall_fairness": "Requires Review", "clauses_analyzed": clauses}
 
 

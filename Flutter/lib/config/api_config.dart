@@ -1,6 +1,6 @@
 class ApiConfig {
   static const String baseUrl =
-      'https://a7b8-106-192-123-53.ngrok-free.app/api/v1';
+      'https://d27a-43-227-21-21.ngrok-free.app/api/v1';
 
   /// WebSocket base URL — derived from baseUrl at runtime.
   /// Strips /api/v1 and swaps https→wss (or http→ws).

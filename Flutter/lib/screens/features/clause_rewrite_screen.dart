@@ -59,18 +59,25 @@ class _ClauseRewriteScreenState extends State<ClauseRewriteScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Clause Rewrites', style: AppTextStyles.goldTitle.copyWith(fontSize: 20)),
+        title: Text('Clause Rewrites',
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
         backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: AppColors.cardBorder),
+        ),
       ),
       body: Column(
         children: [
-          // Tone selector
           Container(
             color: AppColors.surface,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('NEGOTIATION TONE', style: AppTextStyles.sectionTitle),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Row(children: [
                 _ToneChip(label: '💼 Standard', value: 'standard', selected: _tone == 'standard',
                     onTap: () { setState(() => _tone = 'standard'); _load(); }),
@@ -85,17 +92,22 @@ class _ClauseRewriteScreenState extends State<ClauseRewriteScreen> {
           ),
           Expanded(
             child: _loading
-                ? const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    CircularProgressIndicator(color: AppColors.gold),
-                    SizedBox(height: 16),
-                    Text('Generating rewrites...', style: TextStyle(color: AppColors.textSecondary)),
-                    SizedBox(height: 6),
-                    Text('This may take a moment', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
-                  ]))
+                ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const CircularProgressIndicator(color: AppColors.gold),
+              const SizedBox(height: 16),
+              Text('Generating rewrites...',
+                  style: GoogleFonts.plusJakartaSans(color: AppColors.textSecondary)),
+              const SizedBox(height: 6),
+              Text('This may take a moment',
+                  style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.textMuted, fontSize: 12)),
+            ]))
                 : _error != null
-                    ? Center(child: Padding(padding: const EdgeInsets.all(24),
-                        child: Text(_error!, style: const TextStyle(color: AppColors.dangerRed))))
-                    : _buildContent(),
+                ? Center(child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(_error!, style: GoogleFonts.plusJakartaSans(
+                    color: AppColors.dangerRed))))
+                : _buildContent(),
           ),
         ],
       ),
@@ -107,33 +119,36 @@ class _ClauseRewriteScreenState extends State<ClauseRewriteScreen> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        // Summary card
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
-            color: AppColors.cardBg,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.gold.withOpacity(0.3)),
+            border: Border.all(color: AppColors.gold.withOpacity(0.25)),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0,4))],
           ),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: _difficultyColor(_result!.rewriteDifficulty).withOpacity(0.12),
+                  color: _difficultyColor(_result!.rewriteDifficulty).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: _difficultyColor(_result!.rewriteDifficulty).withOpacity(0.25)),
                 ),
                 child: Text('${_result!.rewriteDifficulty} to negotiate',
-                    style: TextStyle(color: _difficultyColor(_result!.rewriteDifficulty),
+                    style: GoogleFonts.plusJakartaSans(
+                        color: _difficultyColor(_result!.rewriteDifficulty),
                         fontSize: 12, fontWeight: FontWeight.w600)),
               ),
               const Spacer(),
               Text('${_result!.totalRiskyClauses} risky clauses',
-                  style: const TextStyle(color: AppColors.textMuted, fontSize: 13)),
+                  style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.textMuted, fontSize: 13)),
             ]),
             const SizedBox(height: 10),
-            Text(_result!.overallAssessment, style: const TextStyle(
+            Text(_result!.overallAssessment, style: GoogleFonts.plusJakartaSans(
                 color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
           ]),
         ).animate().fadeIn(),
@@ -142,16 +157,26 @@ class _ClauseRewriteScreenState extends State<ClauseRewriteScreen> {
           Center(child: Padding(
             padding: const EdgeInsets.all(40),
             child: Column(children: [
-              const Icon(Icons.verified_rounded, color: AppColors.safeGreen, size: 48),
-              const SizedBox(height: 12),
-              Text('No risky clauses detected', style: GoogleFonts.cormorantGaramond(
-                  color: AppColors.safeGreen, fontSize: 20, fontWeight: FontWeight.w600)),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.safeGreen.withOpacity(0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.verified_rounded, color: AppColors.safeGreen, size: 40),
+              ),
+              const SizedBox(height: 16),
+              Text('No risky clauses detected', style: GoogleFonts.plusJakartaSans(
+                  color: AppColors.safeGreen, fontSize: 18, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 6),
+              Text('This document looks good!', style: GoogleFonts.plusJakartaSans(
+                  color: AppColors.textMuted, fontSize: 13)),
             ]),
           ))
         else
           ..._result!.suggestions.asMap().entries.map((entry) =>
-            _RewriteCard(suggestion: entry.value, riskColor: _riskColor(entry.value.riskLevel))
-                .animate().fadeIn(delay: Duration(milliseconds: 80 * entry.key))),
+              _RewriteCard(suggestion: entry.value, riskColor: _riskColor(entry.value.riskLevel))
+                  .animate().fadeIn(delay: Duration(milliseconds: 80 * entry.key))),
       ],
     );
   }
@@ -161,7 +186,8 @@ class _ToneChip extends StatelessWidget {
   final String label, value;
   final bool selected;
   final VoidCallback onTap;
-  const _ToneChip({required this.label, required this.value, required this.selected, required this.onTap});
+  const _ToneChip({required this.label, required this.value,
+    required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -170,11 +196,13 @@ class _ToneChip extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: selected ? AppColors.goldGlow : Colors.transparent,
+        color: selected ? AppColors.gold.withOpacity(0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: selected ? AppColors.gold : AppColors.cardBorder, width: selected ? 1.5 : 1),
+        border: Border.all(
+            color: selected ? AppColors.gold : AppColors.cardBorder,
+            width: selected ? 1.5 : 1),
       ),
-      child: Text(label, style: GoogleFonts.dmSans(
+      child: Text(label, style: GoogleFonts.plusJakartaSans(
           color: selected ? AppColors.gold : AppColors.textSecondary,
           fontSize: 13, fontWeight: selected ? FontWeight.w600 : FontWeight.w400)),
     ),
@@ -196,7 +224,14 @@ class _RewriteCardState extends State<_RewriteCard> {
   void _copyRewrite() {
     Clipboard.setData(ClipboardData(text: widget.suggestion.suggestedRewrite));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Rewrite copied to clipboard'), backgroundColor: AppColors.safeGreen));
+      SnackBar(
+        content: Text('Rewrite copied!',
+            style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.w600)),
+        backgroundColor: AppColors.safeGreen,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   @override
@@ -205,34 +240,36 @@ class _RewriteCardState extends State<_RewriteCard> {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: widget.riskColor.withOpacity(0.3)),
+        border: Border.all(color: widget.riskColor.withOpacity(0.2)),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0,4))],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Clause header
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: widget.riskColor.withOpacity(0.06),
+            color: widget.riskColor.withOpacity(0.05),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            border: Border(bottom: BorderSide(color: widget.riskColor.withOpacity(0.15))),
+            border: Border(bottom: BorderSide(color: widget.riskColor.withOpacity(0.12))),
           ),
           child: Row(children: [
             Container(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: widget.riskColor.withOpacity(0.15), borderRadius: BorderRadius.circular(8)),
-              child: Icon(Icons.warning_amber_rounded, color: widget.riskColor, size: 16),
+                  color: widget.riskColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Icon(Icons.warning_amber_rounded, color: widget.riskColor, size: 15),
             ),
             const SizedBox(width: 10),
-            Expanded(child: Text(s.clauseType, style: GoogleFonts.dmSans(
-                color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 15))),
+            Expanded(child: Text(s.clauseType, style: GoogleFonts.plusJakartaSans(
+                color: AppColors.textPrimary, fontWeight: FontWeight.w700, fontSize: 15))),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: widget.riskColor.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-              child: Text(s.riskLevel.toUpperCase(), style: TextStyle(
+                  color: widget.riskColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Text(s.riskLevel.toUpperCase(), style: GoogleFonts.plusJakartaSans(
                   color: widget.riskColor, fontSize: 10, fontWeight: FontWeight.w700)),
             ),
           ]),
@@ -240,38 +277,36 @@ class _RewriteCardState extends State<_RewriteCard> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // Original
             _Label('ORIGINAL CLAUSE'),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: AppColors.dangerRed.withOpacity(0.04),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.dangerRed.withOpacity(0.15)),
+                border: Border.all(color: AppColors.dangerRed.withOpacity(0.12)),
               ),
-              child: Text(s.originalText, style: const TextStyle(
+              child: Text(s.originalText, style: GoogleFonts.plusJakartaSans(
                   color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
             ),
-            const SizedBox(height: 12),
-            // Why risky
+            const SizedBox(height: 14),
             _Label('WHY IT\'S RISKY'),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Icon(Icons.info_outline_rounded, color: widget.riskColor, size: 16),
               const SizedBox(width: 8),
-              Expanded(child: Text(s.riskReason, style: TextStyle(
+              Expanded(child: Text(s.riskReason, style: GoogleFonts.plusJakartaSans(
                   color: widget.riskColor.withOpacity(0.9), fontSize: 13, height: 1.4))),
             ]),
-            const SizedBox(height: 12),
-            // Toggle rewrite
+            const SizedBox(height: 14),
             GestureDetector(
               onTap: () => setState(() => _showRewrite = !_showRewrite),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
                 decoration: BoxDecoration(
-                  gradient: _showRewrite ? AppColors.safeGradient : null,
-                  color: _showRewrite ? null : AppColors.safeGreen.withOpacity(0.06),
+                  color: _showRewrite
+                      ? AppColors.safeGreen.withOpacity(0.08)
+                      : AppColors.background,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColors.safeGreen.withOpacity(0.3)),
                 ),
@@ -279,63 +314,71 @@ class _RewriteCardState extends State<_RewriteCard> {
                   const Icon(Icons.auto_fix_high_rounded, color: AppColors.safeGreen, size: 16),
                   const SizedBox(width: 8),
                   Text(_showRewrite ? 'Hide safer rewrite' : 'View safer rewrite →',
-                      style: const TextStyle(color: AppColors.safeGreen, fontWeight: FontWeight.w600, fontSize: 13)),
+                      style: GoogleFonts.plusJakartaSans(
+                          color: AppColors.safeGreen, fontWeight: FontWeight.w600, fontSize: 13)),
                 ]),
               ),
             ),
             if (_showRewrite) ...[
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.safeGreen.withOpacity(0.06),
+                  color: AppColors.safeGreen.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.safeGreen.withOpacity(0.25)),
+                  border: Border.all(color: AppColors.safeGreen.withOpacity(0.2)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Row(children: [
-                    const Expanded(child: Text('SUGGESTED REWRITE',
-                        style: TextStyle(color: AppColors.safeGreen, fontSize: 10, fontWeight: FontWeight.w700))),
+                    Expanded(child: Text('SUGGESTED REWRITE',
+                        style: GoogleFonts.plusJakartaSans(
+                            color: AppColors.safeGreen, fontSize: 10, fontWeight: FontWeight.w700))),
                     GestureDetector(
                       onTap: _copyRewrite,
-                      child: const Icon(Icons.copy_rounded, color: AppColors.safeGreen, size: 16),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: AppColors.safeGreen.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Icon(Icons.copy_rounded, color: AppColors.safeGreen, size: 14),
+                      ),
                     ),
                   ]),
                   const SizedBox(height: 8),
-                  Text(s.suggestedRewrite, style: const TextStyle(
+                  Text(s.suggestedRewrite, style: GoogleFonts.plusJakartaSans(
                       color: AppColors.textPrimary, fontSize: 13, height: 1.5)),
                 ]),
               ),
               const SizedBox(height: 10),
-              // Negotiation tip
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.gold.withOpacity(0.06),
+                  color: AppColors.gold.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColors.gold.withOpacity(0.2)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text('💬 HOW TO NEGOTIATE',
-                      style: TextStyle(color: AppColors.gold, fontSize: 10, fontWeight: FontWeight.w700)),
+                  Text('💬  HOW TO NEGOTIATE', style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.gold, fontSize: 10, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 6),
-                  Text(s.negotiationTip, style: const TextStyle(
+                  Text(s.negotiationTip, style: GoogleFonts.plusJakartaSans(
                       color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
                 ]),
               ),
               const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.infoBlue.withOpacity(0.06),
+                  color: AppColors.infoBlue.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColors.infoBlue.withOpacity(0.2)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text('🛡️ IF THEY REFUSE',
-                      style: TextStyle(color: AppColors.infoBlue, fontSize: 10, fontWeight: FontWeight.w700)),
+                  Text('🛡️  IF THEY REFUSE', style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.infoBlue, fontSize: 10, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 6),
-                  Text(s.whatToDoIfRefused, style: const TextStyle(
+                  Text(s.whatToDoIfRefused, style: GoogleFonts.plusJakartaSans(
                       color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
                 ]),
               ),
@@ -351,6 +394,5 @@ class _Label extends StatelessWidget {
   final String text;
   const _Label(this.text);
   @override
-  Widget build(BuildContext context) =>
-      Text(text, style: AppTextStyles.sectionTitle);
+  Widget build(BuildContext context) => Text(text, style: AppTextStyles.sectionTitle);
 }

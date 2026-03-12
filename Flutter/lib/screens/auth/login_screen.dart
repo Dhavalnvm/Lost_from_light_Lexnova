@@ -14,20 +14,47 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
-  final _passCtrl = TextEditingController();
-  bool _loading = false;
-  bool _obscure = true;
+  final _passCtrl  = TextEditingController();
+  bool    _loading = false;
+  bool    _obscure = true;
   String? _error;
 
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    super.dispose();
+  }
+
+  // ── Validation ────────────────────────────────────────────────────────────────
+  String? _validate() {
+    final email = _emailCtrl.text.trim();
+    final pass  = _passCtrl.text;
+    if (email.isEmpty)                    return 'Email is required';
+    if (!email.contains('@') || !email.contains('.')) return 'Enter a valid email address';
+    if (pass.isEmpty)                     return 'Password is required';
+    if (pass.length < 6)                  return 'Password must be at least 6 characters';
+    return null;
+  }
+
   Future<void> _login() async {
+    final validationError = _validate();
+    if (validationError != null) {
+      setState(() => _error = validationError);
+      return;
+    }
+
     setState(() { _loading = true; _error = null; });
     try {
       await ApiService().login(_emailCtrl.text.trim(), _passCtrl.text);
-      if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/home');
-      }
+      if (mounted) Navigator.of(context).pushReplacementNamed('/home');
     } catch (e) {
-      setState(() => _error = e.toString().replaceFirst('ApiException(401): ', '').replaceFirst('ApiException(400): ', ''));
+      if (mounted) {
+        setState(() => _error = e
+            .toString()
+            .replaceFirst('ApiException(401): ', '')
+            .replaceFirst('ApiException(400): ', ''));
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -81,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       controller: _emailCtrl,
                       keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: const InputDecoration(
                         labelText: 'Email',
@@ -93,15 +121,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       controller: _passCtrl,
                       obscureText: _obscure,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      textInputAction: TextInputAction.done,
                       onSubmitted: (_) => _login(),
+                      style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: const TextStyle(color: AppColors.textSecondary),
                         prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textMuted),
                         suffixIcon: IconButton(
-                          icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: AppColors.textMuted),
+                          icon: Icon(
+                            _obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                            color: AppColors.textMuted,
+                          ),
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
@@ -118,7 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Row(children: [
                           const Icon(Icons.error_outline, color: AppColors.dangerRed, size: 16),
                           const SizedBox(width: 8),
-                          Expanded(child: Text(_error!, style: const TextStyle(color: AppColors.dangerRed, fontSize: 13))),
+                          Expanded(child: Text(_error!,
+                              style: const TextStyle(color: AppColors.dangerRed, fontSize: 13))),
                         ]),
                       ),
                     ],
@@ -137,13 +169,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14)),
                           ),
                           child: _loading
                               ? const SizedBox(width: 22, height: 22,
-                                  child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2.5))
+                              child: CircularProgressIndicator(
+                                  color: Colors.black, strokeWidth: 2.5))
                               : Text('Sign In', style: GoogleFonts.dmSans(
-                                  color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+                              color: Colors.black, fontSize: 16,
+                              fontWeight: FontWeight.w700)),
                         ),
                       ),
                     ),
@@ -161,7 +196,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextSpan(text: "Don't have an account? ",
                           style: GoogleFonts.dmSans(color: AppColors.textSecondary)),
                       TextSpan(text: 'Create one',
-                          style: GoogleFonts.dmSans(color: AppColors.gold, fontWeight: FontWeight.w600)),
+                          style: GoogleFonts.dmSans(
+                              color: AppColors.gold, fontWeight: FontWeight.w600)),
                     ]),
                   ),
                 ),

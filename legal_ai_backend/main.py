@@ -1,8 +1,7 @@
 """
-Legal AI Backend - FastAPI Application
-AI-Powered Legal Document Simplification and Guidance System
+LexNova Legal AI Backend v2.0 — FastAPI Application
+AI-Powered Legal Document Simplification, Analysis & Guidance
 """
-
 import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
@@ -11,32 +10,42 @@ from fastapi.responses import JSONResponse
 
 from config.settings import settings
 from utils.logging import app_logger as logger
-from api.routes import documents, guidance, chatbot, translation
+from core.database import connect_db, close_db
 from core.llm_client import llm_client
+from api.routes import documents, guidance, chatbot, translation
+from api.routes.auth import router as auth_router
+from api.routes.features import router as features_router
+
+# ── NEW routers ────────────────────────────────────────────────────────────────
+from api.routes.enterprise import router as enterprise_router
+from api.routes.user_dashboard import router as user_dashboard_router
 
 
 # ─── Lifespan ─────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup and shutdown events."""
+    """Startup: connect MongoDB + check Ollama. Shutdown: close DB."""
     logger.info(f"🚀 Starting {settings.APP_NAME} v{settings.APP_VERSION}")
 
-    # Check Ollama connectivity
+    # MongoDB
+    try:
+        await connect_db()
+    except Exception as e:
+        logger.error(f"❌ MongoDB connection failed: {e}")
+
+    # Ollama health check
     ollama_ok = await llm_client.health_check()
     if not ollama_ok:
-        logger.warning(
-            f"⚠️  Ollama is NOT reachable at {settings.OLLAMA_BASE_URL}. "
-            "LLM features will fail until Ollama is started."
-        )
+        logger.warning(f"⚠️  Ollama NOT reachable at {settings.OLLAMA_BASE_URL}")
     else:
-        logger.info(f"✅ Ollama connected at {settings.OLLAMA_BASE_URL} (model: {settings.OLLAMA_MODEL})")
+        logger.info(f"✅ Ollama connected — smart={settings.OLLAMA_MODEL_SMART}  fast={settings.OLLAMA_MODEL_FAST}")
 
-    logger.info("✅ Application startup complete")
+    logger.info("✅ Startup complete")
+    yield
 
-    yield  # Application runs here
-
-    logger.info("🛑 Application shutdown")
+    await close_db()
+    logger.info("🛑 Shutdown complete")
 
 
 # ─── App Factory ──────────────────────────────────────────────────────────────
@@ -46,23 +55,29 @@ def create_app() -> FastAPI:
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
         description="""
-## 🏛️ Legal AI Backend
-
-An AI-powered backend for legal document simplification, risk analysis, and guidance.
+## 🏛️ LexNova Legal AI Backend v2.0
 
 ### Features
-- **Document Upload** — PDF, DOCX, and scanned image support with OCR
-- **AI Summaries** — Plain language explanations (Beginner / Student / Professional modes)
-- **Risk Analysis** — Automatic detection of risky clauses and red flags
-- **Clause Fairness** — Comparison against industry benchmark standards
-- **Safety Score** — Overall contract safety rating (0–100)
+- **Auth** — JWT register/login, user profiles, document history (MongoDB)
+- **Document Upload** — PDF, DOCX, image OCR
+- **AI Summaries** — Beginner / Student / Professional modes
+- **Risk Analysis** — Red flags + severity scoring
+- **Clause Fairness** — Clause-by-clause benchmark comparison
+- **Safety Score** — Overall contract safety 0–100
 - **RAG Chat** — Ask questions about uploaded documents
-- **Legal Chatbot** — General legal Q&A
-- **Documents Guidance** — Required documents for housing, loan, employment, etc.
+- **Legal Chatbot** — General legal Q&A ("Lex")
+- **Contract Safety Comparison** — Two docs side-by-side
+- **Clause Rewriting** — Safer rewrites with negotiation tips
+- **Smart Checklist** — Dynamic clause checklist by document type
+- **Version Diff** — Compare contract v1 vs v2
+- **Required Documents Guidance** — Housing, loan, employment etc.
 - **Translation** — Multi-language support
+- **User Dashboard** — Per-user analytics and document history
+- **Enterprise Dashboard** — Company-level analytics, team management, billing
 
-### LLM Runtime
-Uses **Ollama** with **Llama3 / Mistral** running locally.
+### Model Routing
+- `llama3.1:8b` — reasoning: summary, risk, fairness, comparison, rewrite, version diff
+- `llama3.2:3b` — speed: chatbot, RAG chat, checklist, translation, safety score
         """,
         docs_url="/docs",
         redoc_url="/redoc",
@@ -72,38 +87,43 @@ Uses **Ollama** with **Llama3 / Mistral** running locally.
     # ── CORS ──────────────────────────────────────────────────────────────────
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Restrict in production
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
 
-    # ── Request Timing Middleware ──────────────────────────────────────────────
+    # ── Request Timing ─────────────────────────────────────────────────────────
     @app.middleware("http")
     async def log_requests(request: Request, call_next):
         start = time.time()
-        logger.info(f"→ {request.method} {request.url.path}")
         response = await call_next(request)
-        duration = time.time() - start
-        logger.info(f"← {request.method} {request.url.path} [{response.status_code}] {duration:.2f}s")
+        dur = time.time() - start
+        logger.info(f"← {request.method} {request.url.path} [{response.status_code}] {dur:.2f}s")
         return response
 
     # ── Global Exception Handler ───────────────────────────────────────────────
     @app.exception_handler(Exception)
     async def global_exception_handler(request: Request, exc: Exception):
-        logger.error(f"Unhandled exception: {exc}", exc_info=True)
+        logger.error(f"Unhandled exception on {request.url.path}: {exc}", exc_info=True)
         return JSONResponse(
             status_code=500,
             content={"error": "Internal Server Error", "detail": str(exc), "status_code": 500},
         )
 
     # ── Routes ─────────────────────────────────────────────────────────────────
+    app.include_router(auth_router)
     app.include_router(documents.router)
     app.include_router(guidance.router)
     app.include_router(chatbot.router)
     app.include_router(translation.router)
+    app.include_router(features_router)
 
-    # ── Health & Info ──────────────────────────────────────────────────────────
+    # ── New dashboard routers ───────────────────────────────────────────────────
+    app.include_router(enterprise_router)
+    app.include_router(user_dashboard_router)
+
+    # ── System endpoints ───────────────────────────────────────────────────────
     @app.get("/", tags=["System"])
     async def root():
         return {
@@ -111,7 +131,6 @@ Uses **Ollama** with **Llama3 / Mistral** running locally.
             "version": settings.APP_VERSION,
             "status": "running",
             "docs": "/docs",
-            "redoc": "/redoc",
         }
 
     @app.get("/health", tags=["System"])
@@ -120,13 +139,12 @@ Uses **Ollama** with **Llama3 / Mistral** running locally.
         return {
             "status": "healthy" if ollama_ok else "degraded",
             "ollama": "connected" if ollama_ok else "disconnected",
-            "ollama_url": settings.OLLAMA_BASE_URL,
-            "model": settings.OLLAMA_MODEL,
+            "model_smart": settings.OLLAMA_MODEL_SMART,
+            "model_fast": settings.OLLAMA_MODEL_FAST,
         }
 
     @app.get("/api/v1/document-types", tags=["Document Analyzer"])
     async def list_document_types():
-        """List all supported document types for analysis."""
         return {
             "housing_property": [
                 "Rental Agreement", "Lease Agreement", "Leave and License Agreement",
@@ -177,9 +195,6 @@ Uses **Ollama** with **Llama3 / Mistral** running locally.
 
 
 app = create_app()
-
-
-# ─── Entry Point ──────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     import uvicorn

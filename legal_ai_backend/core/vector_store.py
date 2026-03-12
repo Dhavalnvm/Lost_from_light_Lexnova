@@ -2,6 +2,9 @@ from typing import List, Dict, Optional, Any
 from config.settings import settings
 from utils.logging import app_logger as logger
 
+# In-memory cache: document_id → chunk count, populated on add_document_chunks
+_chunk_count_cache: Dict[str, int] = {}
+
 
 class VectorStore:
     """ChromaDB-backed vector store for document chunks."""
@@ -52,6 +55,7 @@ class VectorStore:
             embeddings=embeddings,
             metadatas=metadatas,
         )
+        _chunk_count_cache[document_id] = len(chunks)
         logger.info(f"Stored {len(chunks)} chunks for document {document_id}")
 
     def query_similar_chunks(
@@ -61,9 +65,14 @@ class VectorStore:
         n_results: int = 5,
     ) -> List[str]:
         """Retrieve the most relevant chunks for a query within a document."""
+        # Use cached count — avoids a full ChromaDB .get() on every RAG query
+        available = _chunk_count_cache.get(document_id) or self._count_document_chunks(document_id)
+        clamped = min(n_results, available)
+        if clamped == 0:
+            return []
         results = self.collection.query(
             query_embeddings=[query_embedding],
-            n_results=min(n_results, self._count_document_chunks(document_id)),
+            n_results=clamped,
             where={"document_id": document_id},
         )
         documents = results.get("documents", [[]])[0]
@@ -89,6 +98,7 @@ class VectorStore:
         if ids:
             self.collection.delete(ids=ids)
             logger.info(f"Deleted {len(ids)} chunks for document {document_id}")
+        _chunk_count_cache.pop(document_id, None)
 
     def document_exists(self, document_id: str) -> bool:
         return self._count_document_chunks(document_id) > 0

@@ -12,24 +12,52 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _nameCtrl = TextEditingController();
+  final _nameCtrl  = TextEditingController();
   final _emailCtrl = TextEditingController();
-  final _passCtrl = TextEditingController();
-  bool _loading = false;
-  bool _obscure = true;
+  final _passCtrl  = TextEditingController();
+  bool    _loading = false;
+  bool    _obscure = true;
   String? _error;
 
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    super.dispose();
+  }
+
+  // ── Validation ────────────────────────────────────────────────────────────────
+  String? _validate() {
+    final name  = _nameCtrl.text.trim();
+    final email = _emailCtrl.text.trim();
+    final pass  = _passCtrl.text;
+    if (name.isEmpty)                              return 'Full name is required';
+    if (name.length < 2)                           return 'Enter your full name';
+    if (email.isEmpty)                             return 'Email is required';
+    if (!email.contains('@') || !email.contains('.')) return 'Enter a valid email address';
+    if (pass.isEmpty)                              return 'Password is required';
+    if (pass.length < 6)                           return 'Password must be at least 6 characters';
+    return null;
+  }
+
   Future<void> _register() async {
-    if (_nameCtrl.text.trim().isEmpty || _emailCtrl.text.trim().isEmpty || _passCtrl.text.isEmpty) {
-      setState(() => _error = 'All fields are required');
+    final validationError = _validate();
+    if (validationError != null) {
+      setState(() => _error = validationError);
       return;
     }
+
     setState(() { _loading = true; _error = null; });
     try {
-      await ApiService().register(_nameCtrl.text.trim(), _emailCtrl.text.trim(), _passCtrl.text);
+      await ApiService().register(
+          _nameCtrl.text.trim(), _emailCtrl.text.trim(), _passCtrl.text);
       if (mounted) Navigator.of(context).pushReplacementNamed('/home');
     } catch (e) {
-      setState(() => _error = e.toString().replaceAll(RegExp(r'ApiException\(\d+\): '), ''));
+      if (mounted) {
+        setState(() => _error =
+            e.toString().replaceAll(RegExp(r'ApiException\(\d+\): '), ''));
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -59,7 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 16),
                   Text('Create Account', style: AppTextStyles.displayTitle),
                   const SizedBox(height: 6),
-                  Text('Start your legal AI journey', style: Theme.of(context).textTheme.bodyMedium),
+                  Text('Start your legal AI journey',
+                      style: Theme.of(context).textTheme.bodyMedium),
                 ]),
               ),
               const SizedBox(height: 36),
@@ -73,42 +102,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Your details', style: Theme.of(context).textTheme.headlineMedium),
+                    Text('Your details',
+                        style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(height: 20),
                     TextField(
                       controller: _nameCtrl,
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: const InputDecoration(
                         labelText: 'Full Name',
                         labelStyle: TextStyle(color: AppColors.textSecondary),
-                        prefixIcon: Icon(Icons.person_outline, color: AppColors.textMuted),
+                        prefixIcon: Icon(Icons.person_outline,
+                            color: AppColors.textMuted),
                       ),
                     ),
                     const SizedBox(height: 14),
                     TextField(
                       controller: _emailCtrl,
                       keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         labelStyle: TextStyle(color: AppColors.textSecondary),
-                        prefixIcon: Icon(Icons.email_outlined, color: AppColors.textMuted),
+                        prefixIcon: Icon(Icons.email_outlined,
+                            color: AppColors.textMuted),
                       ),
                     ),
                     const SizedBox(height: 14),
                     TextField(
                       controller: _passCtrl,
                       obscureText: _obscure,
+                      textInputAction: TextInputAction.done,
                       onSubmitted: (_) => _register(),
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         labelText: 'Password (min 6 chars)',
-                        labelStyle: const TextStyle(color: AppColors.textSecondary),
-                        prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textMuted),
+                        labelStyle:
+                        const TextStyle(color: AppColors.textSecondary),
+                        prefixIcon: const Icon(Icons.lock_outline,
+                            color: AppColors.textMuted),
                         suffixIcon: IconButton(
-                          icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                              color: AppColors.textMuted),
-                          onPressed: () => setState(() => _obscure = !_obscure),
+                          icon: Icon(
+                            _obscure
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            color: AppColors.textMuted,
+                          ),
+                          onPressed: () =>
+                              setState(() => _obscure = !_obscure),
                         ),
                       ),
                     ),
@@ -119,12 +161,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.dangerRed.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.dangerRed.withOpacity(0.3)),
+                          border: Border.all(
+                              color: AppColors.dangerRed.withOpacity(0.3)),
                         ),
                         child: Row(children: [
-                          const Icon(Icons.error_outline, color: AppColors.dangerRed, size: 16),
+                          const Icon(Icons.error_outline,
+                              color: AppColors.dangerRed, size: 16),
                           const SizedBox(width: 8),
-                          Expanded(child: Text(_error!, style: const TextStyle(color: AppColors.dangerRed, fontSize: 13))),
+                          Expanded(
+                            child: Text(_error!,
+                                style: const TextStyle(
+                                    color: AppColors.dangerRed, fontSize: 13)),
+                          ),
                         ]),
                       ),
                     ],
@@ -142,13 +190,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14)),
                           ),
                           child: _loading
-                              ? const SizedBox(width: 22, height: 22,
-                                  child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2.5))
-                              : Text('Create Account', style: GoogleFonts.dmSans(
-                                  color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+                              ? const SizedBox(
+                              width: 22, height: 22,
+                              child: CircularProgressIndicator(
+                                  color: Colors.black, strokeWidth: 2.5))
+                              : Text('Create Account',
+                              style: GoogleFonts.dmSans(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700)),
                         ),
                       ),
                     ),
@@ -162,10 +216,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       MaterialPageRoute(builder: (_) => const LoginScreen())),
                   child: RichText(
                     text: TextSpan(children: [
-                      TextSpan(text: 'Already have an account? ',
-                          style: GoogleFonts.dmSans(color: AppColors.textSecondary)),
-                      TextSpan(text: 'Sign in',
-                          style: GoogleFonts.dmSans(color: AppColors.gold, fontWeight: FontWeight.w600)),
+                      TextSpan(
+                          text: 'Already have an account? ',
+                          style: GoogleFonts.dmSans(
+                              color: AppColors.textSecondary)),
+                      TextSpan(
+                          text: 'Sign in',
+                          style: GoogleFonts.dmSans(
+                              color: AppColors.gold,
+                              fontWeight: FontWeight.w600)),
                     ]),
                   ),
                 ),

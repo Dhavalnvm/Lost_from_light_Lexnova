@@ -16,14 +16,14 @@ class GuidanceScreen extends StatelessWidget {
       'label': 'Housing & Property',
       'icon': Icons.home_rounded,
       'subtitle': 'Rent, buy, lease property',
-      'color': Color(0xFF3B82F6),
+      'color': Color(0xFF2563EB),
     },
     {
       'id': 'loan',
       'label': 'Loans & Finance',
       'icon': Icons.account_balance_rounded,
       'subtitle': 'Home, personal, car loans',
-      'color': Color(0xFF10B981),
+      'color': Color(0xFF059669),
     },
     {
       'id': 'employment',
@@ -37,35 +37,35 @@ class GuidanceScreen extends StatelessWidget {
       'label': 'Business',
       'icon': Icons.business_center_rounded,
       'subtitle': 'GST, partnerships, vendors',
-      'color': Color(0xFFEC4899),
+      'color': Color(0xFFDB2777),
     },
     {
       'id': 'education',
       'label': 'Education',
       'icon': Icons.school_rounded,
       'subtitle': 'Admissions, scholarships',
-      'color': Color(0xFF8B5CF6),
+      'color': Color(0xFF7C3AED),
     },
     {
       'id': 'insurance',
       'label': 'Insurance',
       'icon': Icons.shield_rounded,
       'subtitle': 'Health, life, property',
-      'color': Color(0xFFF59E0B),
+      'color': Color(0xFFD97706),
     },
     {
       'id': 'digital',
       'label': 'Digital Agreements',
       'icon': Icons.devices_rounded,
       'subtitle': 'T&C, Privacy, EULA',
-      'color': Color(0xFF06B6D4),
+      'color': Color(0xFF0891B2),
     },
     {
       'id': 'personal',
       'label': 'Personal Legal',
       'icon': Icons.person_rounded,
       'subtitle': 'Wills, POA, affidavits',
-      'color': Color(0xFFEF4444),
+      'color': Color(0xFFDC2626),
     },
   ];
 
@@ -76,25 +76,36 @@ class GuidanceScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 130,
+            expandedHeight: 140,
             pinned: true,
-            backgroundColor: AppColors.background,
+            backgroundColor: AppColors.surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 0,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Container(height: 1, color: AppColors.cardBorder),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+              background: Container(color: AppColors.surface),
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Document Guide',
-                    style: AppTextStyles.goldTitle.copyWith(fontSize: 22),
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   Text(
                     'What do you need today?',
-                    style: GoogleFonts.dmSans(
+                    style: GoogleFonts.plusJakartaSans(
                       fontSize: 11,
                       color: AppColors.textMuted,
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ],
@@ -103,10 +114,10 @@ class GuidanceScreen extends StatelessWidget {
           ),
 
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
             sliver: SliverGrid(
               delegate: SliverChildBuilderDelegate(
-                (ctx, i) {
+                    (ctx, i) {
                   final cat = _categories[i];
                   return _CategoryCard(
                     id: cat['id'],
@@ -160,44 +171,48 @@ class _CategoryCard extends StatelessWidget {
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              color.withOpacity(0.12),
-              AppColors.cardBg,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: color.withOpacity(0.25), width: 1),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withOpacity(0.2), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 42,
+              height: 42,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.15),
+                color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: color, size: 22),
+              child: Icon(icon, color: color, size: 20),
             ),
             const Spacer(),
             Text(
               label,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
               maxLines: 2,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               subtitle,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 11),
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 11,
+                color: AppColors.textMuted,
+              ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -207,6 +222,6 @@ class _CategoryCard extends StatelessWidget {
     )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 400.ms)
-        .slideY(begin: 0.2, end: 0);
+        .slideY(begin: 0.15, end: 0);
   }
 }

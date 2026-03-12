@@ -3,55 +3,55 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // Backgrounds
-  static const Color background = Color(0xFF080C18);
-  static const Color surface = Color(0xFF0F1628);
-  static const Color cardBg = Color(0xFF131929);
-  static const Color cardBorder = Color(0xFF1E2A42);
+  static const Color background = Color(0xFFF8F7F4);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color cardBg = Color(0xFFFFFFFF);
+  static const Color cardBorder = Color(0xFFE8E4DC);
 
   // Gold palette
-  static const Color gold = Color(0xFFC9A84C);
-  static const Color goldLight = Color(0xFFE8C97A);
-  static const Color goldDark = Color(0xFF8B6914);
-  static const Color goldGlow = Color(0x33C9A84C);
+  static const Color gold = Color(0xFFB8860B);
+  static const Color goldLight = Color(0xFFD4A017);
+  static const Color goldDark = Color(0xFF8B6400);
+  static const Color goldGlow = Color(0x33B8860B);
 
   // Status colors
-  static const Color safeGreen = Color(0xFF22C55E);
-  static const Color warningAmber = Color(0xFFF59E0B);
-  static const Color dangerRed = Color(0xFFEF4444);
-  static const Color infoBlue = Color(0xFF3B82F6);
+  static const Color safeGreen = Color(0xFF16A34A);
+  static const Color warningAmber = Color(0xFFD97706);
+  static const Color dangerRed = Color(0xFFDC2626);
+  static const Color infoBlue = Color(0xFF2563EB);
 
   // Text
-  static const Color textPrimary = Color(0xFFF0EDE8);
-  static const Color textSecondary = Color(0xFF8B95A8);
-  static const Color textMuted = Color(0xFF4A5568);
+  static const Color textPrimary = Color(0xFF1A1714);
+  static const Color textSecondary = Color(0xFF6B6560);
+  static const Color textMuted = Color(0xFFADA9A0);
 
   // Gradients
   static const LinearGradient goldGradient = LinearGradient(
-    colors: [Color(0xFFC9A84C), Color(0xFFE8C97A), Color(0xFFC9A84C)],
+    colors: [Color(0xFFB8860B), Color(0xFFD4A017), Color(0xFFB8860B)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient bgGradient = LinearGradient(
-    colors: [Color(0xFF080C18), Color(0xFF0A1020), Color(0xFF080C18)],
+    colors: [Color(0xFFF8F7F4), Color(0xFFF2EFE8), Color(0xFFF8F7F4)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient cardGradient = LinearGradient(
-    colors: [Color(0xFF131929), Color(0xFF0F1628)],
+    colors: [Color(0xFFFFFFFF), Color(0xFFFAF9F6)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient dangerGradient = LinearGradient(
-    colors: [Color(0xFF2D0F0F), Color(0xFF1A0808)],
+    colors: [Color(0xFFFEF2F2), Color(0xFFFEE2E2)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient safeGradient = LinearGradient(
-    colors: [Color(0xFF0F2D1A), Color(0xFF081A0F)],
+    colors: [Color(0xFFF0FDF4), Color(0xFFDCFCE7)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -60,15 +60,15 @@ class AppColors {
 class AppTheme {
   static ThemeData get theme {
     return ThemeData(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.background,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: const ColorScheme.light(
         primary: AppColors.gold,
         secondary: AppColors.goldLight,
         surface: AppColors.surface,
         error: AppColors.dangerRed,
       ),
-      textTheme: GoogleFonts.dmSansTextTheme(
+      textTheme: GoogleFonts.plusJakartaSansTextTheme(
         const TextTheme(
           displayLarge: TextStyle(
             fontSize: 32,
@@ -123,10 +123,11 @@ class AppTheme {
         ),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.surface,
         elevation: 0,
         centerTitle: false,
         iconTheme: IconThemeData(color: AppColors.textPrimary),
+        surfaceTintColor: Colors.transparent,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.surface,
@@ -164,13 +165,17 @@ class AppTheme {
         contentPadding:
         const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       ),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.cardBorder,
+        thickness: 1,
+      ),
       useMaterial3: true,
     );
   }
 }
 
 class AppTextStyles {
-  static TextStyle get displayTitle => GoogleFonts.cormorantGaramond(
+  static TextStyle get displayTitle => GoogleFonts.plusJakartaSans(
     fontSize: 34,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
@@ -178,14 +183,14 @@ class AppTextStyles {
     height: 1.1,
   );
 
-  static TextStyle get goldTitle => GoogleFonts.cormorantGaramond(
+  static TextStyle get goldTitle => GoogleFonts.plusJakartaSans(
     fontSize: 28,
     fontWeight: FontWeight.w600,
     color: AppColors.gold,
     letterSpacing: 0.2,
   );
 
-  static TextStyle get sectionTitle => GoogleFonts.dmSans(
+  static TextStyle get sectionTitle => GoogleFonts.plusJakartaSans(
     fontSize: 13,
     fontWeight: FontWeight.w600,
     color: AppColors.textMuted,

@@ -171,13 +171,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                       ),
                     ),
                     const SizedBox(width: 5),
-                    Text(
+                    Expanded(child: Text(
                       'Online · General legal guidance',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
                           ?.copyWith(fontSize: 11),
-                    ),
+                      overflow: TextOverflow.ellipsis,
+                    )),
                   ],
                 ),
               ],
@@ -251,17 +252,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 style: Theme.of(context).textTheme.titleLarge),
           ),
           ..._languages.map((lang) => ListTile(
-                title: Text(lang,
-                    style: const TextStyle(color: AppColors.textPrimary)),
-                trailing: _language == lang
-                    ? const Icon(Icons.check_circle_rounded,
-                        color: AppColors.gold)
-                    : null,
-                onTap: () {
-                  setState(() => _language = lang);
-                  Navigator.pop(context);
-                },
-              )),
+            title: Text(lang,
+                style: const TextStyle(color: AppColors.textPrimary)),
+            trailing: _language == lang
+                ? const Icon(Icons.check_circle_rounded,
+                color: AppColors.gold)
+                : null,
+            onTap: () {
+              setState(() => _language = lang);
+              Navigator.pop(context);
+            },
+          )),
           const SizedBox(height: 20),
         ],
       ),
@@ -297,12 +298,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 )
                     .animate(onPlay: (c) => c.repeat(reverse: true))
                     .shimmer(
-                        duration: 2000.ms, color: AppColors.goldLight)
+                    duration: 2000.ms, color: AppColors.goldLight)
                     .animate()
                     .scale(
-                        begin: const Offset(0, 0),
-                        duration: 600.ms,
-                        curve: Curves.elasticOut),
+                    begin: const Offset(0, 0),
+                    duration: 600.ms,
+                    curve: Curves.elasticOut),
                 const SizedBox(height: 16),
                 Text(
                   'Ask Lex Anything',
@@ -387,7 +388,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 Expanded(
                   child: Text(
                     'Lex provides general legal education only — not legal advice. '
-                    'Always consult a qualified lawyer for your specific situation.',
+                        'Always consult a qualified lawyer for your specific situation.',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
@@ -423,7 +424,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[
@@ -442,7 +443,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           Flexible(
             child: Column(
               crossAxisAlignment:
-                  isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -528,7 +529,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               mainAxisSize: MainAxisSize.min,
               children: List.generate(
                 3,
-                (i) => Container(
+                    (i) => Container(
                   width: 7,
                   height: 7,
                   margin: const EdgeInsets.symmetric(horizontal: 2),
@@ -539,12 +540,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 )
                     .animate(onPlay: (c) => c.repeat(reverse: true))
                     .scaleXY(
-                      begin: 0.4,
-                      end: 1.2,
-                      duration: 500.ms,
-                      delay: Duration(milliseconds: i * 160),
-                      curve: Curves.easeInOut,
-                    ),
+                  begin: 0.4,
+                  end: 1.2,
+                  duration: 500.ms,
+                  delay: Duration(milliseconds: i * 160),
+                  curve: Curves.easeInOut,
+                ),
               ),
             ),
           ),
@@ -579,12 +580,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
                     borderSide:
-                        const BorderSide(color: AppColors.cardBorder),
+                    const BorderSide(color: AppColors.cardBorder),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
                     borderSide:
-                        const BorderSide(color: AppColors.cardBorder),
+                    const BorderSide(color: AppColors.cardBorder),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
@@ -609,31 +610,31 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 decoration: BoxDecoration(
                   gradient: _isLoading
                       ? const LinearGradient(
-                          colors: [AppColors.cardBorder, AppColors.cardBorder])
+                      colors: [AppColors.cardBorder, AppColors.cardBorder])
                       : AppColors.goldGradient,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: _isLoading
                       ? []
                       : [
-                          BoxShadow(
-                            color: AppColors.gold.withOpacity(0.3),
-                            blurRadius: 12,
-                          ),
-                        ],
+                    BoxShadow(
+                      color: AppColors.gold.withOpacity(0.3),
+                      blurRadius: 12,
+                    ),
+                  ],
                 ),
                 child: _isLoading
                     ? const Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      )
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                )
                     : const Icon(Icons.send_rounded,
-                        color: AppColors.background, size: 22),
+                    color: AppColors.background, size: 22),
               ),
             ),
           ],

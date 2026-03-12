@@ -80,9 +80,9 @@ class _VersionDiffScreenState extends State<VersionDiffScreen> {
 
   IconData _changeIcon(String type) {
     switch (type) {
-      case 'added':    return Icons.add_circle_outline_rounded;
-      case 'removed':  return Icons.remove_circle_outline_rounded;
-      default:         return Icons.edit_outlined;
+      case 'added':   return Icons.add_circle_outline_rounded;
+      case 'removed': return Icons.remove_circle_outline_rounded;
+      default:        return Icons.edit_outlined;
     }
   }
 
@@ -91,14 +91,21 @@ class _VersionDiffScreenState extends State<VersionDiffScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Version Diff', style: AppTextStyles.goldTitle.copyWith(fontSize: 20)),
+        title: Text('Version Diff',
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
         backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: AppColors.cardBorder),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Upload row
             Row(children: [
               Expanded(child: _UploadVersionCard(
                 label: 'Version 1 (Old)',
@@ -124,44 +131,45 @@ class _VersionDiffScreenState extends State<VersionDiffScreen> {
                 width: double.infinity, height: 52,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    gradient: AppColors.goldGradient, borderRadius: BorderRadius.circular(14)),
+                      gradient: AppColors.goldGradient,
+                      borderRadius: BorderRadius.circular(14)),
                   child: ElevatedButton.icon(
                     onPressed: _comparing ? null : _compare,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent, shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
                     icon: _comparing
                         ? const SizedBox(width: 20, height: 20,
-                            child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2.5))
-                        : const Icon(Icons.difference_rounded, color: Colors.black),
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                        : const Icon(Icons.difference_rounded, color: Colors.white),
                     label: Text(_comparing ? 'Comparing versions...' : 'Find Changes',
-                        style: GoogleFonts.dmSans(
-                            color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16)),
+                        style: GoogleFonts.plusJakartaSans(
+                            color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16)),
                   ),
                 ),
               ).animate().fadeIn(delay: 100.ms),
               const SizedBox(height: 20),
             ],
-            if (_error != null)
-              _ErrorCard(message: _error!),
+            if (_error != null) _ErrorCard(message: _error!),
             if (_result != null) ...[
-              // Verdict banner
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: _verdictColor(_result!.overallVerdict).withOpacity(0.08),
+                  color: _verdictColor(_result!.overallVerdict).withOpacity(0.06),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: _verdictColor(_result!.overallVerdict).withOpacity(0.35)),
+                  border: Border.all(color: _verdictColor(_result!.overallVerdict).withOpacity(0.25)),
                 ),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(_verdictLabel(_result!.overallVerdict),
-                      style: GoogleFonts.cormorantGaramond(
+                      style: GoogleFonts.plusJakartaSans(
                           color: _verdictColor(_result!.overallVerdict),
-                          fontSize: 20, fontWeight: FontWeight.w700)),
+                          fontSize: 17, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 8),
-                  Text(_result!.summary, style: const TextStyle(
-                      color: AppColors.textSecondary, height: 1.5, fontSize: 14)),
+                  Text(_result!.summary,
+                      style: GoogleFonts.plusJakartaSans(
+                          color: AppColors.textSecondary, height: 1.5, fontSize: 13)),
                   const SizedBox(height: 14),
                   Row(children: [
                     _StatBadge(count: _result!.favorableChanges, label: 'Favorable', color: AppColors.safeGreen),
@@ -171,7 +179,6 @@ class _VersionDiffScreenState extends State<VersionDiffScreen> {
                 ]),
               ).animate().fadeIn(),
               const SizedBox(height: 16),
-              // New restrictions / rights removed
               if (_result!.newRestrictionsAdded.isNotEmpty) ...[
                 _AlertSection(
                   title: '🚫 New Restrictions in Version 2',
@@ -188,15 +195,14 @@ class _VersionDiffScreenState extends State<VersionDiffScreen> {
                 ),
                 const SizedBox(height: 16),
               ],
-              // Changes list
               Text('ALL CHANGES', style: AppTextStyles.sectionTitle),
               const SizedBox(height: 10),
               ..._result!.changes.asMap().entries.map((entry) =>
-                _ChangeCard(
-                  change: entry.value,
-                  favColor: _favColor(entry.value.favorability),
-                  changeIcon: _changeIcon(entry.value.changeType),
-                ).animate().fadeIn(delay: Duration(milliseconds: 60 * entry.key)),
+                  _ChangeCard(
+                    change: entry.value,
+                    favColor: _favColor(entry.value.favorability),
+                    changeIcon: _changeIcon(entry.value.changeType),
+                  ).animate().fadeIn(delay: Duration(milliseconds: 60 * entry.key)),
               ),
             ],
           ],
@@ -213,8 +219,8 @@ class _UploadVersionCard extends StatelessWidget {
   final VoidCallback onTap;
   final Color color;
 
-  const _UploadVersionCard({required this.label, this.filename, required this.uploading,
-    required this.uploaded, required this.onTap, required this.color});
+  const _UploadVersionCard({required this.label, this.filename,
+    required this.uploading, required this.uploaded, required this.onTap, required this.color});
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -223,28 +229,34 @@ class _UploadVersionCard extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       height: 110,
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: uploaded ? color : AppColors.cardBorder, width: uploaded ? 1.5 : 1),
+        border: Border.all(
+            color: uploaded ? color : AppColors.cardBorder,
+            width: uploaded ? 2 : 1),
+        boxShadow: uploaded ? [BoxShadow(color: color.withOpacity(0.1), blurRadius: 10)] : null,
       ),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         uploading
             ? CircularProgressIndicator(color: color, strokeWidth: 2)
             : Icon(uploaded ? Icons.check_circle_rounded : Icons.upload_file_rounded,
-                color: uploaded ? color : AppColors.textMuted, size: 32),
+            color: uploaded ? color : AppColors.textMuted, size: 30),
         const SizedBox(height: 8),
-        Text(label, style: GoogleFonts.dmSans(color: color, fontWeight: FontWeight.w600, fontSize: 12),
+        Text(label, style: GoogleFonts.plusJakartaSans(
+            color: color, fontWeight: FontWeight.w600, fontSize: 12),
             textAlign: TextAlign.center),
         if (filename != null) ...[
           const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(filename!, style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+            child: Text(filename!, style: GoogleFonts.plusJakartaSans(
+                color: AppColors.textSecondary, fontSize: 11),
                 maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
           ),
         ],
         if (!uploaded && !uploading)
-          const Text('Tap to upload', style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
+          Text('Tap to upload', style: GoogleFonts.plusJakartaSans(
+              color: AppColors.textMuted, fontSize: 11)),
       ]),
     ),
   );
@@ -255,7 +267,6 @@ class _ChangeCard extends StatefulWidget {
   final Color favColor;
   final IconData changeIcon;
   const _ChangeCard({required this.change, required this.favColor, required this.changeIcon});
-
   @override
   State<_ChangeCard> createState() => _ChangeCardState();
 }
@@ -271,22 +282,31 @@ class _ChangeCardState extends State<_ChangeCard> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: AppColors.cardBg,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: widget.favColor.withOpacity(0.25)),
+          border: Border.all(color: widget.favColor.withOpacity(0.2)),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0,2))],
         ),
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(14),
             child: Row(children: [
-              Icon(widget.changeIcon, color: widget.favColor, size: 20),
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: widget.favColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(widget.changeIcon, color: widget.favColor, size: 16),
+              ),
               const SizedBox(width: 10),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(c.clauseType, style: GoogleFonts.dmSans(
+                Text(c.clauseType, style: GoogleFonts.plusJakartaSans(
                     color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 14)),
-                Text(c.plainExplanation, style: const TextStyle(
+                Text(c.plainExplanation, style: GoogleFonts.plusJakartaSans(
                     color: AppColors.textSecondary, fontSize: 12, height: 1.3),
-                    maxLines: _expanded ? null : 2, overflow: _expanded ? null : TextOverflow.ellipsis),
+                    maxLines: _expanded ? null : 2,
+                    overflow: _expanded ? null : TextOverflow.ellipsis),
               ])),
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 _ImpactBadge(impact: c.impact),
@@ -327,9 +347,11 @@ class _VersionBox extends StatelessWidget {
       border: Border.all(color: color.withOpacity(0.2)),
     ),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w700)),
+      Text(label, style: GoogleFonts.plusJakartaSans(
+          color: color, fontSize: 10, fontWeight: FontWeight.w700)),
       const SizedBox(height: 4),
-      Text(text, style: const TextStyle(color: AppColors.textSecondary, fontSize: 12, height: 1.3),
+      Text(text, style: GoogleFonts.plusJakartaSans(
+          color: AppColors.textSecondary, fontSize: 12, height: 1.3),
           maxLines: 5, overflow: TextOverflow.ellipsis),
     ]),
   );
@@ -345,8 +367,10 @@ class _ImpactBadge extends StatelessWidget {
         : impact == 'medium' ? AppColors.warningAmber : AppColors.safeGreen;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-      child: Text(impact.toUpperCase(), style: TextStyle(color: color, fontSize: 9, fontWeight: FontWeight.w700)),
+      decoration: BoxDecoration(
+          color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+      child: Text(impact.toUpperCase(), style: GoogleFonts.plusJakartaSans(
+          color: color, fontSize: 9, fontWeight: FontWeight.w700)),
     );
   }
 }
@@ -361,19 +385,21 @@ class _AlertSection extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
-      color: color.withOpacity(0.06),
+      color: color.withOpacity(0.05),
       borderRadius: BorderRadius.circular(14),
-      border: Border.all(color: color.withOpacity(0.25)),
+      border: Border.all(color: color.withOpacity(0.2)),
     ),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 13)),
+      Text(title, style: GoogleFonts.plusJakartaSans(
+          color: color, fontWeight: FontWeight.w700, fontSize: 13)),
       const SizedBox(height: 8),
       ...items.map((item) => Padding(
         padding: const EdgeInsets.only(bottom: 4),
         child: Row(children: [
           Icon(Icons.circle, color: color, size: 6),
           const SizedBox(width: 8),
-          Expanded(child: Text(item, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13))),
+          Expanded(child: Text(item, style: GoogleFonts.plusJakartaSans(
+              color: AppColors.textSecondary, fontSize: 13))),
         ]),
       )),
     ]),
@@ -389,8 +415,10 @@ class _StatBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-    decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-    child: Text('$count $label', style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600)),
+    decoration: BoxDecoration(
+        color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+    child: Text('$count $label', style: GoogleFonts.plusJakartaSans(
+        color: color, fontSize: 12, fontWeight: FontWeight.w600)),
   );
 }
 
@@ -402,14 +430,14 @@ class _ErrorCard extends StatelessWidget {
     margin: const EdgeInsets.only(bottom: 16),
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: AppColors.dangerRed.withOpacity(0.08),
+      color: AppColors.dangerRed.withOpacity(0.06),
       borderRadius: BorderRadius.circular(14),
-      border: Border.all(color: AppColors.dangerRed.withOpacity(0.3)),
+      border: Border.all(color: AppColors.dangerRed.withOpacity(0.25)),
     ),
     child: Row(children: [
       const Icon(Icons.error_outline, color: AppColors.dangerRed),
       const SizedBox(width: 10),
-      Expanded(child: Text(message, style: const TextStyle(color: AppColors.dangerRed))),
+      Expanded(child: Text(message, style: GoogleFonts.plusJakartaSans(color: AppColors.dangerRed))),
     ]),
   );
 }

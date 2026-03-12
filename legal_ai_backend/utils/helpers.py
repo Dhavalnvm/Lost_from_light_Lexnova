@@ -62,6 +62,18 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
+def clean_json_response(response: str) -> str:
+    """Strip markdown code fences from LLM JSON responses."""
+    cleaned = response.strip()
+    if cleaned.startswith("```json"):
+        cleaned = cleaned[7:]
+    elif cleaned.startswith("```"):
+        cleaned = cleaned[3:]
+    if cleaned.endswith("```"):
+        cleaned = cleaned[:-3]
+    return cleaned.strip()
+
+
 def estimate_risk_score(red_flags: list) -> dict:
     if not red_flags:
         return {"risk_score": 10, "risk_level": "Low"}

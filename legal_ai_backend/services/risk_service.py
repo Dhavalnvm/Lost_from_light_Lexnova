@@ -1,33 +1,33 @@
 import json
+import asyncio
 from core.task_router import get_client
+from core.embeddings import embeddings_manager
+from core.vector_store import vector_store
 from utils.helpers import estimate_risk_score
 from utils.logging import app_logger as logger
 from models.schemas import RiskAnalysisResponse, RedFlag
 from config.settings import settings
 
 
-RISK_SYSTEM_PROMPT = """You are a legal risk analyst specializing in contract review. 
-Your task is to identify risky clauses, unfair terms, and legal red flags in contracts. 
-Be thorough and precise."""
+RISK_SYSTEM_PROMPT = """You are a legal risk analyst specializing in contract review.
+Identify risky clauses, unfair terms, and legal red flags in contracts.
+Be thorough and precise. Always respond with valid JSON only."""
 
+RISK_QUERIES = [
+    "penalty clause liquidated damages fine",
+    "automatic renewal termination without notice",
+    "non-compete restriction liability waiver",
+    "indemnification hold harmless unlimited liability",
+    "arbitration dispute resolution governing law jurisdiction",
+    "unilateral modification sole discretion hidden fees",
+]
 
 RED_FLAG_PATTERNS = [
-    "automatic renewal",
-    "sole discretion",
-    "non-refundable",
-    "waive all rights",
-    "unlimited liability",
-    "indemnify and hold harmless",
-    "liquidated damages",
-    "penalty",
-    "non-compete",
-    "perpetual license",
-    "unilateral modification",
-    "binding arbitration",
-    "class action waiver",
-    "jurisdiction outside",
-    "without notice",
-    "in perpetuity",
+    "automatic renewal", "sole discretion", "non-refundable",
+    "waive all rights", "unlimited liability", "indemnify and hold harmless",
+    "liquidated damages", "penalty", "non-compete", "perpetual license",
+    "unilateral modification", "binding arbitration", "class action waiver",
+    "jurisdiction outside", "without notice", "in perpetuity",
 ]
 
 
@@ -44,59 +44,78 @@ def _clean_json_response(response: str) -> str:
 
 class RiskService:
 
+    async def _retrieve_risk_context(self, document_id: str, full_text: str) -> str:
+        """Run all RAG embedding queries IN PARALLEL — same fix as summary service."""
+
+        async def _query_one(query: str):
+            try:
+                query_embedding = await embeddings_manager.embed_query(query)
+                return vector_store.query_similar_chunks(
+                    query_embedding=query_embedding,
+                    document_id=document_id,
+                    n_results=3,
+                )
+            except Exception as e:
+                logger.warning(
+                    f"Risk query '{query[:30]}' failed: {type(e).__name__}: {e}"
+                )
+                return []
+
+        # Fire all 6 queries concurrently
+        results = await asyncio.gather(*[_query_one(q) for q in RISK_QUERIES])
+
+        seen = set()
+        relevant_chunks = []
+        for chunk_list in results:
+            for chunk in chunk_list:
+                key = chunk[:80]
+                if key not in seen:
+                    seen.add(key)
+                    relevant_chunks.append(chunk)
+
+        if not relevant_chunks:
+            logger.warning(f"Risk RAG failed for {document_id}, using all chunks")
+            relevant_chunks = vector_store.get_all_chunks(document_id)
+
+        if not relevant_chunks:
+            logger.warning(f"ChromaDB fallback failed for risk {document_id}, using full_text")
+            return full_text[:settings.ANALYSIS_TEXT_LIMIT]
+
+        context = "\n\n---\n\n".join(relevant_chunks)
+        logger.info(
+            f"Risk context: {len(relevant_chunks)} chunks, "
+            f"{len(context)} chars for doc {document_id}"
+        )
+        return context
+
     async def analyze_risk(self, document_id: str, full_text: str) -> RiskAnalysisResponse:
-        # Use increased text limit + smart (8b) model
-        text_sample = full_text[:settings.ANALYSIS_TEXT_LIMIT]
+        context = await self._retrieve_risk_context(document_id, full_text)
         client = get_client("risk")
 
-        prompt = f"""
-Analyze the following legal document for risks and red flags.
+        prompt = f"""Analyze this legal document for risks and red flags.
 
 DOCUMENT:
-{text_sample}
+{context}
 
-Identify ALL of the following types of risks if present:
-1. High penalty clauses
-2. Automatic renewal with no opt-out
-3. One-sided termination rights
-4. Overly broad non-compete restrictions
-5. Hidden fees or charges
-6. Liability transfer to weaker party
-7. Unlimited indemnification
-8. Waiver of important rights
-9. Unfair dispute resolution
-10. Unusual governing law provisions
+Find risks including: penalty clauses, automatic renewal, one-sided termination, non-compete, hidden fees, unlimited liability, rights waiver, unfair arbitration, unusual jurisdiction.
 
-For each risk found, provide:
-- flag_type: short name of the risk
-- description: what makes it risky
-- extracted_text: the exact clause text (max 150 words)
+For each risk found provide a JSON object with:
+- flag_type: short risk name
+- description: why it is risky (1-2 sentences)
+- extracted_text: the clause text (max 80 words)
 - severity: "low", "medium", or "high"
-- page_reference: page number if identifiable (or null)
+- page_reference: integer page number or null
 
-Also provide a risk_summary: a 2-3 sentence overall risk assessment.
+IMPORTANT: Return ONLY raw JSON. No markdown. No explanation. Start with {{ end with }}.
 
-Respond ONLY with valid JSON in this format:
-{{
-  "detected_red_flags": [
-    {{
-      "flag_type": "...",
-      "description": "...",
-      "extracted_text": "...",
-      "severity": "high|medium|low",
-      "page_reference": null
-    }}
-  ],
-  "risk_summary": "..."
-}}
-"""
+{{"detected_red_flags": [{{"flag_type": "...", "description": "...", "extracted_text": "...", "severity": "high|medium|low", "page_reference": null}}], "risk_summary": "2-3 sentence overall assessment"}}"""
 
         response = await client.generate(prompt, RISK_SYSTEM_PROMPT)
 
         try:
             data = json.loads(_clean_json_response(response))
         except Exception:
-            logger.warning("Risk analysis JSON parse failed, using fallback keyword scan")
+            logger.warning("Risk JSON parse failed, using keyword scan fallback")
             data = {
                 "detected_red_flags": self._keyword_scan(full_text),
                 "risk_summary": "Automated keyword scan completed. Review highlighted clauses carefully.",
@@ -124,7 +143,6 @@ Respond ONLY with valid JSON in this format:
         )
 
     def _keyword_scan(self, text: str) -> list:
-        """Fallback: keyword-based red flag scan."""
         text_lower = text.lower()
         found = []
         for pattern in RED_FLAG_PATTERNS:

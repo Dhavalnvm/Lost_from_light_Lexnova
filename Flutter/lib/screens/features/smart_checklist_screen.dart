@@ -71,12 +71,19 @@ class _SmartChecklistScreenState extends State<SmartChecklistScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Smart Checklist', style: AppTextStyles.goldTitle.copyWith(fontSize: 20)),
+        title: Text('Smart Checklist',
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
         backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: AppColors.cardBorder),
+        ),
       ),
       body: Column(
         children: [
-          // Doc type selector
           Container(
             color: AppColors.surface,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -95,16 +102,18 @@ class _SmartChecklistScreenState extends State<SmartChecklistScreen> {
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.goldGlow : Colors.transparent,
+                        color: isSelected ? AppColors.gold.withOpacity(0.1) : Colors.transparent,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: isSelected ? AppColors.gold : AppColors.cardBorder,
                           width: isSelected ? 1.5 : 1,
                         ),
                       ),
-                      child: Text(t['label']!, style: GoogleFonts.dmSans(
-                          color: isSelected ? AppColors.gold : AppColors.textSecondary,
-                          fontSize: 13, fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400)),
+                      child: Text(t['label']!,
+                          style: GoogleFonts.plusJakartaSans(
+                              color: isSelected ? AppColors.gold : AppColors.textSecondary,
+                              fontSize: 13,
+                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400)),
                     ),
                   );
                 }).toList(),
@@ -113,15 +122,17 @@ class _SmartChecklistScreenState extends State<SmartChecklistScreen> {
           ),
           Expanded(
             child: _loading
-                ? const Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    CircularProgressIndicator(color: AppColors.gold),
-                    SizedBox(height: 16),
-                    Text('Generating checklist...', style: TextStyle(color: AppColors.textSecondary)),
-                  ]))
+                ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const CircularProgressIndicator(color: AppColors.gold),
+              const SizedBox(height: 16),
+              Text('Generating checklist...',
+                  style: GoogleFonts.plusJakartaSans(color: AppColors.textSecondary)),
+            ]))
                 : _error != null
-                    ? Center(child: Padding(padding: const EdgeInsets.all(24),
-                        child: Text(_error!, style: const TextStyle(color: AppColors.dangerRed))))
-                    : _buildContent(),
+                ? Center(child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(_error!, style: GoogleFonts.plusJakartaSans(color: AppColors.dangerRed))))
+                : _buildContent(),
           ),
         ],
       ),
@@ -137,54 +148,68 @@ class _SmartChecklistScreenState extends State<SmartChecklistScreen> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        // Score header
-        Row(
-          children: [
-            CircularPercentIndicator(
-              radius: 52,
-              lineWidth: 7,
-              percent: _result!.checklistScore / 100,
-              center: Text('${_result!.checklistScore}%',
-                  style: GoogleFonts.cormorantGaramond(
-                      color: AppColors.gold, fontSize: 20, fontWeight: FontWeight.w700)),
-              progressColor: AppColors.gold,
-              backgroundColor: AppColors.cardBorder,
-              circularStrokeCap: CircularStrokeCap.round,
-            ),
-            const SizedBox(width: 20),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(_result!.documentType.toUpperCase(),
-                  style: AppTextStyles.sectionTitle),
-              const SizedBox(height: 4),
-              Text(_result!.summary, style: const TextStyle(
-                  color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
-              const SizedBox(height: 8),
-              Row(children: [
-                _StatusBadge(count: present, label: 'Present', color: AppColors.safeGreen),
-                const SizedBox(width: 6),
-                _StatusBadge(count: warning, label: 'Warnings', color: AppColors.warningAmber),
-                const SizedBox(width: 6),
-                _StatusBadge(count: missing, label: 'Missing', color: AppColors.dangerRed),
-              ]),
-            ])),
-          ],
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.cardBorder),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0,4))],
+          ),
+          child: Row(
+            children: [
+              CircularPercentIndicator(
+                radius: 52,
+                lineWidth: 7,
+                percent: _result!.checklistScore / 100,
+                center: Text('${_result!.checklistScore}%',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: AppColors.gold, fontSize: 18, fontWeight: FontWeight.w700)),
+                progressColor: AppColors.gold,
+                backgroundColor: AppColors.cardBorder,
+                circularStrokeCap: CircularStrokeCap.round,
+              ),
+              const SizedBox(width: 20),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(_result!.documentType.toUpperCase(), style: AppTextStyles.sectionTitle),
+                const SizedBox(height: 4),
+                Text(_result!.summary, style: GoogleFonts.plusJakartaSans(
+                    color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
+                const SizedBox(height: 8),
+                Row(children: [
+                  _StatusBadge(count: present, label: 'Present', color: AppColors.safeGreen),
+                  const SizedBox(width: 6),
+                  _StatusBadge(count: warning, label: 'Warn', color: AppColors.warningAmber),
+                  const SizedBox(width: 6),
+                  _StatusBadge(count: missing, label: 'Missing', color: AppColors.dangerRed),
+                ]),
+              ])),
+            ],
+          ),
         ).animate().fadeIn(),
         const SizedBox(height: 24),
 
-        // Checklist items grouped by status
         ...['missing', 'warning', 'present'].expand((status) {
           final items = _result!.items.where((i) => i.status == status).toList();
           if (items.isEmpty) return <Widget>[];
           return [
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                status == 'missing' ? '❌  MISSING CLAUSES'
-                    : status == 'warning' ? '⚠️  WARNINGS'
-                    : '✅  PRESENT',
-                style: AppTextStyles.sectionTitle.copyWith(
-                    color: _statusColor(status)),
-              ),
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(children: [
+                Container(
+                  width: 3, height: 16,
+                  decoration: BoxDecoration(
+                    color: _statusColor(status),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  status == 'missing' ? 'MISSING CLAUSES'
+                      : status == 'warning' ? 'WARNINGS' : 'PRESENT',
+                  style: AppTextStyles.sectionTitle.copyWith(color: _statusColor(status)),
+                ),
+              ]),
             ),
             ...items.asMap().entries.map((entry) => _ChecklistItemCard(
               item: entry.value,
@@ -209,10 +234,11 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
     decoration: BoxDecoration(
-      color: color.withOpacity(0.12),
+      color: color.withOpacity(0.1),
       borderRadius: BorderRadius.circular(20),
     ),
-    child: Text('$count $label', style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600)),
+    child: Text('$count $label', style: GoogleFonts.plusJakartaSans(
+        color: color, fontSize: 11, fontWeight: FontWeight.w600)),
   );
 }
 
@@ -236,9 +262,10 @@ class _ChecklistItemCardState extends State<_ChecklistItemCard> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-          color: AppColors.cardBg,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: widget.statusColor.withOpacity(0.25)),
+          border: Border.all(color: widget.statusColor.withOpacity(0.2)),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 6, offset: const Offset(0,2))],
         ),
         child: Column(children: [
           Padding(
@@ -246,7 +273,7 @@ class _ChecklistItemCardState extends State<_ChecklistItemCard> {
             child: Row(children: [
               Icon(widget.statusIcon, color: widget.statusColor, size: 20),
               const SizedBox(width: 12),
-              Expanded(child: Text(widget.item.item, style: GoogleFonts.dmSans(
+              Expanded(child: Text(widget.item.item, style: GoogleFonts.plusJakartaSans(
                   color: AppColors.textPrimary, fontWeight: FontWeight.w600, fontSize: 14))),
               Icon(_expanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
                   color: AppColors.textMuted, size: 20),
@@ -256,12 +283,8 @@ class _ChecklistItemCardState extends State<_ChecklistItemCard> {
             Container(
               padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                  height: 1,
-                  color: AppColors.cardBorder,
-                  margin: const EdgeInsets.only(bottom: 12),
-                ),
-                Text(widget.item.explanation, style: const TextStyle(
+                Container(height: 1, color: AppColors.cardBorder, margin: const EdgeInsets.only(bottom: 12)),
+                Text(widget.item.explanation, style: GoogleFonts.plusJakartaSans(
                     color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
                 if (widget.item.action != null) ...[
                   const SizedBox(height: 10),
@@ -275,7 +298,7 @@ class _ChecklistItemCardState extends State<_ChecklistItemCard> {
                     child: Row(children: [
                       const Icon(Icons.arrow_forward_ios_rounded, color: AppColors.gold, size: 12),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(widget.item.action!, style: const TextStyle(
+                      Expanded(child: Text(widget.item.action!, style: GoogleFonts.plusJakartaSans(
                           color: AppColors.gold, fontSize: 12, fontWeight: FontWeight.w500))),
                     ]),
                   ),
