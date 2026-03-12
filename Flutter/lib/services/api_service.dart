@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../config/api_config.dart';
 import '../models/models.dart';
@@ -12,7 +13,7 @@ class ApiService {
   ApiService._internal();
 
   final _client = http.Client();
-  final _auth = AuthService();
+  final _auth   = AuthService();
 
   Map<String, String> get _headers {
     final h = <String, String>{'Content-Type': 'application/json'};
@@ -27,7 +28,7 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.register}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'name': name, 'email': email, 'password': password}))
+        body: jsonEncode({'name': name, 'email': email, 'password': password}))
         .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) {
       final auth = AuthResponse.fromJson(jsonDecode(response.body));
@@ -41,7 +42,7 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.login}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'email': email, 'password': password}))
+        body: jsonEncode({'email': email, 'password': password}))
         .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) {
       final auth = AuthResponse.fromJson(jsonDecode(response.body));
@@ -53,14 +54,18 @@ class ApiService {
 
   Future<UserProfile> getMe() async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.me}');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return UserProfile.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   Future<List<DocumentHistoryItem>> getMyDocuments() async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.myDocuments}');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return (data['documents'] as List)
@@ -73,9 +78,9 @@ class ApiService {
   // ─── Upload Document ────────────────────────────────────────────────────────
 
   Future<UploadResponse> uploadDocument(File file) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.uploadDocument}');
+    final uri     = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.uploadDocument}');
     final request = http.MultipartRequest('POST', uri);
-    final token = _auth.token;
+    final token   = _auth.token;
     if (token != null) request.headers['Authorization'] = 'Bearer $token';
     request.files.add(await http.MultipartFile.fromPath('file', file.path));
 
@@ -87,19 +92,31 @@ class ApiService {
   }
 
   // ─── SSE Analysis Stream ────────────────────────────────────────────────────
+  //
+  // FIX: The previous parser split each network chunk by '\n' and processed
+  // lines immediately. This breaks because:
+  //   1. A chunk can arrive mid-line — splitting gives you a broken line.
+  //   2. The 'event:' and 'data:' lines of the same SSE block can arrive in
+  //      different chunks — eventName gets cleared before data is processed.
+  //
+  // Correct approach: accumulate ALL incoming bytes into a string buffer,
+  // then extract complete SSE blocks by splitting on '\n\n' (the SSE separator).
+  // Only process a block once it is fully received.
 
   Stream<Map<String, dynamic>> analyzeStream(String docId, String mode) async* {
-    final uri = Uri.parse(
+    final uri     = Uri.parse(
         '${ApiConfig.baseUrl}${ApiConfig.analyzeStream}/$docId?mode=$mode');
     final request = http.Request('GET', uri);
-    final token = _auth.token;
+    final token   = _auth.token;
     if (token != null) request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept']        = 'text/event-stream';
+    request.headers['Cache-Control'] = 'no-cache';
 
-    late http.StreamedResponse response;
+    http.StreamedResponse response;
     try {
       response = await _client.send(request).timeout(
         const Duration(seconds: 30),
-        onTimeout: () => throw TimeoutException('Could not connect after 30s'),
+        onTimeout: () => throw TimeoutException('Connection timed out after 30s'),
       );
     } catch (e) {
       throw ApiException(0, 'Connection failed: $e');
@@ -110,21 +127,46 @@ class ApiService {
       throw ApiException(response.statusCode, _parseError(body));
     }
 
-    String eventName = '';
-    final dataBuffer = StringBuffer();
+    // Single string buffer — accumulates raw bytes across ALL network chunks.
+    // Never reset mid-stream; only consume complete '\n\n'-terminated blocks.
+    var buffer = '';
+
     await for (final chunk in response.stream.transform(utf8.decoder)) {
-      for (final line in chunk.split('\n')) {
-        if (line.startsWith('event: ')) {
-          eventName = line.substring(7).trim();
-        } else if (line.startsWith('data: ')) {
-          dataBuffer.write(line.substring(6).trim());
-        } else if (line.isEmpty && dataBuffer.isNotEmpty) {
-          try {
-            final decoded = jsonDecode(dataBuffer.toString());
-            yield {'event': eventName, 'data': decoded};
-          } catch (_) {}
-          dataBuffer.clear();
-          eventName = '';
+      buffer += chunk;
+
+      // A complete SSE event block always ends with '\n\n'.
+      // Keep extracting complete blocks until none remain.
+      while (buffer.contains('\n\n')) {
+        final blockEnd  = buffer.indexOf('\n\n');
+        final rawBlock  = buffer.substring(0, blockEnd);
+        buffer          = buffer.substring(blockEnd + 2); // consume block + separator
+
+        if (rawBlock.trim().isEmpty) continue;
+
+        // Parse every line within the block
+        String? eventName;
+        final   dataLines = <String>[];
+
+        for (final line in rawBlock.split('\n')) {
+          if (line.startsWith('event:')) {
+            eventName = line.substring(6).trim();
+          } else if (line.startsWith('data:')) {
+            dataLines.add(line.substring(5).trim());
+          }
+          // Ignore comment lines (starting with ':') and unknown fields
+        }
+
+        // Both event name and at least one data line are required
+        if (eventName == null || eventName.isEmpty || dataLines.isEmpty) continue;
+
+        final rawData = dataLines.join(''); // join multi-line data fields
+        try {
+          final data = jsonDecode(rawData) as Map<String, dynamic>;
+          debugPrint('SSE ← event=$eventName  keys=${data.keys.toList()}');
+          yield {'event': eventName, 'data': data};
+        } catch (e) {
+          debugPrint('SSE JSON parse error [event=$eventName]: $e');
+          debugPrint('Raw data was: $rawData');
         }
       }
     }
@@ -133,29 +175,38 @@ class ApiService {
   // ─── Individual Analysis Endpoints ─────────────────────────────────────────
 
   Future<DocumentSummary> getDocumentSummary(String docId, String mode) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.documentSummary}/$docId?mode=$mode');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final uri = Uri.parse(
+        '${ApiConfig.baseUrl}${ApiConfig.documentSummary}/$docId?mode=$mode');
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return DocumentSummary.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   Future<RiskAnalysis> getRiskAnalysis(String docId) async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.riskAnalysis}/$docId');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return RiskAnalysis.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   Future<ClauseFairness> getClauseFairness(String docId) async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.clauseFairness}/$docId');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return ClauseFairness.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   Future<SafetyScore> getSafetyScore(String docId) async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.safetyScore}/$docId');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.receiveTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return SafetyScore.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
@@ -167,7 +218,11 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.chatWithDocument}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'document_id': docId, 'user_question': question, 'conversation_history': history}))
+        body: jsonEncode({
+          'document_id':           docId,
+          'user_question':         question,
+          'conversation_history':  history,
+        }))
         .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return ChatResponse.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
@@ -178,15 +233,22 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.legalChat}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'user_message': message, 'conversation_history': history, 'language': language}))
+        body: jsonEncode({
+          'user_message':          message,
+          'conversation_history':  history,
+          'language':              language,
+        }))
         .timeout(ApiConfig.receiveTimeout);
     if (response.statusCode == 200) return LegalChatResponse.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   Future<GuidanceResponse> getRequiredDocuments(String category) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.requiredDocuments}/$category');
-    final response = await _client.get(uri, headers: _headers).timeout(const Duration(seconds: 15));
+    final uri = Uri.parse(
+        '${ApiConfig.baseUrl}${ApiConfig.requiredDocuments}/$category');
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(const Duration(seconds: 15));
     if (response.statusCode == 200) return GuidanceResponse.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
@@ -197,7 +259,7 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.compareContracts}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'document_id_a': docIdA, 'document_id_b': docIdB}))
+        body: jsonEncode({'document_id_a': docIdA, 'document_id_b': docIdB}))
         .timeout(ApiConfig.featureTimeout);
     if (response.statusCode == 200) return ContractComparison.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
@@ -205,19 +267,26 @@ class ApiService {
 
   // ─── Feature B: Clause Rewriting ───────────────────────────────────────────
 
-  Future<RewriteResult> getClauseRewrites(String docId, {String tone = 'standard'}) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.clauseRewrites}/$docId?tone=$tone');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.featureTimeout);
+  Future<RewriteResult> getClauseRewrites(String docId,
+      {String tone = 'standard'}) async {
+    final uri = Uri.parse(
+        '${ApiConfig.baseUrl}${ApiConfig.clauseRewrites}/$docId?tone=$tone');
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.featureTimeout);
     if (response.statusCode == 200) return RewriteResult.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
   // ─── Feature C: Smart Checklist ────────────────────────────────────────────
 
-  Future<SmartChecklist> getSmartChecklist(String docId, {String docType = ''}) async {
+  Future<SmartChecklist> getSmartChecklist(String docId,
+      {String docType = ''}) async {
     final uri = Uri.parse(
         '${ApiConfig.baseUrl}${ApiConfig.smartChecklist}/$docId?doc_type=$docType');
-    final response = await _client.get(uri, headers: _headers).timeout(ApiConfig.featureTimeout);
+    final response = await _client
+        .get(uri, headers: _headers)
+        .timeout(ApiConfig.featureTimeout);
     if (response.statusCode == 200) return SmartChecklist.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
   }
@@ -228,7 +297,10 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.versionDiff}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'document_id_v1': docIdV1, 'document_id_v2': docIdV2}))
+        body: jsonEncode({
+          'document_id_v1': docIdV1,
+          'document_id_v2': docIdV2,
+        }))
         .timeout(ApiConfig.featureTimeout);
     if (response.statusCode == 200) return VersionDiff.fromJson(jsonDecode(response.body));
     throw ApiException(response.statusCode, _parseError(response.body));
@@ -236,7 +308,6 @@ class ApiService {
 
   // ─── Group Discussion ───────────────────────────────────────────────────────
 
-  /// Create a new group discussion room for [documentId].
   Future<Map<String, dynamic>> createGroupRoom({
     required String documentId,
     required String documentName,
@@ -244,10 +315,10 @@ class ApiService {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.groupChatCreate}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({
-              'document_id': documentId,
-              'document_name': documentName,
-            }))
+        body: jsonEncode({
+          'document_id':   documentId,
+          'document_name': documentName,
+        }))
         .timeout(ApiConfig.connectTimeout);
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
@@ -255,12 +326,11 @@ class ApiService {
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
-  /// Join an existing room by [roomCode].
   Future<Map<String, dynamic>> joinGroupRoom({required String roomCode}) async {
     final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.groupChatJoin}');
     final response = await _client
         .post(uri, headers: _headers,
-            body: jsonEncode({'room_code': roomCode}))
+        body: jsonEncode({'room_code': roomCode}))
         .timeout(ApiConfig.connectTimeout);
     if (response.statusCode == 200) {
       return jsonDecode(response.body) as Map<String, dynamic>;
@@ -268,7 +338,6 @@ class ApiService {
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
-  /// Fetch room info (online count, members, etc.).
   Future<Map<String, dynamic>> getGroupRoom(String roomCode) async {
     final uri = Uri.parse(
         '${ApiConfig.baseUrl}${ApiConfig.groupChatRoom(roomCode)}');
@@ -281,7 +350,6 @@ class ApiService {
     throw ApiException(response.statusCode, _parseError(response.body));
   }
 
-  /// Fetch persisted message history for a room.
   Future<List<Map<String, dynamic>>> getGroupRoomHistory(String roomCode) async {
     final uri = Uri.parse(
         '${ApiConfig.baseUrl}${ApiConfig.groupChatHistory(roomCode)}');
@@ -308,7 +376,7 @@ class ApiService {
 }
 
 class ApiException implements Exception {
-  final int statusCode;
+  final int    statusCode;
   final String message;
   ApiException(this.statusCode, this.message);
   @override

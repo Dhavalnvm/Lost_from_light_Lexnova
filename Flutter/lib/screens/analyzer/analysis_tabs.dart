@@ -6,10 +6,10 @@ import '../../models/models.dart';
 import '../../widgets/common/common_widgets.dart';
 
 class AnalysisTabs extends StatefulWidget {
-  final DocumentSummary? summary;
-  final RiskAnalysis? riskAnalysis;
-  final ClauseFairness? clauseFairness;
-  final SafetyScore? safetyScore;
+  final DocumentSummary?  summary;
+  final RiskAnalysis?     riskAnalysis;
+  final ClauseFairness?   clauseFairness;
+  final SafetyScore?      safetyScore;
 
   const AnalysisTabs({
     super.key,
@@ -39,6 +39,26 @@ class _AnalysisTabsState extends State<AnalysisTabs>
     super.dispose();
   }
 
+  /// Called whenever the parent passes updated props down.
+  /// This is what was MISSING — without this, late-arriving SSE data
+  /// (summary, risk) would never trigger a visual update in the tab content.
+  @override
+  void didUpdateWidget(AnalysisTabs oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final summaryArrived  = oldWidget.summary       == null && widget.summary       != null;
+    final riskArrived     = oldWidget.riskAnalysis  == null && widget.riskAnalysis  != null;
+    final fairnessArrived = oldWidget.clauseFairness == null && widget.clauseFairness != null;
+
+    if (summaryArrived || riskArrived || fairnessArrived) {
+      // Auto-switch to summary tab when it finally arrives and the user
+      // is still on the loading placeholder
+      if (summaryArrived && _tabController.index == 0) {
+        // Already on summary tab — setState alone is enough to re-render
+      }
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,28 +66,29 @@ class _AnalysisTabsState extends State<AnalysisTabs>
         // Tab bar
         Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color:        AppColors.surface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: AppColors.cardBorder, width: 1),
           ),
           child: TabBar(
-            controller: _tabController,
+            controller:           _tabController,
             indicator: BoxDecoration(
-              gradient: AppColors.goldGradient,
+              gradient:     AppColors.goldGradient,
               borderRadius: BorderRadius.circular(12),
             ),
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            labelColor: AppColors.background,
+            indicatorSize:        TabBarIndicatorSize.tab,
+            dividerColor:         Colors.transparent,
+            labelColor:           AppColors.background,
             unselectedLabelColor: AppColors.textMuted,
             labelStyle: GoogleFonts.dmSans(
                 fontWeight: FontWeight.w700, fontSize: 13),
             unselectedLabelStyle: GoogleFonts.dmSans(
                 fontWeight: FontWeight.w500, fontSize: 13),
-            tabs: const [
-              Tab(text: 'Summary'),
-              Tab(text: 'Risks'),
-              Tab(text: 'Fairness'),
+            tabs: [
+              // Show a subtle loading dot on tabs that are still pending
+              _buildTab('Summary',  widget.summary       == null),
+              _buildTab('Risks',    widget.riskAnalysis  == null),
+              _buildTab('Fairness', widget.clauseFairness == null),
             ],
           ),
         ),
@@ -79,13 +100,38 @@ class _AnalysisTabsState extends State<AnalysisTabs>
           child: TabBarView(
             controller: _tabController,
             children: [
-              _SummaryTab(summary: widget.summary),
-              _RisksTab(riskAnalysis: widget.riskAnalysis),
+              _SummaryTab(summary:        widget.summary),
+              _RisksTab(riskAnalysis:     widget.riskAnalysis),
               _FairnessTab(clauseFairness: widget.clauseFairness),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  /// Tab label with a small amber dot when that section is still loading
+  Widget _buildTab(String label, bool isLoading) {
+    return Tab(
+      child: Row(
+        mainAxisSize:     MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(label),
+          if (isLoading) ...[
+            const SizedBox(width: 6),
+            Container(
+              width: 6, height: 6,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.warningAmber,
+              ),
+            )
+                .animate(onPlay: (c) => c.repeat(reverse: true))
+                .fadeIn(duration: 600.ms),
+          ],
+        ],
+      ),
     );
   }
 }
@@ -98,7 +144,28 @@ class _SummaryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (summary == null) return const Center(child: CircularProgressIndicator());
+    if (summary == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(color: AppColors.gold, strokeWidth: 2),
+            const SizedBox(height: 16),
+            Text('Generating summary...',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.textMuted)),
+            const SizedBox(height: 6),
+            Text('This may take a moment',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.textMuted, fontSize: 11)),
+          ],
+        ),
+      );
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -133,45 +200,40 @@ class _SummaryTab extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.task_alt_rounded,
-                              color: AppColors.warningAmber, size: 16),
-                          const SizedBox(width: 6),
-                          Text('Obligations',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
+                      Row(children: [
+                        const Icon(Icons.task_alt_rounded,
+                            color: AppColors.warningAmber, size: 16),
+                        const SizedBox(width: 6),
+                        Text('Obligations',
+                            style: GoogleFonts.dmSans(
+                                fontSize:   12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textMuted,
-                                letterSpacing: 1,
-                              )),
-                        ],
-                      ),
+                                color:      AppColors.textMuted,
+                                letterSpacing: 1)),
+                      ]),
                       const SizedBox(height: 10),
                       ...summary!.keyObligations.take(4).map((o) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 5,
-                                  height: 5,
-                                  margin: const EdgeInsets.only(top: 6, right: 8),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.warningAmber,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(o,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12, height: 1.5)),
-                                ),
-                              ],
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 5, height: 5,
+                              margin: const EdgeInsets.only(top: 6, right: 8),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.warningAmber),
                             ),
-                          )),
+                            Expanded(
+                              child: Text(o,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(fontSize: 12, height: 1.5)),
+                            ),
+                          ],
+                        ),
+                      )),
                     ],
                   ),
                 ),
@@ -182,45 +244,40 @@ class _SummaryTab extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.shield_outlined,
-                              color: AppColors.safeGreen, size: 16),
-                          const SizedBox(width: 6),
-                          Text('Rights',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
+                      Row(children: [
+                        const Icon(Icons.shield_outlined,
+                            color: AppColors.safeGreen, size: 16),
+                        const SizedBox(width: 6),
+                        Text('Rights',
+                            style: GoogleFonts.dmSans(
+                                fontSize:   12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textMuted,
-                                letterSpacing: 1,
-                              )),
-                        ],
-                      ),
+                                color:      AppColors.textMuted,
+                                letterSpacing: 1)),
+                      ]),
                       const SizedBox(height: 10),
                       ...summary!.keyRights.take(4).map((r) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 5,
-                                  height: 5,
-                                  margin: const EdgeInsets.only(top: 6, right: 8),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.safeGreen,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(r,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(fontSize: 12, height: 1.5)),
-                                ),
-                              ],
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 5, height: 5,
+                              margin: const EdgeInsets.only(top: 6, right: 8),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.safeGreen),
                             ),
-                          )),
+                            Expanded(
+                              child: Text(r,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(fontSize: 12, height: 1.5)),
+                            ),
+                          ],
+                        ),
+                      )),
                     ],
                   ),
                 ),
@@ -235,43 +292,44 @@ class _SummaryTab extends StatelessWidget {
             const SectionHeader(label: 'Detected Clauses'),
             const SizedBox(height: 10),
             ...summary!.importantClauses.take(6).map((clause) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: GlassCard(
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: AppColors.goldGlow,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.article_outlined,
-                              color: AppColors.gold, size: 16),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(clause.clauseType,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
-                              const SizedBox(height: 4),
-                              Text(
-                                clause.extractedText,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GlassCard(
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color:        AppColors.goldGlow,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.article_outlined,
+                          color: AppColors.gold, size: 16),
                     ),
-                  ),
-                )),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(clause.clauseType,
+                              style: GoogleFonts.dmSans(
+                                  color:      AppColors.gold,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize:   12)),
+                          const SizedBox(height: 4),
+                          Text(clause.extractedText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontSize: 12, height: 1.5)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
           ],
         ],
       ).animate().fadeIn(duration: 400.ms),
@@ -287,187 +345,128 @@ class _RisksTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (riskAnalysis == null) return const Center(child: CircularProgressIndicator());
+    if (riskAnalysis == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(color: AppColors.gold, strokeWidth: 2),
+            const SizedBox(height: 16),
+            Text('Analyzing risks...',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.textMuted)),
+          ],
+        ),
+      );
+    }
 
-    final r = riskAnalysis!;
+    final flags = riskAnalysis!.detectedRedFlags;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Risk summary card
           GlassCard(
-            borderColor: _riskColor(r.riskLevel).withOpacity(0.4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    ScoreRing(
-                        score: r.riskScore, size: 80, label: 'RISK'),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Risk Level',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                          const SizedBox(height: 4),
-                          Text(
-                            r.riskLevel,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              color: _riskColor(r.riskLevel),
-                            ),
-                          ),
-                          Text(
-                            '${r.detectedRedFlags.length} red flags found',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                if (r.riskSummary.isNotEmpty) ...[
-                  const SizedBox(height: 14),
-                  const GoldDivider(),
-                  const SizedBox(height: 14),
-                  Text(r.riskSummary,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(height: 1.6)),
-                ],
-              ],
-            ),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SectionHeader(label: 'Risk Summary'),
+              const SizedBox(height: 10),
+              Text(riskAnalysis!.riskSummary,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(height: 1.6)),
+            ]),
           ),
-
           const SizedBox(height: 16),
-
-          if (r.detectedRedFlags.isEmpty)
-            const EmptyState(
-              icon: Icons.verified_rounded,
-              title: 'No Red Flags Found',
-              subtitle: 'This document appears to have no major risky clauses',
+          if (flags.isEmpty)
+            GlassCard(
+              child: Row(children: [
+                const Icon(Icons.check_circle_rounded,
+                    color: AppColors.safeGreen, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text('No significant red flags detected.',
+                      style: Theme.of(context).textTheme.bodyMedium),
+                ),
+              ]),
             )
           else ...[
             const SectionHeader(label: 'Red Flags'),
             const SizedBox(height: 10),
-            ...r.detectedRedFlags.map((flag) => _RedFlagCard(flag: flag)),
+            ...flags.map((flag) {
+              final color = flag.severity == 'high'
+                  ? AppColors.dangerRed
+                  : flag.severity == 'medium'
+                  ? AppColors.warningAmber
+                  : AppColors.infoBlue;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GlassCard(
+                  borderColor: color.withOpacity(0.3),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color:        color.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(flag.severity.toUpperCase(),
+                                style: TextStyle(
+                                    color:      color,
+                                    fontSize:   10,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(flag.flagType,
+                                style: GoogleFonts.dmSans(
+                                    color:      AppColors.textPrimary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize:   13)),
+                          ),
+                        ]),
+                        const SizedBox(height: 8),
+                        Text(flag.description,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(height: 1.5)),
+                        if (flag.extractedText.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color:        AppColors.surface,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                  color: color.withOpacity(0.2)),
+                            ),
+                            child: Text(
+                              '"${flag.extractedText}"',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                  fontSize: 11,
+                                  fontStyle: FontStyle.italic,
+                                  color: AppColors.textSecondary,
+                                  height: 1.5),
+                            ),
+                          ),
+                        ],
+                      ]),
+                ),
+              );
+            }),
           ],
         ],
       ).animate().fadeIn(duration: 400.ms),
-    );
-  }
-
-  Color _riskColor(String level) {
-    switch (level.toLowerCase()) {
-      case 'high':
-        return AppColors.dangerRed;
-      case 'medium':
-        return AppColors.warningAmber;
-      default:
-        return AppColors.safeGreen;
-    }
-  }
-}
-
-class _RedFlagCard extends StatefulWidget {
-  final RedFlag flag;
-  const _RedFlagCard({required this.flag});
-
-  @override
-  State<_RedFlagCard> createState() => _RedFlagCardState();
-}
-
-class _RedFlagCardState extends State<_RedFlagCard> {
-  bool _expanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = widget.flag.severity == 'high'
-        ? AppColors.dangerRed
-        : widget.flag.severity == 'medium'
-            ? AppColors.warningAmber
-            : AppColors.safeGreen;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: GestureDetector(
-        onTap: () => setState(() => _expanded = !_expanded),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [color.withOpacity(0.08), AppColors.cardBg],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: color.withOpacity(0.3), width: 1),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.flag_rounded, color: color, size: 18),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      widget.flag.flagType,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: color),
-                    ),
-                  ),
-                  RiskBadge(severity: widget.flag.severity),
-                  const SizedBox(width: 8),
-                  Icon(
-                    _expanded
-                        ? Icons.keyboard_arrow_up_rounded
-                        : Icons.keyboard_arrow_down_rounded,
-                    color: AppColors.textMuted,
-                    size: 20,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                widget.flag.description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(height: 1.5),
-              ),
-              if (_expanded && widget.flag.extractedText.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.background,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: AppColors.cardBorder, width: 1),
-                  ),
-                  child: Text(
-                    '"${widget.flag.extractedText}"',
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: AppColors.textSecondary,
-                      fontSize: 12,
-                      height: 1.6,
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
@@ -480,61 +479,116 @@ class _FairnessTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (clauseFairness == null) return const Center(child: CircularProgressIndicator());
+    if (clauseFairness == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(color: AppColors.gold, strokeWidth: 2),
+            const SizedBox(height: 16),
+            Text('Checking clause fairness...',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.textMuted)),
+          ],
+        ),
+      );
+    }
 
-    final f = clauseFairness!;
+    final clauses = clauseFairness!.clausesAnalyzed;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Overall fairness banner
           GlassCard(
-            borderColor: AppColors.gold.withOpacity(0.3),
-            child: Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: AppColors.goldGradient,
-                  ),
-                  child: const Icon(Icons.balance_rounded,
-                      color: AppColors.background, size: 24),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
+            child: Row(children: [
+              const Icon(Icons.balance_rounded,
+                  color: AppColors.gold, size: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Overall Fairness',
-                          style: Theme.of(context).textTheme.bodyMedium),
+                          style: GoogleFonts.dmSans(
+                              color:      AppColors.textMuted,
+                              fontSize:   11,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1)),
                       const SizedBox(height: 4),
-                      Text(
-                        f.overallFairness,
-                        style: AppTextStyles.goldTitle.copyWith(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                      Text(clauseFairness!.overallFairness,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: AppColors.gold)),
+                    ]),
+              ),
+            ]),
           ),
-
           const SizedBox(height: 16),
-
-          if (f.clausesAnalyzed.isEmpty)
-            const EmptyState(
-              icon: Icons.balance_rounded,
-              title: 'No Clauses Compared',
-              subtitle: 'No specific clauses matched standard benchmarks',
-            )
-          else ...[
-            const SectionHeader(
-                label: 'Clause Comparison',
-                subtitle: 'Compared against industry standards'),
+          if (clauses.isNotEmpty) ...[
+            const SectionHeader(label: 'Clause Analysis'),
             const SizedBox(height: 10),
-            ...f.clausesAnalyzed.map((c) => _FairnessCard(clause: c)),
+            ...clauses.map((clause) {
+              final rating = clause.fairnessRating.toLowerCase();
+              final color  = rating.contains('unfair')
+                  ? AppColors.dangerRed
+                  : rating.contains('fair')
+                  ? AppColors.safeGreen
+                  : AppColors.warningAmber;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GlassCard(
+                  borderColor: color.withOpacity(0.25),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          Expanded(
+                            child: Text(clause.clauseType,
+                                style: GoogleFonts.dmSans(
+                                    color:      AppColors.textPrimary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize:   13)),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color:        color.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(clause.fairnessRating,
+                                style: TextStyle(
+                                    color:      color,
+                                    fontSize:   10,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                        ]),
+                        const SizedBox(height: 8),
+                        Text(clause.aiInsight,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(height: 1.5)),
+                        if (clause.contractValue.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          _FairnessRow(
+                              label: 'In this contract',
+                              value: clause.contractValue,
+                              color: color),
+                          const SizedBox(height: 4),
+                          _FairnessRow(
+                              label: 'Typical standard',
+                              value: clause.typicalStandard,
+                              color: AppColors.safeGreen),
+                        ],
+                      ]),
+                ),
+              );
+            }),
           ],
         ],
       ).animate().fadeIn(duration: 400.ms),
@@ -542,152 +596,32 @@ class _FairnessTab extends StatelessWidget {
   }
 }
 
-class _FairnessCard extends StatelessWidget {
-  final ClauseFairnessItem clause;
-  const _FairnessCard({required this.clause});
-
-  Color get _fairnessColor {
-    final r = clause.fairnessRating.toLowerCase();
-    if (r.contains('very unfair')) return AppColors.dangerRed;
-    if (r.contains('unfair')) return AppColors.warningAmber;
-    if (r.contains('fair')) return AppColors.safeGreen;
-    return AppColors.textMuted;
-  }
+class _FairnessRow extends StatelessWidget {
+  final String label, value;
+  final Color  color;
+  const _FairnessRow(
+      {required this.label, required this.value, required this.color});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: GlassCard(
-        borderColor: _fairnessColor.withOpacity(0.25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(clause.clauseType,
-                      style: Theme.of(context).textTheme.titleMedium),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: _fairnessColor.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        color: _fairnessColor.withOpacity(0.4), width: 1),
-                  ),
-                  child: Text(
-                    clause.fairnessRating,
-                    style: TextStyle(
-                      color: _fairnessColor,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Row(
-              children: [
-                Expanded(
-                  child: _CompareBox(
-                    label: 'Contract Says',
-                    value: clause.contractValue,
-                    color: _fairnessColor,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                const Icon(Icons.compare_arrows_rounded,
-                    color: AppColors.textMuted, size: 20),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _CompareBox(
-                    label: 'Typical Standard',
-                    value: clause.typicalStandard,
-                    color: AppColors.safeGreen,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.lightbulb_outline_rounded,
-                      color: AppColors.gold, size: 16),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      clause.aiInsight,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(fontSize: 12, height: 1.5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(8),
+    decoration: BoxDecoration(
+      color:        AppColors.surface,
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('$label: ',
+          style: TextStyle(
+              color:      color,
+              fontSize:   11,
+              fontWeight: FontWeight.w600)),
+      Expanded(
+        child: Text(value,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontSize: 11, height: 1.4)),
       ),
-    );
-  }
-}
-
-class _CompareBox extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color color;
-
-  const _CompareBox({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.07),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              color: AppColors.textMuted,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.5,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+    ]),
+  );
 }
